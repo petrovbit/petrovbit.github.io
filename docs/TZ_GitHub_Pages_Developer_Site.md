@@ -98,13 +98,13 @@ google.com, pub-6853341444110473, DIRECT, f08c47fec0942fa0
 #### Структура страницы (сверху вниз):
 
 **Hero-секция:**
-- Название: "Tank 1990: Battle City — Big Map Edition"
+- Название: "Tank 1990: Big Map Edition"
 - Подзаголовок: "Classic retro tank arcade game with expanded maps and multiplayer"
 - Кнопки: Google Play (ссылка: `https://play.google.com/store/apps/details?id=io.battle_city.game`), RuStore (ссылка: `https://apps.rustore.ru/app/io.battle_city.game`)
 - Скриншот игры (placeholder изображение, заменится позже)
 
 **Секция "Game Modes" (3 карточки):**
-- Classic — Original 35 levels from Battle City, NES nostalgia
+- Classic — Original 35 campaign levels, retro 8-bit style
 - Big Map — Expanded battlefield, new challenges
 - Multiplayer — Play with friends on the same device
 
