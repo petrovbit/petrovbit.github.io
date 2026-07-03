@@ -1,0 +1,206 @@
+/* ============================================
+   PetrovBit V2 — warm paper zine tokens (refined v2.1)
+   Light: cream / linen / apricot / sage  (all warm, print-feel)
+   Dark:  same names, "lights off" of each
+   ============================================ */
+
+:root {
+  /* Default light palette: CREAM — classic warm paper */
+  --v2-paper:   #F4ECDB;
+  --v2-paper-2: #EBE0C6;
+  --v2-paper-3: #DDD0AC;
+  --v2-ink:     #2A211A;
+  --v2-ink-2:   #4D4135;
+  --v2-ink-3:   #80735F;
+  --v2-rule:        rgba(42, 33, 26, 0.20);
+  --v2-rule-soft:   rgba(42, 33, 26, 0.10);
+  --v2-accent:   #BC4F1B;   /* rust copper */
+  --v2-accent-2: #6F803B;   /* warm olive */
+  --v2-stamp:    #BC4F1B;
+}
+
+/* LINEN — warm neutral, terracotta + olive (no blue!) */
+[data-palette="linen"] {
+  --v2-paper:   #F1EDE4;
+  --v2-paper-2: #E5DFCF;
+  --v2-paper-3: #D2CAB3;
+  --v2-ink:     #2A2622;
+  --v2-ink-2:   #4A4640;
+  --v2-ink-3:   #7C766C;
+  --v2-rule:        rgba(42, 38, 34, 0.20);
+  --v2-rule-soft:   rgba(42, 38, 34, 0.10);
+  --v2-accent:   #B25437;   /* warm terracotta */
+  --v2-accent-2: #5D6E47;   /* muted forest */
+  --v2-stamp:    #B25437;
+}
+
+/* APRICOT — peachy warm */
+[data-palette="apricot"] {
+  --v2-paper:   #F8E6D0;
+  --v2-paper-2: #F0D6B7;
+  --v2-paper-3: #E2BF92;
+  --v2-ink:     #3A2218;
+  --v2-ink-2:   #5C3D2D;
+  --v2-ink-3:   #8C6850;
+  --v2-rule:        rgba(58, 34, 24, 0.22);
+  --v2-rule-soft:   rgba(58, 34, 24, 0.10);
+  --v2-accent:   #C24A28;   /* deep terracotta */
+  --v2-accent-2: #6B6B33;   /* golden olive */
+  --v2-stamp:    #C24A28;
+}
+
+/* SAGE — green-tinted paper */
+[data-palette="sage"] {
+  --v2-paper:   #E9E7D6;
+  --v2-paper-2: #DAD7C0;
+  --v2-paper-3: #C5C2A6;
+  --v2-ink:     #1F2A22;
+  --v2-ink-2:   #3D4B41;
+  --v2-ink-3:   #6B776E;
+  --v2-rule:        rgba(31, 42, 34, 0.20);
+  --v2-rule-soft:   rgba(31, 42, 34, 0.10);
+  --v2-accent:   #B25C3F;   /* terracotta */
+  --v2-accent-2: #4F6B3A;   /* deep olive */
+  --v2-stamp:    #B25C3F;
+}
+
+/* PETROV — matches the live site (cool paper, navy ink, pink/yellow) */
+[data-palette="petrov"] {
+  --v2-paper:   #ECEAF2;
+  --v2-paper-2: #DFDCEA;
+  --v2-paper-3: #CCC8DA;
+  --v2-ink:     #1B1E33;
+  --v2-ink-2:   #3F4365;
+  --v2-ink-3:   #6E7390;
+  --v2-rule:        rgba(27, 30, 51, 0.20);
+  --v2-rule-soft:   rgba(27, 30, 51, 0.10);
+  --v2-accent:   #D6485E;   /* matches the pink logo */
+  --v2-accent-2: #B3851E;   /* warm ochre */
+  --v2-stamp:    #D6485E;
+}
+
+/* ── DARK VARIANTS ─────────────────────────────────────────
+   Each dark = "lights-off" version of the light palette:
+   warm dark paper, lit-up accent (slightly desaturated +
+   brightened so it doesn't burn against the dark). */
+
+[data-theme="dark"] {
+  /* Default dark = dark cream */
+  --v2-paper:   #1B1813;
+  --v2-paper-2: #231F18;
+  --v2-paper-3: #2E281F;
+  --v2-ink:     #F0E6D0;
+  --v2-ink-2:   #C8BFAA;
+  --v2-ink-3:   #8E8775;
+  --v2-rule:        rgba(240, 230, 208, 0.16);
+  --v2-rule-soft:   rgba(240, 230, 208, 0.08);
+  --v2-accent:   #E5723A;
+  --v2-accent-2: #99AB55;
+  --v2-stamp:    #E5723A;
+}
+
+[data-theme="dark"][data-palette="linen"] {
+  --v2-paper:   #1A1714;
+  --v2-paper-2: #221D18;
+  --v2-paper-3: #2B251F;
+  --v2-ink:     #EBE3D5;
+  --v2-ink-2:   #C2BBAD;
+  --v2-ink-3:   #847E72;
+  --v2-rule:        rgba(235, 227, 213, 0.16);
+  --v2-rule-soft:   rgba(235, 227, 213, 0.08);
+  --v2-accent:   #DA764D;
+  --v2-accent-2: #87976A;
+  --v2-stamp:    #DA764D;
+}
+
+[data-theme="dark"][data-palette="apricot"] {
+  --v2-paper:   #1F140C;
+  --v2-paper-2: #2A1B12;
+  --v2-paper-3: #352318;
+  --v2-ink:     #F5DDBE;
+  --v2-ink-2:   #D6BC97;
+  --v2-ink-3:   #998267;
+  --v2-rule:        rgba(245, 221, 190, 0.16);
+  --v2-rule-soft:   rgba(245, 221, 190, 0.08);
+  --v2-accent:   #ED6B3D;
+  --v2-accent-2: #B3A864;
+  --v2-stamp:    #ED6B3D;
+}
+
+[data-theme="dark"][data-palette="sage"] {
+  --v2-paper:   #131814;
+  --v2-paper-2: #1A211B;
+  --v2-paper-3: #232B25;
+  --v2-ink:     #E9E7D6;
+  --v2-ink-2:   #C0BFAC;
+  --v2-ink-3:   #847F70;
+  --v2-rule:        rgba(233, 231, 214, 0.16);
+  --v2-rule-soft:   rgba(233, 231, 214, 0.08);
+  --v2-accent:   #E07859;
+  --v2-accent-2: #8AA269;
+  --v2-stamp:    #E07859;
+}
+
+/* DARK PETROV — matches the live petrovbit.dev site */
+[data-theme="dark"][data-palette="petrov"] {
+  --v2-paper:   #161A2D;
+  --v2-paper-2: #1F2342;
+  --v2-paper-3: #282D52;
+  --v2-ink:     #ECECF5;
+  --v2-ink-2:   #B4BCD6;
+  --v2-ink-3:   #7B83A4;
+  --v2-rule:        rgba(236, 236, 245, 0.16);
+  --v2-rule-soft:   rgba(236, 236, 245, 0.08);
+  --v2-accent:   #EE5570;   /* the PetrovBit logo pink */
+  --v2-accent-2: #F2B73D;   /* the section-title yellow */
+  --v2-stamp:    #EE5570;
+}
+
+/* ── Fonts (IBM Plex covers latin/cyrillic + JP/KR/SC siblings) ── */
+:root {
+  --v2-font-display: "IBM Plex Serif", "Noto Serif SC", "Noto Serif CJK SC", "Noto Serif CJK JP", "Noto Serif CJK KR", Georgia, serif;
+  --v2-font-body:    "IBM Plex Sans",  "IBM Plex Sans JP", "IBM Plex Sans KR", "Noto Sans CJK SC", system-ui, sans-serif;
+  --v2-font-mono:    "IBM Plex Mono",  "Noto Sans Mono CJK SC", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ── Reset for artboard contents ── */
+.v2 *, .v2 *::before, .v2 *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.v2 {
+  background: var(--v2-paper);
+  color: var(--v2-ink);
+  font-family: var(--v2-font-body);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01", "ss02";
+}
+.v2 a { color: inherit; text-decoration: none; }
+.v2 img { display: block; max-width: 100%; }
+.v2 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+.v2 ul, .v2 ol { list-style: none; }
+
+.v2 .pixelated { image-rendering: pixelated; }
+
+/* Soft paper grain — very subtle */
+.v2-paper-texture { position: relative; }
+.v2-paper-texture::before {
+  content: '';
+  position: absolute; inset: 0;
+  pointer-events: none;
+  opacity: 0.42;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.13 0 0 0 0 0.10 0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.16'/></svg>");
+}
+[data-theme="dark"] .v2-paper-texture::before {
+  mix-blend-mode: screen;
+  opacity: 0.38;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.91 0 0 0 0 0.82 0 0 0 0.3 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.16'/></svg>");
+}
+
+.v2-wiggle {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 6' preserveAspectRatio='none'><path d='M1 3 Q 10 0 20 3 T 40 3 T 60 3 T 79 3' fill='none' stroke='currentColor' stroke-width='1.4' stroke-linecap='round'/></svg>");
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  background-size: 80px 6px;
+  padding-bottom: 8px;
+}
+
+.v2 :focus-visible { outline: 2px solid var(--v2-accent); outline-offset: 2px; }

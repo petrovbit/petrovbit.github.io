@@ -1,91 +1,165 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru" data-theme="dark" data-palette="linen">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PetrovBit — Indie Game Studio</title>
-  <meta name="description" content="PetrovBit is an indie game studio crafting retro-inspired pixel-art arcade games for mobile. Offline-first, pixel-perfect, gamepad-ready.">
-  <meta property="og:title" content="PetrovBit — Indie Game Studio">
-  <meta property="og:description" content="Retro-inspired pixel-art arcade games for mobile.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://petrovbit.dev/">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="PetrovBit — Indie Game Studio">
-  <meta name="twitter:description" content="Retro-inspired pixel-art arcade games for mobile.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PetrovBit — indie games for pocket screens</title>
+<meta name="description" content="PetrovBit — independent one-person game studio. Pixel-perfect, offline-first arcade games for mobile. Tank 1990 and more." />
+<meta property="og:title" content="PetrovBit — indie games for pocket screens" />
+<meta property="og:description" content="One dev. Two games. Zero marketing. Pixel-perfect, offline-first mobile arcades." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+JP:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="v2/shared.css" />
+<style>
+  html, body { margin: 0; background: var(--v2-paper); min-height: 100%; }
+  body { -webkit-font-smoothing: antialiased; }
+  #root { min-height: 100vh; }
+
+  /* Floating palette + theme chooser (visitor-facing) */
+  .pb-chooser {
+    position: fixed; z-index: 50;
+    right: 18px; bottom: 18px;
+    display: flex; align-items: center; gap: 12px;
+    padding: 9px 13px;
+    background: color-mix(in srgb, var(--v2-paper) 86%, transparent);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--v2-rule);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    font-family: var(--v2-font-mono);
+  }
+  .pb-chooser .pal-row { display: inline-flex; align-items: center; gap: 6px; }
+  .pb-chooser .pal-sw {
+    width: 17px; height: 17px; padding: 0; cursor: pointer;
+    border: 1px solid var(--v2-rule); border-radius: 50%;
+    position: relative; overflow: hidden; transition: transform .12s;
+  }
+  .pb-chooser .pal-sw:hover { transform: scale(1.14); }
+  .pb-chooser .pal-sw[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--v2-paper), 0 0 0 3px var(--v2-ink); }
+  .pb-chooser .pal-sw i { position: absolute; inset: 0; display: block; }
+  .pb-chooser .pal-sw i::after { content: ""; position: absolute; right: 0; top: 0; width: 50%; height: 100%; background: var(--sw-ac); }
+  .pb-chooser .sepline { width: 1px; height: 20px; background: var(--v2-rule); }
+  .pb-chooser .theme-btn {
+    display: inline-grid; place-items: center;
+    width: 26px; height: 26px; cursor: pointer;
+    border: 1px solid var(--v2-rule); border-radius: 50%;
+    background: transparent; color: var(--v2-ink-2); font-size: 13px;
+    transition: color .12s, border-color .12s;
+  }
+  .pb-chooser .theme-btn:hover { color: var(--v2-accent); border-color: var(--v2-accent); }
+  @media (max-width: 560px) {
+    .pb-chooser { right: 10px; bottom: 10px; gap: 9px; padding: 8px 10px; }
+    .pb-chooser .pal-sw { width: 15px; height: 15px; }
+  }
+</style>
 </head>
 <body>
+<div id="root"></div>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="container">
-      <h1>PetrovBit</h1>
-      <p class="subtitle">Indie game studio crafting retro-inspired arcade games for mobile</p>
-    </div>
-  </section>
+<div class="pb-chooser" aria-label="Theme">
+  <div class="pal-row" id="pal-row" role="group" aria-label="Color palette">
+    <button class="pal-sw" data-palette="cream"   title="Cream"   style="background:#F4ECDB;--sw-ac:#BC4F1B;"><i></i></button>
+    <button class="pal-sw" data-palette="linen"   title="Linen"   style="background:#F1EDE4;--sw-ac:#B25437;"><i></i></button>
+    <button class="pal-sw" data-palette="apricot" title="Apricot" style="background:#F8E6D0;--sw-ac:#C24A28;"><i></i></button>
+    <button class="pal-sw" data-palette="sage"    title="Sage"    style="background:#E9E7D6;--sw-ac:#B25C3F;"><i></i></button>
+    <button class="pal-sw" data-palette="petrov"  title="Petrov"  style="background:#ECEAF2;--sw-ac:#D6485E;"><i></i></button>
+  </div>
+  <span class="sepline"></span>
+  <button class="theme-btn" id="theme-btn" aria-label="Toggle light / dark">☾</button>
+</div>
 
-  <!-- About -->
-  <section class="features">
-    <div class="container">
-      <h2>About</h2>
-      <p style="text-align:center; max-width:600px; margin:0 auto; color:var(--text-secondary); font-size:0.95rem;">
-        We design pixel-art games that blend classic 8-bit aesthetics with modern mobile conveniences.
-        Our focus: simple to start, deep to master, fun to return to.
-      </p>
-    </div>
-  </section>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
-  <!-- Our Games -->
-  <section class="modes">
-    <div class="container">
-      <h2>Our Games</h2>
-      <div class="cards" style="max-width:400px; margin:0 auto;">
+<script type="text/babel" data-presets="react" src="v2/shared.jsx"></script>
+<script type="text/babel" data-presets="react" src="v2/suggest.jsx"></script>
+<script type="text/babel" data-presets="react" src="v2/quiet.jsx"></script>
 
-        <div class="card">
-          <div class="hero-screenshot" style="margin-bottom:20px;">
-            <img src="assets/images/screen-gameplay.png" alt="Retro tank arcade gameplay screenshot">
-          </div>
-          <h3>Tank 1990: Big Map Edition</h3>
-          <p>A retro-style 8-bit tank arcade with expanded battlefields, multiple game modes, and offline play.</p>
-          <div class="store-buttons" style="margin-top:20px; margin-bottom:0;">
-            <a href="https://play.google.com/store/apps/details?id=io.battle_city.game" class="store-btn store-btn--gplay" target="_blank" rel="noopener">
-              &#9654; Google Play
-            </a>
-            <a href="https://apps.rustore.ru/app/io.battle_city.game" class="store-btn store-btn--rustore" target="_blank" rel="noopener">
-              &#9654; RuStore
-            </a>
-          </div>
-        </div>
+<script type="text/babel" data-presets="react">
+/* Default language follows the <html lang> attribute set by the boot script. */
+function Site() {
+  const initialLang = document.documentElement.getAttribute("lang") === "en" ? "en" : "ru";
+  const [lang, setLangState] = React.useState(initialLang);
+  const [bp, setBp] = React.useState(() => pickBp(window.innerWidth));
 
-      </div>
-    </div>
-  </section>
+  function pickBp(w) { return w < 640 ? "mobile" : w < 1024 ? "tablet" : "desktop"; }
 
-  <!-- What We Build -->
-  <section class="features">
-    <div class="container">
-      <h2>What We Build</h2>
-      <ul class="features-list">
-        <li>Pixel art aesthetics</li>
-        <li>Offline-first design</li>
-        <li>Gamepad and touch support</li>
-        <li>Rewarded ads only — no forced interruptions</li>
-      </ul>
-    </div>
-  </section>
+  React.useEffect(() => {
+    let raf = 0;
+    const onResize = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => setBp(pickBp(window.innerWidth)));
+    };
+    window.addEventListener("resize", onResize, { passive: true });
+    return () => { window.removeEventListener("resize", onResize); cancelAnimationFrame(raf); };
+  }, []);
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-links">
-      <a href="privacy-policy.html">Privacy Policy</a>
-      <a href="mailto:petrovma92@gmail.com">Contact</a>
-      <a href="docs/">Documentation</a>
-    </div>
-    <p>&copy; 2025&ndash;2026 PetrovBit. Independent game studio.</p>
-  </footer>
+  const setLang = (v) => {
+    setLangState(v);
+    document.documentElement.setAttribute("lang", v);
+    try { localStorage.setItem("pb-lang", v); } catch (e) {}
+  };
 
+  return (
+    <PageQuiet
+      lang={lang}
+      setLang={setLang}
+      mobile={bp === "mobile"}
+      tablet={bp === "tablet"}
+    />
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<Site />);
+</script>
+
+<script>
+  /* Boot: restore palette / theme / lang BEFORE React renders to avoid a flash. */
+  (function () {
+    var root = document.documentElement;
+    var PAL = {
+      cream:   { l: ["#F4ECDB", "#BC4F1B"], d: ["#1B1813", "#E5723A"] },
+      linen:   { l: ["#F1EDE4", "#B25437"], d: ["#1A1714", "#DA764D"] },
+      apricot: { l: ["#F8E6D0", "#C24A28"], d: ["#1F140C", "#ED6B3D"] },
+      sage:    { l: ["#E9E7D6", "#B25C3F"], d: ["#131814", "#E07859"] },
+      petrov:  { l: ["#ECEAF2", "#D6485E"], d: ["#161A2D", "#EE5570"] }
+    };
+    try {
+      var T = localStorage.getItem("pb-theme");   if (T) root.setAttribute("data-theme", T);
+      var P = localStorage.getItem("pb-palette"); if (P) root.setAttribute("data-palette", P);
+      var L = localStorage.getItem("pb-lang");    if (L) root.setAttribute("lang", L);
+    } catch (e) {}
+    if (!root.getAttribute("data-theme"))   root.setAttribute("data-theme", "dark");
+    if (!root.getAttribute("data-palette")) root.setAttribute("data-palette", "linen");
+    if (!root.getAttribute("lang"))         root.setAttribute("lang", "ru");
+
+    function sync() {
+      var theme = root.getAttribute("data-theme");
+      var pal   = root.getAttribute("data-palette");
+      document.getElementById("theme-btn").textContent = theme === "dark" ? "☾" : "☀";
+      document.querySelectorAll(".pal-sw").forEach(function (b) {
+        var id = b.getAttribute("data-palette");
+        var c = PAL[id] ? (theme === "dark" ? PAL[id].d : PAL[id].l) : null;
+        if (c) { b.style.background = c[0]; b.style.setProperty("--sw-ac", c[1]); }
+        b.setAttribute("aria-pressed", id === pal ? "true" : "false");
+      });
+    }
+    document.getElementById("theme-btn").addEventListener("click", function () {
+      var v = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", v);
+      try { localStorage.setItem("pb-theme", v); } catch (e) {}
+      sync();
+    });
+    document.getElementById("pal-row").addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b) return;
+      var v = b.getAttribute("data-palette"); root.setAttribute("data-palette", v);
+      try { localStorage.setItem("pb-palette", v); } catch (e) {}
+      sync();
+    });
+    sync();
+  })();
+</script>
 </body>
 </html>

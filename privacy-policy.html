@@ -1,106 +1,474 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru" data-theme="dark" data-palette="linen">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy — PetrovBit</title>
-  <meta name="description" content="Privacy Policy for PetrovBit games and applications.">
-  <meta name="robots" content="noindex, follow">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Privacy Policy for PetrovBit games and applications." />
+<meta name="robots" content="noindex, follow" />
+<title>Privacy Policy — PetrovBit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500&family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="v2/shared.css" />
+<style>
+  /* ── alias the doc's short token names to the shared v2 palette vars.
+       shared.css defines --v2-* for all 5 palettes (cream/linen/apricot/
+       sage/petrov) × light/dark, keyed off [data-palette] / [data-theme]
+       on <html>. Aliasing here keeps a single source of truth so the doc
+       always matches the main site. ───────────────────────────────────── */
+  :root {
+    --paper:    var(--v2-paper);
+    --paper-2:  var(--v2-paper-2);
+    --ink:      var(--v2-ink);
+    --ink-2:    var(--v2-ink-2);
+    --ink-3:    var(--v2-ink-3);
+    --rule:       var(--v2-rule);
+    --rule-soft:  var(--v2-rule-soft);
+    --accent:   var(--v2-accent);
+    --accent-2: var(--v2-accent-2);
+    --font-display: var(--v2-font-display);
+    --font-body:    var(--v2-font-body);
+    --font-mono:    var(--v2-font-mono);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    transition: background .25s, color .25s;
+  }
+  a { color: inherit; }
+
+  /* ── masthead ── */
+  .masthead {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px 16px; flex-wrap: wrap;
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--ink);
+    position: sticky; top: 0; z-index: 5;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(8px);
+  }
+  .brand { display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono); font-weight: 600; font-size: 15px; letter-spacing: -0.01em; color: var(--ink); }
+  .brand svg { display: block; }
+  .mast-right { display: flex; align-items: center; gap: 16px; }
+  .toggle { display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.06em; }
+  .toggle button { background: none; border: 0; cursor: pointer; font: inherit; color: var(--ink-3); padding: 2px 0; }
+  .toggle button.on { color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  .toggle .sep { opacity: 0.4; }
+
+  /* palette + theme chooser */
+  .chooser { display: inline-flex; align-items: center; gap: 12px; }
+  .pal-row { display: inline-flex; align-items: center; gap: 6px; }
+  .pal-sw {
+    width: 18px; height: 18px; padding: 0; cursor: pointer;
+    border: 1px solid var(--rule); border-radius: 50%;
+    position: relative; overflow: hidden;
+    transition: transform .12s;
+  }
+  .pal-sw:hover { transform: scale(1.12); }
+  .pal-sw[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px var(--ink); }
+  .pal-sw i { position: absolute; inset: 0; display: block; }
+  .pal-sw i::after { content: ""; position: absolute; right: 0; top: 0; width: 50%; height: 100%; background: var(--sw-ac); }
+  .theme-btn {
+    display: inline-grid; place-items: center;
+    width: 26px; height: 26px; cursor: pointer;
+    border: 1px solid var(--rule); border-radius: 50%;
+    background: transparent; color: var(--ink-2); font-size: 13px;
+    transition: color .12s, border-color .12s;
+  }
+  .theme-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ── document column ── */
+  main { max-width: 720px; margin: 0 auto; padding: 0 24px 96px; }
+
+  .doc-back {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 48px;
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-2); text-decoration: none;
+    border-bottom: 1px solid var(--rule); padding-bottom: 3px;
+    transition: color .15s, border-color .15s;
+  }
+  .doc-back:hover { color: var(--accent); border-color: var(--accent); }
+
+  .doc-kicker {
+    margin-top: 44px;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  h1 {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(42px, 8vw, 72px); letter-spacing: -0.035em; line-height: 0.96;
+    margin: 14px 0 18px;
+  }
+  .doc-updated {
+    font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); letter-spacing: 0.04em;
+    padding-bottom: 28px; margin-bottom: 8px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .doc-updated strong { color: var(--accent); font-weight: 500; }
+
+  /* counter-driven section numbers */
+  main { counter-reset: sec; }
+  h2 {
+    counter-increment: sec;
+    font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(24px, 4vw, 32px); letter-spacing: -0.02em; line-height: 1.1;
+    margin: 52px 0 16px;
+    display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: baseline;
+  }
+  h2::before {
+    content: counter(sec, decimal-leading-zero);
+    font-family: var(--font-mono); font-size: 13px; font-weight: 500;
+    color: var(--accent); letter-spacing: 0.1em;
+    transform: translateY(-2px);
+  }
+  h3 {
+    font-family: var(--font-display); font-weight: 500; font-style: italic;
+    font-size: 19px; letter-spacing: -0.01em;
+    margin: 30px 0 10px; color: var(--ink);
+  }
+  p { font-size: 16px; color: var(--ink-2); margin: 0 0 16px; }
+  main > p, h2 + p { padding-left: 0; }
+  strong { color: var(--ink); font-weight: 600; }
+
+  ul { list-style: none; margin: 0 0 18px; padding: 0; }
+  li {
+    position: relative; padding-left: 24px; margin-bottom: 9px;
+    font-size: 16px; color: var(--ink-2);
+  }
+  li::before {
+    content: ""; position: absolute; left: 4px; top: 11px;
+    width: 6px; height: 6px; background: var(--accent); border-radius: 1px;
+  }
+  li strong { color: var(--ink); }
+
+  a.inline { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); }
+  a.inline:hover { border-bottom-color: var(--accent); }
+
+  .contact-card {
+    margin-top: 18px; padding: 24px 26px;
+    background: var(--paper-2); border: 1px solid var(--rule);
+  }
+  .contact-card dl { display: grid; grid-template-columns: auto 1fr; gap: 10px 18px; margin: 0; }
+  .contact-card dt { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); align-self: baseline; }
+  .contact-card dd { margin: 0; font-size: 15px; color: var(--ink); }
+
+  footer {
+    max-width: 720px; margin: 0 auto; padding: 28px 24px 48px;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--ink-3);
+  }
+
+  /* language visibility */
+  [data-lang="en"] .lang-ru { display: none; }
+  [data-lang="ru"] .lang-en { display: none; }
+
+  @media (max-width: 560px) {
+    .masthead { padding: 14px 18px; gap: 10px 12px; }
+    .mast-right { gap: 12px; }
+    .pal-sw { width: 16px; height: 16px; }
+    main { padding: 0 18px 72px; }
+    h2 { grid-template-columns: 1fr; gap: 4px; }
+    h2::before { display: block; }
+  }
+</style>
 </head>
 <body>
+  <header class="masthead">
+    <a href="index.html" class="brand" aria-label="PetrovBit home">
+      <svg width="18" height="18" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">
+        <rect x="1" y="8" width="10" height="2" fill="var(--accent)"/>
+        <rect x="1" y="10" width="2" height="1" fill="var(--accent)"/>
+        <rect x="5" y="10" width="2" height="1" fill="var(--accent)"/>
+        <rect x="9" y="10" width="2" height="1" fill="var(--accent)"/>
+        <rect x="2" y="5" width="8" height="3" fill="currentColor"/>
+        <rect x="4" y="3" width="4" height="2" fill="currentColor"/>
+        <rect x="5" y="1" width="2" height="3" fill="currentColor"/>
+      </svg>
+      <span>petrovbit</span>
+    </a>
+    <div class="mast-right">
+      <div class="chooser">
+        <div class="pal-row" id="pal-row" role="group" aria-label="Color palette">
+          <button class="pal-sw" data-palette="cream"   title="Cream"   style="background:#F4ECDB;--sw-ac:#BC4F1B;"><i></i></button>
+          <button class="pal-sw" data-palette="linen"   title="Linen"   style="background:#F1EDE4;--sw-ac:#B25437;"><i></i></button>
+          <button class="pal-sw" data-palette="apricot" title="Apricot" style="background:#F8E6D0;--sw-ac:#C24A28;"><i></i></button>
+          <button class="pal-sw" data-palette="sage"    title="Sage"    style="background:#E9E7D6;--sw-ac:#B25C3F;"><i></i></button>
+          <button class="pal-sw" data-palette="petrov"  title="Petrov"  style="background:#ECEAF2;--sw-ac:#D6485E;"><i></i></button>
+        </div>
+        <button class="theme-btn" id="theme-btn" aria-label="Toggle light / dark">☾</button>
+      </div>
+      <div class="toggle" id="lang-toggle">
+        <button data-lang="en" class="on">EN</button>
+        <span class="sep">·</span>
+        <button data-lang="ru">RU</button>
+      </div>
+    </div>
+  </header>
 
-  <div class="policy-page">
-    <a href="/" class="back-link">&larr; Back to home</a>
-    <h1>Privacy Policy</h1>
-    <p><strong>Last updated:</strong> March 26, 2026</p>
+  <main>
+    <a href="index.html" class="doc-back lang-en">← back to home</a>
+    <a href="index.html" class="doc-back lang-ru">← на главную</a>
 
-    <h2>1. Introduction</h2>
-    <p>Mikhail Petrov, operating under the brand PetrovBit ("we", "our", or "us"), develops mobile games and applications. This Privacy Policy explains how we collect, use, and protect information when you use applications published by PetrovBit on Google Play, RuStore, and other distribution platforms.</p>
-    <p>This policy applies to all current and future PetrovBit applications unless a specific application provides its own privacy policy that supersedes this one.</p>
+    <!-- ════════════ ENGLISH ════════════ -->
+    <div class="lang-en">
+      <div class="doc-kicker">—— legal · privacy</div>
+      <h1>Privacy Policy</h1>
+      <p class="doc-updated"><strong>Last updated:</strong> March 26, 2026</p>
 
-    <h2>2. Information We Collect</h2>
+      <h2>Introduction</h2>
+      <p>Mikhail Petrov, operating under the brand PetrovBit ("we", "our", or "us"), develops mobile games and applications. This Privacy Policy explains how we collect, use, and protect information when you use applications published by PetrovBit on Google Play, RuStore, and other distribution platforms.</p>
+      <p>This policy applies to all current and future PetrovBit applications unless a specific application provides its own privacy policy that supersedes this one.</p>
 
-    <h3>2.1 Automatically Collected Information</h3>
-    <p>We may collect the following information automatically:</p>
-    <ul>
-      <li><strong>Device information:</strong> device model, operating system version, unique device identifiers</li>
-      <li><strong>Usage data:</strong> app launch events, session duration, game mode selections, level completions</li>
-      <li><strong>Install source:</strong> which app store the application was downloaded from (Google Play, RuStore, etc.)</li>
-      <li><strong>Crash reports:</strong> technical data about application errors to improve stability</li>
-    </ul>
+      <h2>Information We Collect</h2>
+      <h3>Automatically Collected Information</h3>
+      <p>We may collect the following information automatically:</p>
+      <ul>
+        <li><strong>Device information:</strong> device model, operating system version, unique device identifiers</li>
+        <li><strong>Usage data:</strong> app launch events, session duration, game mode selections, level completions</li>
+        <li><strong>Install source:</strong> which app store the application was downloaded from (Google Play, RuStore, etc.)</li>
+        <li><strong>Crash reports:</strong> technical data about application errors to improve stability</li>
+      </ul>
+      <h3>Advertising Data</h3>
+      <p>Our apps use third-party advertising services:</p>
+      <ul>
+        <li><strong>Google AdMob</strong> — for users who installed from Google Play</li>
+        <li><strong>Yandex Mobile Ads</strong> — for users who installed from RuStore</li>
+      </ul>
+      <p>These services may collect advertising identifiers and usage data in accordance with their own privacy policies. We only show <strong>rewarded ads</strong> (opt-in video ads) — there are no forced interstitial or banner interruptions during gameplay.</p>
+      <h3>Analytics</h3>
+      <p>We use <strong>AppMetrica</strong> (by Yandex) for analytics. AppMetrica collects anonymized usage statistics to help us understand how the application is used and improve the user experience. No personally identifiable information is collected through analytics.</p>
 
-    <h3>2.2 Advertising Data</h3>
-    <p>Our apps use third-party advertising services:</p>
-    <ul>
-      <li><strong>Google AdMob</strong> — for users who installed from Google Play</li>
-      <li><strong>Yandex Mobile Ads</strong> — for users who installed from RuStore</li>
-    </ul>
-    <p>These services may collect advertising identifiers and usage data in accordance with their own privacy policies. We only show <strong>rewarded ads</strong> (opt-in video ads) — there are no forced interstitial or banner interruptions during gameplay.</p>
+      <h2>Information We Do NOT Collect</h2>
+      <ul>
+        <li>We do <strong>not</strong> collect your name, email address, phone number, or any personal contact information</li>
+        <li>We do <strong>not</strong> collect location data</li>
+        <li>We do <strong>not</strong> require user registration or accounts</li>
+        <li>We do <strong>not</strong> collect payment or financial information</li>
+        <li>Our applications can be played fully <strong>offline</strong> — internet is only used for optional rewarded ads and analytics</li>
+      </ul>
 
-    <h3>2.3 Analytics</h3>
-    <p>We use <strong>AppMetrica</strong> (by Yandex) for analytics. AppMetrica collects anonymized usage statistics to help us understand how the application is used and improve the user experience. No personally identifiable information is collected through analytics.</p>
+      <h2>How We Use Information</h2>
+      <p>The information we collect is used to:</p>
+      <ul>
+        <li>Improve application stability and fix crashes</li>
+        <li>Understand which game modes and levels are most popular</li>
+        <li>Optimize the advertising experience</li>
+        <li>Analyze install sources to improve distribution strategy</li>
+      </ul>
 
-    <h2>3. Information We Do NOT Collect</h2>
-    <ul>
-      <li>We do <strong>not</strong> collect your name, email address, phone number, or any personal contact information</li>
-      <li>We do <strong>not</strong> collect location data</li>
-      <li>We do <strong>not</strong> require user registration or accounts</li>
-      <li>We do <strong>not</strong> collect payment or financial information</li>
-      <li>Our applications can be played fully <strong>offline</strong> — internet is only used for optional rewarded ads and analytics</li>
-    </ul>
+      <h2>Data Sharing</h2>
+      <p>We do not sell or share your personal data with third parties. Anonymized, aggregated data may be shared with:</p>
+      <ul>
+        <li><strong>Google AdMob</strong> — for ad serving (Google Play installs)</li>
+        <li><strong>Yandex Mobile Ads</strong> — for ad serving (RuStore installs)</li>
+        <li><strong>AppMetrica</strong> — for analytics processing</li>
+      </ul>
+      <p>Each of these services operates under their own privacy policies.</p>
 
-    <h2>4. How We Use Information</h2>
-    <p>The information we collect is used to:</p>
-    <ul>
-      <li>Improve application stability and fix crashes</li>
-      <li>Understand which game modes and levels are most popular</li>
-      <li>Optimize the advertising experience</li>
-      <li>Analyze install sources to improve distribution strategy</li>
-    </ul>
+      <h2>Data Retention</h2>
+      <p>Analytics data is retained for up to 24 months and then automatically deleted. Crash reports are retained for 12 months.</p>
 
-    <h2>5. Data Sharing</h2>
-    <p>We do not sell or share your personal data with third parties. Anonymized, aggregated data may be shared with:</p>
-    <ul>
-      <li><strong>Google AdMob</strong> — for ad serving (Google Play installs)</li>
-      <li><strong>Yandex Mobile Ads</strong> — for ad serving (RuStore installs)</li>
-      <li><strong>AppMetrica</strong> — for analytics processing</li>
-    </ul>
-    <p>Each of these services operates under their own privacy policies.</p>
+      <h2>Children's Privacy</h2>
+      <p>Our applications are not directed at children under the age of 13. We do not knowingly collect information from children under 13. If you believe that a child has provided us with personal information, please contact us and we will delete such information.</p>
 
-    <h2>6. Data Retention</h2>
-    <p>Analytics data is retained for up to 24 months and then automatically deleted. Crash reports are retained for 12 months.</p>
+      <h2>Your Rights</h2>
+      <p>You have the right to:</p>
+      <ul>
+        <li>Opt out of personalized advertising through your device settings</li>
+        <li>Reset your advertising identifier at any time</li>
+        <li>Request deletion of any data associated with your device</li>
+        <li>Use our applications offline without any data collection (except local crash logs)</li>
+      </ul>
 
-    <h2>7. Children's Privacy</h2>
-    <p>Our applications are not directed at children under the age of 13. We do not knowingly collect information from children under 13. If you believe that a child has provided us with personal information, please contact us and we will delete such information.</p>
+      <h2>Security</h2>
+      <p>We take reasonable measures to protect the information we collect. All data transmission uses industry-standard encryption.</p>
 
-    <h2>8. Your Rights</h2>
-    <p>You have the right to:</p>
-    <ul>
-      <li>Opt out of personalized advertising through your device settings</li>
-      <li>Reset your advertising identifier at any time</li>
-      <li>Request deletion of any data associated with your device</li>
-      <li>Use our applications offline without any data collection (except local crash logs)</li>
-    </ul>
+      <h2>Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated revision date.</p>
 
-    <h2>9. Security</h2>
-    <p>We take reasonable measures to protect the information we collect. All data transmission uses industry-standard encryption.</p>
+      <h2>Contact Us</h2>
+      <p>If you have any questions about this Privacy Policy, please contact us:</p>
+      <div class="contact-card">
+        <dl>
+          <dt>Brand</dt><dd>PetrovBit</dd>
+          <dt>Developer</dt><dd>Mikhail Petrov</dd>
+          <dt>Email</dt><dd><a class="inline" href="mailto:contact@petrovbit.dev">contact@petrovbit.dev</a></dd>
+          <dt>Website</dt><dd><a class="inline" href="https://petrovbit.dev">petrovbit.dev</a></dd>
+        </dl>
+      </div>
+    </div>
 
-    <h2>10. Changes to This Policy</h2>
-    <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated revision date.</p>
+    <!-- ════════════ РУССКИЙ ════════════ -->
+    <div class="lang-ru">
+      <div class="doc-kicker">—— юридическое · конфиденциальность</div>
+      <h1>Политика конфиденциальности</h1>
+      <p class="doc-updated"><strong>Обновлено:</strong> 26 марта 2026</p>
 
-    <h2>11. Contact Us</h2>
-    <p>If you have any questions about this Privacy Policy, please contact us:</p>
-    <ul>
-      <li><strong>Brand:</strong> PetrovBit</li>
-      <li><strong>Developer:</strong> Mikhail Petrov</li>
-      <li><strong>Email:</strong> <a href="mailto:petrovma92@gmail.com">petrovma92@gmail.com</a></li>
-      <li><strong>Website:</strong> <a href="https://petrovbit.dev">https://petrovbit.dev</a></li>
-    </ul>
-  </div>
+      <h2>Введение</h2>
+      <p>Михаил Петров, работающий под брендом PetrovBit («мы», «нас», «наш»), разрабатывает мобильные игры и приложения. Эта Политика конфиденциальности объясняет, как мы собираем, используем и защищаем информацию при использовании приложений PetrovBit в Google Play, RuStore и на других площадках.</p>
+      <p>Политика распространяется на все текущие и будущие приложения PetrovBit, если конкретное приложение не предоставляет собственную политику, заменяющую эту.</p>
 
+      <h2>Какую информацию мы собираем</h2>
+      <h3>Автоматически собираемые данные</h3>
+      <p>Мы можем автоматически собирать следующую информацию:</p>
+      <ul>
+        <li><strong>О устройстве:</strong> модель устройства, версия ОС, уникальные идентификаторы устройства</li>
+        <li><strong>Данные использования:</strong> запуски приложения, длительность сессий, выбор режимов, прохождение уровней</li>
+        <li><strong>Источник установки:</strong> из какого магазина установлено приложение (Google Play, RuStore и т.д.)</li>
+        <li><strong>Отчёты о сбоях:</strong> технические данные об ошибках для улучшения стабильности</li>
+      </ul>
+      <h3>Рекламные данные</h3>
+      <p>Наши приложения используют сторонние рекламные сервисы:</p>
+      <ul>
+        <li><strong>Google AdMob</strong> — для пользователей, установивших из Google Play</li>
+        <li><strong>Yandex Mobile Ads</strong> — для пользователей, установивших из RuStore</li>
+      </ul>
+      <p>Эти сервисы могут собирать рекламные идентификаторы и данные использования в соответствии со своими политиками. Мы показываем только <strong>наградную рекламу</strong> (видео по желанию) — никаких принудительных межстраничных или баннерных прерываний во время игры.</p>
+      <h3>Аналитика</h3>
+      <p>Для аналитики мы используем <strong>AppMetrica</strong> (от Яндекса). AppMetrica собирает обезличенную статистику использования, чтобы помочь нам понять, как используется приложение, и улучшить его. Через аналитику не собираются персональные данные.</p>
+
+      <h2>Что мы НЕ собираем</h2>
+      <ul>
+        <li>Мы <strong>не</strong> собираем ваше имя, email, телефон или другие контактные данные</li>
+        <li>Мы <strong>не</strong> собираем данные о местоположении</li>
+        <li>Мы <strong>не</strong> требуем регистрации или аккаунтов</li>
+        <li>Мы <strong>не</strong> собираем платёжную или финансовую информацию</li>
+        <li>В наши приложения можно играть полностью <strong>офлайн</strong> — интернет нужен только для необязательной наградной рекламы и аналитики</li>
+      </ul>
+
+      <h2>Как мы используем информацию</h2>
+      <p>Собранная информация используется чтобы:</p>
+      <ul>
+        <li>Улучшать стабильность приложения и исправлять сбои</li>
+        <li>Понимать, какие режимы и уровни наиболее популярны</li>
+        <li>Оптимизировать показ рекламы</li>
+        <li>Анализировать источники установок для стратегии распространения</li>
+      </ul>
+
+      <h2>Передача данных</h2>
+      <p>Мы не продаём и не передаём ваши персональные данные третьим лицам. Обезличенные агрегированные данные могут передаваться:</p>
+      <ul>
+        <li><strong>Google AdMob</strong> — для показа рекламы (установки из Google Play)</li>
+        <li><strong>Yandex Mobile Ads</strong> — для показа рекламы (установки из RuStore)</li>
+        <li><strong>AppMetrica</strong> — для обработки аналитики</li>
+      </ul>
+      <p>Каждый из этих сервисов работает по собственной политике конфиденциальности.</p>
+
+      <h2>Хранение данных</h2>
+      <p>Аналитические данные хранятся до 24 месяцев, затем автоматически удаляются. Отчёты о сбоях хранятся 12 месяцев.</p>
+
+      <h2>Конфиденциальность детей</h2>
+      <p>Наши приложения не предназначены для детей младше 13 лет. Мы сознательно не собираем информацию от детей младше 13. Если вы считаете, что ребёнок предоставил нам персональные данные, свяжитесь с нами — мы удалим такую информацию.</p>
+
+      <h2>Ваши права</h2>
+      <p>Вы имеете право:</p>
+      <ul>
+        <li>Отказаться от персонализированной рекламы в настройках устройства</li>
+        <li>Сбросить рекламный идентификатор в любой момент</li>
+        <li>Запросить удаление данных, связанных с вашим устройством</li>
+        <li>Использовать приложения офлайн без сбора данных (кроме локальных логов сбоев)</li>
+      </ul>
+
+      <h2>Безопасность</h2>
+      <p>Мы принимаем разумные меры для защиты собираемой информации. Вся передача данных использует шифрование отраслевого стандарта.</p>
+
+      <h2>Изменения в политике</h2>
+      <p>Мы можем время от времени обновлять эту Политику. Любые изменения публикуются на этой странице с обновлённой датой ревизии.</p>
+
+      <h2>Связаться с нами</h2>
+      <p>Если у вас есть вопросы по этой Политике конфиденциальности, свяжитесь с нами:</p>
+      <div class="contact-card">
+        <dl>
+          <dt>Бренд</dt><dd>PetrovBit</dd>
+          <dt>Разработчик</dt><dd>Михаил Петров</dd>
+          <dt>Email</dt><dd><a class="inline" href="mailto:contact@petrovbit.dev">contact@petrovbit.dev</a></dd>
+          <dt>Сайт</dt><dd><a class="inline" href="https://petrovbit.dev">petrovbit.dev</a></dd>
+        </dl>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span>© 2024–2026 PETROVBIT</span>
+    <span class="lang-en">independent game studio · one person</span>
+    <span class="lang-ru">независимая инди-студия · один человек</span>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+
+      // palette light/dark swatch colors (paper + accent) — must match v2/shared.css
+      var PAL = {
+        cream:   { l: ["#F4ECDB", "#BC4F1B"], d: ["#1B1813", "#E5723A"] },
+        linen:   { l: ["#F1EDE4", "#B25437"], d: ["#1A1714", "#DA764D"] },
+        apricot: { l: ["#F8E6D0", "#C24A28"], d: ["#1F140C", "#ED6B3D"] },
+        sage:    { l: ["#E9E7D6", "#B25C3F"], d: ["#131814", "#E07859"] },
+        petrov:  { l: ["#ECEAF2", "#D6485E"], d: ["#161A2D", "#EE5570"] }
+      };
+
+      // restore prefs
+      try {
+        var L = localStorage.getItem("pb-doc-lang");    if (L) root.setAttribute("data-lang", L);
+        var T = localStorage.getItem("pb-doc-theme");   if (T) root.setAttribute("data-theme", T);
+        var P = localStorage.getItem("pb-doc-palette"); if (P) root.setAttribute("data-palette", P);
+      } catch (e) {}
+      if (!root.getAttribute("data-lang"))    root.setAttribute("data-lang", "ru");
+      if (!root.getAttribute("data-theme"))   root.setAttribute("data-theme", "dark");
+      if (!root.getAttribute("data-palette")) root.setAttribute("data-palette", "linen");
+
+      function sync() {
+        var lang  = root.getAttribute("data-lang");
+        var theme = root.getAttribute("data-theme");
+        var pal   = root.getAttribute("data-palette");
+        root.setAttribute("lang", lang);
+
+        document.querySelectorAll("#lang-toggle button").forEach(function (b) {
+          b.classList.toggle("on", b.getAttribute("data-lang") === lang);
+        });
+
+        // theme button glyph
+        document.getElementById("theme-btn").textContent = theme === "dark" ? "☾" : "☀";
+
+        // palette swatches: reflect current theme's paper+accent + active state
+        document.querySelectorAll(".pal-sw").forEach(function (b) {
+          var id = b.getAttribute("data-palette");
+          var c = PAL[id] ? (theme === "dark" ? PAL[id].d : PAL[id].l) : null;
+          if (c) { b.style.background = c[0]; b.style.setProperty("--sw-ac", c[1]); }
+          b.setAttribute("aria-pressed", id === pal ? "true" : "false");
+        });
+      }
+
+      document.getElementById("lang-toggle").addEventListener("click", function (e) {
+        var b = e.target.closest("button"); if (!b) return;
+        var v = b.getAttribute("data-lang"); root.setAttribute("data-lang", v);
+        try { localStorage.setItem("pb-doc-lang", v); } catch (e) {}
+        sync();
+      });
+      document.getElementById("theme-btn").addEventListener("click", function () {
+        var v = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", v);
+        try { localStorage.setItem("pb-doc-theme", v); } catch (e) {}
+        sync();
+      });
+      document.getElementById("pal-row").addEventListener("click", function (e) {
+        var b = e.target.closest("button"); if (!b) return;
+        var v = b.getAttribute("data-palette"); root.setAttribute("data-palette", v);
+        try { localStorage.setItem("pb-doc-palette", v); } catch (e) {}
+        sync();
+      });
+      sync();
+    })();
+  </script>
 </body>
 </html>
