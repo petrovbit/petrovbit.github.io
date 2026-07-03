@@ -26,18 +26,18 @@ const PB_CONTENT = {
         store: "on google play & rustore",
       },
       pix: {
-        kicker: "in the workshop · 2026",
+        kicker: "closed beta · 2026",
         title: "Pixel Tanks",
         sub: "Steel Frontier",
         body: "A hand-drawn 16-bit follow-up. Mission-based, several biomes, a story I'm still figuring out. I'll ship it when it's good, not when the calendar says so.",
-        when: "soft target · late 2026",
+        when: "target release · august 2026",
       },
       swamp: {
-        kicker: "prototyping · 2026",
+        kicker: "in development · 2026",
         title: "Swamp Defense",
         sub: "Bronze Age TD",
         body: "A stylized tower defense set in a marshy Bronze Age settlement. Build archer watchtowers, slingers, druid spore-launchers, and harpoons to fend off swarms of giant insects.",
-        when: "in development · alpha build active",
+        when: "target release · october 2026",
       },
     },
     roadmap: {
@@ -45,8 +45,8 @@ const PB_CONTENT = {
       heading: "Roughly the plan.",
       items: [
         { date: "Q1 26", state: "done",     title: "Tank 1990 — Big Map Edition", note: "live on Google Play & RuStore" },
-        { date: "Q3 26", state: "alpha",    title: "Swamp Defense: Bronze Age", note: "balancing 7 upgrade tiers, path digitization" },
-        { date: "Q4 26", state: "drawing",  title: "Pixel Tanks: Steel Frontier", note: "art passes, mission design" },
+        { date: "Aug 26", state: "beta",    title: "Pixel Tanks: Steel Frontier", note: "closed testing, final adjustments" },
+        { date: "Oct 26", state: "dev",     title: "Swamp Defense: Bronze Age", note: "balancing 7 upgrade tiers, path digitization" },
       ],
     },
     rules: {
@@ -90,18 +90,18 @@ const PB_CONTENT = {
         store: "google play и rustore",
       },
       pix: {
-        kicker: "в работе · 2026",
+        kicker: "закрытый тест · 2026",
         title: "Pixel Tanks",
         sub: "Steel Frontier",
         body: "Продолжение. Нарисованный вручную 16-битный пиксель-арт, миссии, несколько биомов, история ещё придумывается. Выйдет когда будет хорошо, а не когда календарь скажет.",
-        when: "ориентир · конец 2026",
+        when: "ориентир релиза · август 2026",
       },
       swamp: {
-        kicker: "прототип · 2026",
+        kicker: "в разработке · 2026",
         title: "Swamp Defense",
         sub: "Bronze Age TD",
         body: "Стилизованный Tower Defense в декорациях болотного поселения бронзового века. Защищайте деревню с помощью башен лучников, пращников и друидских грибных спор от гигантских насекомых.",
-        when: "в разработке · активный альфа-билд",
+        when: "ориентир релиза · октябрь 2026",
       },
     },
     roadmap: {
@@ -109,8 +109,8 @@ const PB_CONTENT = {
       heading: "Примерный план.",
       items: [
         { date: "Q1 26", state: "готово",   title: "Tank 1990 — Big Map Edition", note: "в Google Play и RuStore" },
-        { date: "Q3 26", state: "альфа",    title: "Swamp Defense: Bronze Age", note: "баланс 7 уровней апгрейда, оцифровка путей" },
-        { date: "Q4 26", state: "рисую",    title: "Pixel Tanks: Steel Frontier", note: "арт-пассы, дизайн миссий" },
+        { date: "Авг 26", state: "тест",    title: "Pixel Tanks: Steel Frontier", note: "закрытое тестирование, финальные правки" },
+        { date: "Окт 26", state: "разработка", title: "Swamp Defense: Bronze Age", note: "баланс 7 уровней апгрейда, оцифровка путей" },
       ],
     },
     rules: {
