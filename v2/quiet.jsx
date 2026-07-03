@@ -155,7 +155,7 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
       </section>
 
       {/* ─── GAMES — editorial spreads ─── */}
-      <Sect num="01" kicker={isRu ? "каталог · 2 / 2" : "catalog · 2 / 2"}>
+      <Sect num="01" kicker={isRu ? "каталог · 3 / 3" : "catalog · 3 / 3"}>
         <h2 style={{
           fontFamily: "var(--v2-font-display)", fontWeight: 400,
           fontSize: h2Big, letterSpacing: "-0.03em", lineHeight: 0.95,
@@ -219,7 +219,7 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
         <article style={{
           display: "grid",
           gridTemplateColumns: mobile ? "1fr" : "1.2fr 1fr",
-          gap, alignItems: "start",
+          gap, marginBottom: mobile ? 56 : 100, alignItems: "start",
         }}>
           <figure style={{ margin: 0 }}>
             <div style={{ border: "1px solid var(--v2-ink)" }}>
@@ -243,6 +243,40 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
             </p>
             <MonoLabel size={10}>○ {C.games.pix.when}</MonoLabel>
           </div>
+        </article>
+
+        {/* Game 3 — Swamp Defense */}
+        <article style={{
+          display: "grid",
+          gridTemplateColumns: mobile ? "1fr" : "1fr 1.2fr",
+          gap, alignItems: "start",
+        }}>
+          <div style={{ order: mobile ? 2 : 1 }}>
+            <MonoLabel color="var(--v2-accent)">{C.games.swamp.kicker}</MonoLabel>
+            <h3 style={{
+              fontFamily: "var(--v2-font-display)", fontWeight: 400,
+              fontSize: gameH3b, letterSpacing: "-0.025em", lineHeight: 0.96,
+              marginTop: 16, marginBottom: 6,
+            }}>
+              {C.games.swamp.title}
+            </h3>
+            <p style={{ fontFamily: "var(--v2-font-display)", fontStyle: "italic", fontSize: mobile ? 17 : 20, color: "var(--v2-ink-2)", marginBottom: 20 }}>
+              {C.games.swamp.sub}
+            </p>
+            <p style={{ fontSize: bodySz, lineHeight: 1.65, color: "var(--v2-ink-2)", marginBottom: 22, maxWidth: 420 }}>
+              {C.games.swamp.body}
+            </p>
+            <MonoLabel size={10}>○ {C.games.swamp.when}</MonoLabel>
+          </div>
+          <figure style={{ margin: 0, order: mobile ? 1 : 2 }}>
+            <div style={{ border: "1px solid var(--v2-ink)" }}>
+              <img src="assets/images/swamp-defense-concept.jpg" alt=""
+                style={{ width: "100%", aspectRatio: "16/10", objectFit: "cover", display: "block" }} />
+            </div>
+            <figcaption style={{ fontFamily: "var(--v2-font-mono)", fontSize: 10, color: "var(--v2-ink-3)", letterSpacing: "0.16em", textTransform: "uppercase", marginTop: 10 }}>
+              fig. 04 — level layout, bronze age settlement
+            </figcaption>
+          </figure>
         </article>
       </Sect>
 

@@ -9,13 +9,13 @@ const { useState, useEffect, useRef } = React;
 
 const PB_CONTENT = {
   en: {
-    tagline: "One dev. Two games. Zero marketing budget.",
-    intro: "Indie mobile arcades made in a small flat near Moscow. Pixel-perfect, offline, no banners — the kind of games I'd want on my own phone.",
+    tagline: "One dev. Three games. Zero marketing budget.",
+    intro: "Indie mobile arcades made in a small flat near Moscow. Pixel-art and stylized retro gameplay, offline, no banners — the kind of games I'd want on my own phone.",
     by: "by mikhail petrov · petrovbit · since 2024",
     seeGames: "see the games",
     games: {
       sect: "the games",
-      heading: "Two of them.",
+      heading: "Three of them.",
       headingSub: "That's the whole catalog.",
       tank: {
         kicker: "shipped · march 2026",
@@ -32,12 +32,20 @@ const PB_CONTENT = {
         body: "A hand-drawn 16-bit follow-up. Mission-based, several biomes, a story I'm still figuring out. I'll ship it when it's good, not when the calendar says so.",
         when: "soft target · late 2026",
       },
+      swamp: {
+        kicker: "prototyping · 2026",
+        title: "Swamp Defense",
+        sub: "Bronze Age TD",
+        body: "A stylized tower defense set in a marshy Bronze Age settlement. Build archer watchtowers, slingers, druid spore-launchers, and harpoons to fend off swarms of giant insects.",
+        when: "in development · alpha build active",
+      },
     },
     roadmap: {
       sect: "what's next",
       heading: "Roughly the plan.",
       items: [
         { date: "Q1 26", state: "done",     title: "Tank 1990 — Big Map Edition", note: "live on Google Play & RuStore" },
+        { date: "Q3 26", state: "alpha",    title: "Swamp Defense: Bronze Age", note: "balancing 7 upgrade tiers, path digitization" },
         { date: "Q4 26", state: "drawing",  title: "Pixel Tanks: Steel Frontier", note: "art passes, mission design" },
       ],
     },
@@ -47,7 +55,7 @@ const PB_CONTENT = {
       items: [
         ["ads stay in the menu","only on menu screens. zero ads while you actually play."],
         ["offline always works","metro tunnel, plane, no signal — same game."],
-        ["pixels by hand",      "no AI art, no upscalers. drawn on a grid like in 1990."],
+        ["no forced monetization","no pay-to-win walls, only optional rewarded ads for extra resources."],
         ["gamepad supported",   "any bluetooth controller — dualshock, xbox, generic. zero config."],
       ],
     },
@@ -56,7 +64,7 @@ const PB_CONTENT = {
       heading: "What I have so far.",
       rating: "4.3",
       ratingNote: "40 reviews on Google Play",
-      stats: [["installs", "5,000+"], ["games shipped", "1"], ["games in dev", "1"], ["people on team", "1"]],
+      stats: [["installs", "5,000+"], ["games shipped", "1"], ["games in dev", "2"], ["people on team", "1"]],
       footnote: "I'll add press quotes once they exist.",
     },
     footer: {
@@ -65,13 +73,13 @@ const PB_CONTENT = {
     },
   },
   ru: {
-    tagline: "Один разраб. Две игры. Ноль маркетинга.",
-    intro: "Инди-игры для телефона, которые я делаю в маленькой квартире под Москвой. Пиксели, офлайн, без баннеров — такие, что и сам бы поставил.",
+    tagline: "Один разраб. Три игры. Ноль маркетинга.",
+    intro: "Инди-игры для телефона, которые я делаю в маленькой квартире под Москвой. Пиксельный и стилизованный ретро-геймплей, офлайн, без баннеров — такие, что и сам бы поставил.",
     by: "михаил петров · petrovbit · с 2024",
     seeGames: "посмотреть игры",
     games: {
       sect: "игры",
-      heading: "Их две.",
+      heading: "Их три.",
       headingSub: "Весь каталог.",
       tank: {
         kicker: "вышла · март 2026",
@@ -88,12 +96,20 @@ const PB_CONTENT = {
         body: "Продолжение. Нарисованный вручную 16-битный пиксель-арт, миссии, несколько биомов, история ещё придумывается. Выйдет когда будет хорошо, а не когда календарь скажет.",
         when: "ориентир · конец 2026",
       },
+      swamp: {
+        kicker: "прототип · 2026",
+        title: "Swamp Defense",
+        sub: "Bronze Age TD",
+        body: "Стилизованный Tower Defense в декорациях болотного поселения бронзового века. Защищайте деревню с помощью башен лучников, пращников и друидских грибных спор от гигантских насекомых.",
+        when: "в разработке · активный альфа-билд",
+      },
     },
     roadmap: {
       sect: "что дальше",
       heading: "Примерный план.",
       items: [
         { date: "Q1 26", state: "готово",   title: "Tank 1990 — Big Map Edition", note: "в Google Play и RuStore" },
+        { date: "Q3 26", state: "альфа",    title: "Swamp Defense: Bronze Age", note: "баланс 7 уровней апгрейда, оцифровка путей" },
         { date: "Q4 26", state: "рисую",    title: "Pixel Tanks: Steel Frontier", note: "арт-пассы, дизайн миссий" },
       ],
     },
@@ -103,7 +119,7 @@ const PB_CONTENT = {
       items: [
         ["реклама только в меню","баннеры есть, но только на экранах меню. во время игры — ноль."],
         ["офлайн всегда работает","в метро, в самолёте — игра та же."],
-        ["пиксели руками",       "никакого AI-арта, никакого апскейла. рисую на сетке как в 1990."],
+        ["без донат-стен","никакого pay-to-win, только добровольная реклама за бонусы."],
         ["геймпад работает",     "любой блютус — dualshock, xbox, дженерик. без настройки."],
       ],
     },
@@ -112,7 +128,7 @@ const PB_CONTENT = {
       heading: "Что у меня есть.",
       rating: "4.3",
       ratingNote: "40 отзывов в Google Play",
-      stats: [["установок", "5 000+"], ["игр вышло", "1"], ["в разработке", "1"], ["в команде", "1"]],
+      stats: [["установок", "5 000+"], ["игр вышло", "1"], ["в разработке", "2"], ["в команде", "1"]],
       footnote: "Цитаты прессы добавлю когда появятся.",
     },
     footer: {
