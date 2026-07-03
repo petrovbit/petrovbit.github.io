@@ -309,7 +309,8 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
             <span style={{ position: "absolute", left: 6, top: 6, bottom: 6, width: 1, background: "var(--v2-ink)" }} />
             {C.roadmap.items.map((it, i) => {
               const isDone = it.state === "done" || it.state === "готово";
-              const color = isDone ? "var(--v2-accent-2)" : i === 1 ? "var(--v2-accent)" : "var(--v2-ink-3)";
+              const isBeta = it.state === "beta" || it.state === "тест";
+              const color = isDone ? "var(--v2-accent-2)" : isBeta ? "var(--v2-accent)" : "var(--v2-ink-3)";
               return (
                 <li key={i} style={{ position: "relative", paddingLeft: 30, paddingBottom: 28 }}>
                   <span style={{ position: "absolute", left: 0, top: 5, width: 13, height: 13, borderRadius: "50%", background: color, boxShadow: "0 0 0 3px var(--v2-paper)" }} />
@@ -319,7 +320,7 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
                 </li>
               );
             })}
-            {/* Third slot — open suggestion */}
+            {/* Fourth slot — open suggestion */}
             <li style={{ position: "relative", paddingLeft: 30 }}>
               <span style={{ position: "absolute", left: 0, top: 5, width: 13, height: 13, borderRadius: "50%", border: "2px dashed var(--v2-accent)", boxShadow: "0 0 0 3px var(--v2-paper)" }} />
               <button onClick={openSuggest} style={{
@@ -334,22 +335,23 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
         ) : (
           <div style={{ position: "relative", paddingTop: 30 }}>
             <span style={{ position: "absolute", left: 0, right: 0, top: 22, height: 1, background: "var(--v2-ink)" }} />
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: tablet ? 32 : 56 }}>
+            <div style={{ display: "grid", gridTemplateColumns: tablet ? "repeat(2, 1fr)" : "repeat(4, 1fr)", gap: tablet ? 32 : 40 }}>
               {C.roadmap.items.map((it, i) => {
                 const isDone = it.state === "done" || it.state === "готово";
-                const color = isDone ? "var(--v2-accent-2)" : i === 1 ? "var(--v2-accent)" : "var(--v2-ink-3)";
+                const isBeta = it.state === "beta" || it.state === "тест";
+                const color = isDone ? "var(--v2-accent-2)" : isBeta ? "var(--v2-accent)" : "var(--v2-ink-3)";
                 return (
                   <div key={i} style={{ position: "relative", paddingTop: 30 }}>
                     <span style={{ position: "absolute", left: 0, top: 16, width: 14, height: 14, borderRadius: "50%", background: color, boxShadow: "0 0 0 4px var(--v2-paper)" }} />
                     <MonoLabel color={color}>{it.date} · {it.state}</MonoLabel>
-                    <div style={{ fontFamily: "var(--v2-font-display)", fontSize: tablet ? 22 : 26, letterSpacing: "-0.01em", lineHeight: 1.15, marginTop: 12, marginBottom: 8 }}>
+                    <div style={{ fontFamily: "var(--v2-font-display)", fontSize: tablet ? 20 : 22, letterSpacing: "-0.01em", lineHeight: 1.15, marginTop: 12, marginBottom: 8 }}>
                       {it.title}
                     </div>
                     <p style={{ fontSize: 14, lineHeight: 1.5, color: "var(--v2-ink-2)" }}>{it.note}</p>
                   </div>
                 );
               })}
-              {/* Third column — open suggestion card */}
+              {/* Fourth column — open suggestion card */}
               <div style={{ position: "relative", paddingTop: 30 }}>
                 <span style={{ position: "absolute", left: 0, top: 16, width: 14, height: 14, borderRadius: "50%", border: "2px dashed var(--v2-accent)", boxShadow: "0 0 0 4px var(--v2-paper)" }} />
                 <button onClick={openSuggest} style={{
@@ -360,7 +362,7 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
                   <MonoLabel color="var(--v2-accent)">{isRu ? "вакантно · ?" : "open · ?"}</MonoLabel>
                   <div style={{
                     fontFamily: "var(--v2-font-display)", fontStyle: "italic",
-                    fontSize: tablet ? 22 : 26, letterSpacing: "-0.01em", lineHeight: 1.15,
+                    fontSize: tablet ? 20 : 22, letterSpacing: "-0.01em", lineHeight: 1.15,
                     marginTop: 12, marginBottom: 8, color: "var(--v2-ink)",
                   }}>
                     {isRu ? "Твоя идея?" : "Your idea?"}
