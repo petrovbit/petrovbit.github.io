@@ -199,13 +199,20 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
                 </React.Fragment>
               ))}
             </dl>
-            <a href="#" style={{ fontFamily: "var(--v2-font-mono)", fontSize: 12, color: "var(--v2-ink)", borderBottom: "1.5px solid var(--v2-accent)", paddingBottom: 3, letterSpacing: "0.1em", textTransform: "uppercase" }}>
-              {C.games.tank.store} →
-            </a>
+            {/* TODO: store links point at the legacy package io.battle_city.game —
+                switch to the dev.petrovbit.* URLs once the re-published APKs go live. */}
+            <div style={{ display: "flex", gap: 22, flexWrap: "wrap" }}>
+              {C.games.tank.stores.map(([label, url]) => (
+                <a key={label} href={url} target="_blank" rel="noopener"
+                  style={{ fontFamily: "var(--v2-font-mono)", fontSize: 12, color: "var(--v2-ink)", borderBottom: "1.5px solid var(--v2-accent)", paddingBottom: 3, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                  {label} →
+                </a>
+              ))}
+            </div>
           </div>
           <figure style={{ margin: 0, order: mobile ? 1 : 2 }}>
             <div style={{ border: "1px solid var(--v2-ink)" }}>
-              <img src="assets/images/tank-1990-hero-poster.png" className="pixelated" alt=""
+              <img src="assets/images/tank-1990-hero-poster.png" className="pixelated" alt="Tank 1990: Big Map Battle — gameplay on a huge map"
                 style={{ width: "100%", aspectRatio: "16/10", objectFit: "cover", display: "block" }} />
             </div>
             <figcaption style={{ fontFamily: "var(--v2-font-mono)", fontSize: 10, color: "var(--v2-ink-3)", letterSpacing: "0.16em", textTransform: "uppercase", marginTop: 10, display: "flex", justifyContent: "space-between", gap: 10 }}>
@@ -223,7 +230,7 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
         }}>
           <figure style={{ margin: 0 }}>
             <div style={{ border: "1px solid var(--v2-ink)" }}>
-              <img src="assets/images/pixel-tanks-keyart.jpeg" alt=""
+              <img src="assets/images/pixel-tanks-keyart.jpeg" alt="Pixel Tanks: Steel Frontier — key art"
                 style={{ width: "100%", aspectRatio: "16/10", objectFit: "cover", display: "block", filter: "saturate(0.95)" }} />
             </div>
             <figcaption style={{ fontFamily: "var(--v2-font-mono)", fontSize: 10, color: "var(--v2-ink-3)", letterSpacing: "0.16em", textTransform: "uppercase", marginTop: 10 }}>
@@ -270,7 +277,7 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
           </div>
           <figure style={{ margin: 0, order: mobile ? 1 : 2 }}>
             <div style={{ border: "1px solid var(--v2-ink)" }}>
-              <img src="assets/images/swamp-defense-concept.jpg" alt=""
+              <img src="assets/images/swamp-defense-concept.jpg" alt="Swamp Defense — Bronze Age settlement concept art"
                 style={{ width: "100%", aspectRatio: "16/10", objectFit: "cover", display: "block" }} />
             </div>
             <figcaption style={{ fontFamily: "var(--v2-font-mono)", fontSize: 10, color: "var(--v2-ink-3)", letterSpacing: "0.16em", textTransform: "uppercase", marginTop: 10 }}>

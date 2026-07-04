@@ -10,7 +10,7 @@ const { useState, useEffect, useRef } = React;
 const PB_CONTENT = {
   en: {
     tagline: "One dev. Three games. Zero marketing budget.",
-    intro: "Indie mobile arcades made in a small flat near Moscow. Pixel-art and stylized retro gameplay, offline, no banners — the kind of games I'd want on my own phone.",
+    intro: "Indie mobile arcades made in a small flat near Moscow. Pixel-art and stylized retro gameplay, fully offline, no ads mid-fight — the kind of games I'd want on my own phone.",
     by: "by mikhail petrov · petrovbit · since 2024",
     seeGames: "see the games",
     games: {
@@ -20,23 +20,26 @@ const PB_CONTENT = {
       tank: {
         kicker: "shipped · march 2026",
         title: "Tank 1990",
-        sub: "Big Map Edition",
-        body: "An 8-bit tank arcade I rebuilt from memory of the NES original. Two modes, 60 levels, local co-op, full offline. Plays nicely with a Bluetooth gamepad.",
-        meta: [["genre", "arcade"], ["modes", "classic + big map"], ["levels", "60"], ["offline", "always"]],
-        store: "on google play & rustore",
+        sub: "Big Map Battle",
+        body: "A classic 8-bit tank arcade with one twist: there is no base to babysit. Maps are 4–8× bigger than the old 13×13 screens — hunt, flank and ambush across a 30-level campaign, build your own maps in the built-in editor, save anywhere. Weighs 11 MB and never asks for internet.",
+        meta: [["genre", "8-bit arcade"], ["campaign", "30+ levels + editor"], ["gamepad", "dualshock · xbox · tv"], ["offline", "always"]],
+        stores: [
+          ["google play", "https://play.google.com/store/apps/details?id=io.battle_city.game"],
+          ["rustore", "https://www.rustore.ru/catalog/app/io.battle_city.game"],
+        ],
       },
       pix: {
-        kicker: "closed beta · 2026",
+        kicker: "closed beta · summer 2026",
         title: "Pixel Tanks",
         sub: "Steel Frontier",
-        body: "A hand-drawn 16-bit follow-up. Mission-based, several biomes, a story I'm still figuring out. I'll ship it when it's good, not when the calendar says so.",
+        body: "The online co-op follow-up: up to four players hold the line together on one big map. Meadows, forests, rivers with wooden bridges, highlands and desert — all destructible, every shot leaves craters and rubble. Steady 60 fps even on old phones and TV boxes. Ships when it's good, not when the calendar says so.",
         when: "target release · august 2026",
       },
       swamp: {
-        kicker: "in development · 2026",
+        kicker: "in development · working title",
         title: "Swamp Defense",
         sub: "Bronze Age TD",
-        body: "A stylized tower defense set in a marshy Bronze Age settlement. Build archer watchtowers, slingers, druid spore-launchers, and harpoons to fend off swarms of giant insects.",
+        body: "A painterly tower defense set in a Bronze Age swamp settlement under siege by giant insects. Six tower types — archer watchtowers, slingers, harpoons over the water, druid mushroom towers, a beacon sniper and fire braziers — each with seven upgrade tiers.",
         when: "target release · october 2026",
       },
     },
@@ -44,9 +47,9 @@ const PB_CONTENT = {
       sect: "what's next",
       heading: "Roughly the plan.",
       items: [
-        { date: "Q1 26", state: "done",     title: "Tank 1990 — Big Map Edition", note: "live on Google Play & RuStore" },
-        { date: "Aug 26", state: "beta",    title: "Pixel Tanks: Steel Frontier", note: "closed testing, final adjustments" },
-        { date: "Oct 26", state: "dev",     title: "Swamp Defense: Bronze Age", note: "balancing 7 upgrade tiers, path digitization" },
+        { date: "Q1 26", state: "done",     title: "Tank 1990: Big Map Battle", note: "live on Google Play & RuStore" },
+        { date: "Aug 26", state: "beta",    title: "Pixel Tanks: Steel Frontier", note: "closed beta — polishing online co-op and netcode" },
+        { date: "Oct 26", state: "dev",     title: "Swamp Defense: Bronze Age", note: "alpha slice: first level, two tower lines playable" },
       ],
     },
     rules: {
@@ -74,7 +77,7 @@ const PB_CONTENT = {
   },
   ru: {
     tagline: "Один разраб. Три игры. Ноль маркетинга.",
-    intro: "Инди-игры для телефона, которые я делаю в маленькой квартире под Москвой. Пиксельный и стилизованный ретро-геймплей, офлайн, без баннеров — такие, что и сам бы поставил.",
+    intro: "Инди-игры для телефона, которые я делаю в маленькой квартире под Москвой. Пиксельный и стилизованный ретро-геймплей, полный офлайн, без рекламы посреди боя — такие, что и сам бы поставил.",
     by: "михаил петров · petrovbit · с 2024",
     seeGames: "посмотреть игры",
     games: {
@@ -84,23 +87,26 @@ const PB_CONTENT = {
       tank: {
         kicker: "вышла · март 2026",
         title: "Tank 1990",
-        sub: "Big Map Edition",
-        body: "8-битная аркада про танчики, восстановленная по памяти из оригинала на NES. Два режима, 60 уровней, локальный кооп, всё работает офлайн. Дружит с блютус-геймпадом.",
-        meta: [["жанр", "аркада"], ["режимы", "классика + big map"], ["уровни", "60"], ["офлайн", "всегда"]],
-        store: "google play и rustore",
+        sub: "Big Map Battle",
+        body: "Классическая 8-битная аркада про танчики с одним отличием: базы, которую надо охранять, больше нет. Карты в 4–8 раз больше старых экранов 13×13 — охоться, заходи с флангов, устраивай засады. Кампания на 30+ уровней, встроенный редактор карт, сохранение в любой момент. Весит 11 МБ и не просит интернет.",
+        meta: [["жанр", "8-бит аркада"], ["кампания", "30+ уровней + редактор"], ["геймпад", "dualshock · xbox · tv"], ["офлайн", "всегда"]],
+        stores: [
+          ["google play", "https://play.google.com/store/apps/details?id=io.battle_city.game"],
+          ["rustore", "https://www.rustore.ru/catalog/app/io.battle_city.game"],
+        ],
       },
       pix: {
-        kicker: "закрытый тест · 2026",
+        kicker: "закрытая бета · лето 2026",
         title: "Pixel Tanks",
         sub: "Steel Frontier",
-        body: "Продолжение. Нарисованный вручную 16-битный пиксель-арт, миссии, несколько биомов, история ещё придумывается. Выйдет когда будет хорошо, а не когда календарь скажет.",
+        body: "Продолжение с онлайн-кооперативом: до четырёх игроков держат оборону вместе на одной большой карте. Луга, леса, реки с деревянными мостами, нагорья и пустыня — всё разрушается, каждый выстрел оставляет воронки и обломки. Стабильные 60 fps даже на старых телефонах и ТВ-приставках. Выйдет когда будет хорошо, а не когда календарь скажет.",
         when: "ориентир релиза · август 2026",
       },
       swamp: {
-        kicker: "в разработке · 2026",
+        kicker: "в разработке · рабочее название",
         title: "Swamp Defense",
         sub: "Bronze Age TD",
-        body: "Стилизованный Tower Defense в декорациях болотного поселения бронзового века. Защищайте деревню с помощью башен лучников, пращников и друидских грибных спор от гигантских насекомых.",
+        body: "Живописный Tower Defense в болотном поселении бронзового века, осаждённом гигантскими насекомыми. Шесть типов башен — дозорные лучники, пращники, гарпуны над водой, грибные башни друидов, маяк-снайпер и огненные жаровни — у каждой семь уровней прокачки.",
         when: "ориентир релиза · октябрь 2026",
       },
     },
@@ -108,9 +114,9 @@ const PB_CONTENT = {
       sect: "что дальше",
       heading: "Примерный план.",
       items: [
-        { date: "Q1 26", state: "готово",   title: "Tank 1990 — Big Map Edition", note: "в Google Play и RuStore" },
-        { date: "Авг 26", state: "тест",    title: "Pixel Tanks: Steel Frontier", note: "закрытое тестирование, финальные правки" },
-        { date: "Окт 26", state: "разработка", title: "Swamp Defense: Bronze Age", note: "баланс 7 уровней апгрейда, оцифровка путей" },
+        { date: "Q1 26", state: "готово",   title: "Tank 1990: Big Map Battle", note: "в Google Play и RuStore" },
+        { date: "Авг 26", state: "тест",    title: "Pixel Tanks: Steel Frontier", note: "закрытая бета — полируем онлайн-кооп и сетевой код" },
+        { date: "Окт 26", state: "разработка", title: "Swamp Defense: Bronze Age", note: "альфа-срез: первый уровень, две линейки башен" },
       ],
     },
     rules: {
