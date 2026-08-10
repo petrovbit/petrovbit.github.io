@@ -1,9 +1,34 @@
 /* PetrovBit V2 — shared atoms + content
-   Globals: PB_CONTENT, Logo, LangToggle, VideoFrame, MonoLabel, Stamp,
-   PixelTank, Socials
+   Globals: PB_CONTENT, PB_STORES, PB_STORE_LINKS, Logo, LangToggle, VideoFrame,
+   MonoLabel, Stamp, PixelTank, Socials, StoreBadges
 */
 
 const { useState, useEffect, useRef } = React;
+
+/* ─── Stores ───────────────────────────────────────────────
+   One row of badges per game. A game gets a live link per store id it
+   has in PB_STORE_LINKS; every other store renders greyed out, so the
+   row also reads as "where this game is headed". */
+
+const PB_STORES = [
+  { id: "gplay",      name: "Google Play", icon: "assets/images/stores/google-play.svg" },
+  { id: "rustore",    name: "RuStore",     icon: "assets/images/stores/rustore.svg" },
+  { id: "appgallery", name: "AppGallery",  icon: "assets/images/stores/appgallery.svg" },
+  { id: "palm",       name: "PalmStore",   icon: "assets/images/stores/palmstore.svg" },
+];
+
+const PB_STORE_LINKS = {
+  /* TODO: Google Play / RuStore still point at the legacy package
+     io.battle_city.game — switch once the dev.petrovbit.* APKs go live. */
+  tank: {
+    gplay:      "https://play.google.com/store/apps/details?id=io.battle_city.game",
+    rustore:    "https://www.rustore.ru/catalog/app/io.battle_city.game",
+    appgallery: "https://appgallery.huawei.com/app/C118398789",
+    palm:       "https://www.palmplaystore.com/detail/dev.petrovbit.tank1990",
+  },
+  pix: {},
+  swamp: {},
+};
 
 /* ─── Content (RU/EN) ──────────────────────────────────────── */
 
@@ -17,16 +42,13 @@ const PB_CONTENT = {
       sect: "the games",
       heading: "Three of them.",
       headingSub: "That's the whole catalog.",
+      storeRow: { out: "download for android", soon: "planned for", soonTag: "not out yet" },
       tank: {
         kicker: "shipped · march 2026",
         title: "Tank 1990",
         sub: "Big Map Battle",
         body: "A classic 8-bit tank arcade with one twist: there is no base to babysit. Maps are 4–8× bigger than the old 13×13 screens — hunt, flank and ambush across a 30-level campaign, build your own maps in the built-in editor, save anywhere. Weighs 11 MB and never asks for internet.",
         meta: [["genre", "8-bit arcade"], ["campaign", "30+ levels + editor"], ["gamepad", "dualshock · xbox · tv"], ["offline", "always"]],
-        stores: [
-          ["google play", "https://play.google.com/store/apps/details?id=io.battle_city.game"],
-          ["rustore", "https://www.rustore.ru/catalog/app/io.battle_city.game"],
-        ],
       },
       pix: {
         kicker: "closed beta · summer 2026",
@@ -47,7 +69,7 @@ const PB_CONTENT = {
       sect: "what's next",
       heading: "Roughly the plan.",
       items: [
-        { date: "Q1 26", state: "done",     title: "Tank 1990: Big Map Battle", note: "live on Google Play & RuStore" },
+        { date: "Q1 26", state: "done",     title: "Tank 1990: Big Map Battle", note: "live on Google Play, RuStore, AppGallery & PalmStore" },
         { date: "Aug 26", state: "beta",    title: "Pixel Tanks: Steel Frontier", note: "closed beta — polishing online co-op and netcode" },
         { date: "Oct 26", state: "dev",     title: "Swamp Defense: Bronze Age", note: "alpha slice: first level, two tower lines playable" },
       ],
@@ -84,16 +106,13 @@ const PB_CONTENT = {
       sect: "игры",
       heading: "Их три.",
       headingSub: "Весь каталог.",
+      storeRow: { out: "скачать на android", soon: "планируется в", soonTag: "пока недоступно" },
       tank: {
         kicker: "вышла · март 2026",
         title: "Tank 1990",
         sub: "Big Map Battle",
         body: "Классическая 8-битная аркада про танчики с одним отличием: базы, которую надо охранять, больше нет. Карты в 4–8 раз больше старых экранов 13×13 — охоться, заходи с флангов, устраивай засады. Кампания на 30+ уровней, встроенный редактор карт, сохранение в любой момент. Весит 11 МБ и не просит интернет.",
         meta: [["жанр", "8-бит аркада"], ["кампания", "30+ уровней + редактор"], ["геймпад", "dualshock · xbox · tv"], ["офлайн", "всегда"]],
-        stores: [
-          ["google play", "https://play.google.com/store/apps/details?id=io.battle_city.game"],
-          ["rustore", "https://www.rustore.ru/catalog/app/io.battle_city.game"],
-        ],
       },
       pix: {
         kicker: "закрытая бета · лето 2026",
@@ -114,7 +133,7 @@ const PB_CONTENT = {
       sect: "что дальше",
       heading: "Примерный план.",
       items: [
-        { date: "Q1 26", state: "готово",   title: "Tank 1990: Big Map Battle", note: "в Google Play и RuStore" },
+        { date: "Q1 26", state: "готово",   title: "Tank 1990: Big Map Battle", note: "в Google Play, RuStore, AppGallery и PalmStore" },
         { date: "Авг 26", state: "тест",    title: "Pixel Tanks: Steel Frontier", note: "закрытая бета — полируем онлайн-кооп и сетевой код" },
         { date: "Окт 26", state: "разработка", title: "Swamp Defense: Bronze Age", note: "альфа-срез: первый уровень, две линейки башен" },
       ],
@@ -230,6 +249,40 @@ function PixelTank({ size = 24, color, treads }) {
   );
 }
 
+/* Row of store badges for one game. Stores without a link for that game
+   render as inert, greyed-out badges — "planned, not downloadable yet". */
+function StoreBadges({ game, lang = "ru", style }) {
+  const T = (PB_CONTENT[lang] || PB_CONTENT.ru).games.storeRow;
+  const links = PB_STORE_LINKS[game] || {};
+  const live = PB_STORES.some(s => links[s.id]);
+  return (
+    <div className="pb-stores" style={style}>
+      <div className="pb-stores__head">
+        <MonoLabel color={live ? "var(--v2-ink-2)" : undefined}>{live ? T.out : T.soon}</MonoLabel>
+        {!live && <span className="pb-stores__tag">{T.soonTag}</span>}
+      </div>
+      <div className="pb-stores__row">
+        {PB_STORES.map(s => {
+          const url = links[s.id];
+          const inner = (
+            <React.Fragment>
+              <img className="pb-store__icon" src={s.icon} alt="" width="22" height="22" />
+              <span className="pb-store__name">{s.name}</span>
+            </React.Fragment>
+          );
+          return url ? (
+            <a key={s.id} className="pb-store" href={url} target="_blank" rel="noopener"
+              aria-label={`${T.out} — ${s.name}`}>{inner}</a>
+          ) : (
+            <span key={s.id} className="pb-store pb-store--off" aria-disabled="true"
+              title={`${s.name} — ${T.soonTag}`}>{inner}</span>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function Stamp({ children, rotate = -4, color }) {
   return (
     <span style={{
@@ -266,5 +319,6 @@ function Socials({ size = 14, color }) {
 
 /* ─── Export to window so other Babel scripts can pick them up ─── */
 Object.assign(window, {
-  PB_CONTENT, Logo, LangToggle, MonoLabel, GameVideo, PixelTank, Stamp, Socials,
+  PB_CONTENT, PB_STORES, PB_STORE_LINKS,
+  Logo, LangToggle, MonoLabel, GameVideo, PixelTank, Stamp, Socials, StoreBadges,
 });

@@ -204,3 +204,49 @@
 }
 
 .v2 :focus-visible { outline: 2px solid var(--v2-accent); outline-offset: 2px; }
+
+/* ── Store badges ─────────────────────────────────────────
+   Live store = solid badge, full-colour logo, clickable.
+   Not published there yet = dashed badge, desaturated logo, inert. */
+.v2 .pb-stores__head {
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: 10px; margin-bottom: 12px;
+}
+.v2 .pb-stores__tag {
+  font-family: var(--v2-font-mono); font-size: 9px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--v2-ink-3);
+  border: 1px dashed var(--v2-rule);
+  padding: 2px 6px;
+}
+.v2 .pb-stores__row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.v2 .pb-store {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 8px 13px 8px 10px;
+  border: 1px solid var(--v2-rule);
+  background: var(--v2-paper-2);
+  transition: border-color .15s, transform .15s, background .15s;
+}
+.v2 .pb-store__icon { width: 22px; height: 22px; flex: none; border-radius: 5px; }
+.v2 .pb-store__name {
+  font-family: var(--v2-font-mono); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--v2-ink); white-space: nowrap;
+}
+.v2 a.pb-store:hover {
+  border-color: var(--v2-accent);
+  background: var(--v2-paper-3);
+  transform: translateY(-2px);
+}
+.v2 .pb-store--off {
+  cursor: default; border-style: dashed; background: transparent;
+}
+.v2 .pb-store--off .pb-store__icon { filter: grayscale(1); opacity: 0.4; }
+.v2 .pb-store--off .pb-store__name { color: var(--v2-ink-3); }
+
+@media (max-width: 400px) {
+  .v2 .pb-stores__row { gap: 8px; }
+  .v2 .pb-store { padding: 7px 10px 7px 8px; gap: 7px; }
+  .v2 .pb-store__name { font-size: 10px; letter-spacing: 0.08em; }
+}
