@@ -1,213 +1,692 @@
 /* ============================================
-   PetrovBit V2 — warm paper zine tokens (refined v2.1)
-   Light: cream / linen / apricot / sage  (all warm, print-feel)
-   Dark:  same names, "lights off" of each
+   PetrovBit V2 — FIELD / STEEL / BRICK
+   Общий язык взят из Pixel Tanks: поле, сталь, песок и фактурный кирпич.
+   8-битная кладка Tank 1990 используется только внутри его карточки.
+   Один набор токенов в двух состояниях: светлое и тёмное.
+   Тема берётся у системы (prefers-color-scheme), ручной выбор
+   пишет data-theme на <html> и перебивает систему.
+   Кирпич #A8402A одинаковый в обеих темах — это опознавательный цвет.
    ============================================ */
 
+/* ── СВЕТЛАЯ (база) ─────────────────────────────────────────
+   Не «тёплая бумага», а бетон: та же кирпичная стена, только днём.
+   Фон уведён из крема в серо-песочный и притемнён, чернила почти
+   чёрные, тень под кадрами жёсткая и тёмная — без этого светлая
+   расползается в молоко. */
 :root {
-  /* Default light palette: CREAM — classic warm paper */
-  --v2-paper:   #F4ECDB;
-  --v2-paper-2: #EBE0C6;
-  --v2-paper-3: #DDD0AC;
-  --v2-ink:     #2A211A;
-  --v2-ink-2:   #4D4135;
-  --v2-ink-3:   #80735F;
-  --v2-rule:        rgba(42, 33, 26, 0.20);
-  --v2-rule-soft:   rgba(42, 33, 26, 0.10);
-  --v2-accent:   #BC4F1B;   /* rust copper */
-  --v2-accent-2: #6F803B;   /* warm olive */
-  --v2-stamp:    #BC4F1B;
+  --v2-paper:   #D5D2C4;   /* выгоревшая карта */
+  --v2-paper-2: #C8C6B5;   /* поле / панель */
+  --v2-paper-3: #B9B9A5;   /* панель глубже */
+  --v2-ink:     #111713;
+  --v2-ink-2:   #303A31;
+  --v2-ink-3:   #465247;
+  --v2-ink-4:   #596159;
+  --v2-rule:        #9EA291;
+  --v2-rule-soft:   rgba(17, 23, 19, 0.12);
+
+  --v2-accent:   #A8402A;   /* = кирпич */
+  --v2-accent-2: #356B3B;   /* «готово» */
+  --v2-hero-accent: #356B3B;
+  --v2-stamp:    #A8402A;
+
+  --v2-brick:      #A8402A;
+  --v2-brick-deep: #BEB6A5;  /* «пустой» кирпич в прогресс-баре */
+  /* Кирпич как заливка и кирпич как мелкий текст — разные вещи:
+     #A8402A на фоне даёт всего ~4:1, для подписей 10–12px мало. */
+  --v2-brick-ink:  #8E3320;
+
+  --v2-steel:     #18231C;   /* рамка кадра */
+  --v2-steel-dim: #899187;
+  --v2-shadow:    #18231C;   /* жёсткая тень под рамкой — плакатная, не мягкая */
+  --v2-amber:     #765713;
 }
 
-/* LINEN — warm neutral, terracotta + olive (no blue!) */
-[data-palette="linen"] {
-  --v2-paper:   #F1EDE4;
-  --v2-paper-2: #E5DFCF;
-  --v2-paper-3: #D2CAB3;
-  --v2-ink:     #2A2622;
-  --v2-ink-2:   #4A4640;
-  --v2-ink-3:   #7C766C;
-  --v2-rule:        rgba(42, 38, 34, 0.20);
-  --v2-rule-soft:   rgba(42, 38, 34, 0.10);
-  --v2-accent:   #B25437;   /* warm terracotta */
-  --v2-accent-2: #5D6E47;   /* muted forest */
-  --v2-stamp:    #B25437;
+/* ── ТЁМНАЯ ────────────────────────────────────────────────
+   Два одинаковых блока: один срабатывает от системы (если
+   пользователь не выбрал светлую руками), второй — от ручного
+   выбора. Так переключатель выигрывает в обе стороны. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --v2-paper:   #0B100D;
+    --v2-paper-2: #111913;
+    --v2-paper-3: #182219;
+    --v2-ink:     #EEEBDD;
+    --v2-ink-2:   #B7B9A9;
+    --v2-ink-3:   #949C8D;
+    --v2-ink-4:   #788276;
+    --v2-rule:        #2B372E;
+    --v2-rule-soft:   rgba(242, 239, 230, 0.08);
+
+    --v2-accent:   #A8402A;
+    --v2-accent-2: #3E8E28;
+    --v2-hero-accent: #285332;
+    --v2-stamp:    #A8402A;
+
+    --v2-brick:      #A8402A;
+    --v2-brick-deep: #3E1710;
+    --v2-brick-ink:  #CE5F44;   /* на чёрном #A8402A даёт 3.2:1 — мало для подписей */
+
+    --v2-steel:     #BCC4B9;
+    --v2-steel-dim: #465047;
+    --v2-shadow:    #000000;
+    --v2-amber:     #C9902A;
+  }
 }
 
-/* APRICOT — peachy warm */
-[data-palette="apricot"] {
-  --v2-paper:   #F8E6D0;
-  --v2-paper-2: #F0D6B7;
-  --v2-paper-3: #E2BF92;
-  --v2-ink:     #3A2218;
-  --v2-ink-2:   #5C3D2D;
-  --v2-ink-3:   #8C6850;
-  --v2-rule:        rgba(58, 34, 24, 0.22);
-  --v2-rule-soft:   rgba(58, 34, 24, 0.10);
-  --v2-accent:   #C24A28;   /* deep terracotta */
-  --v2-accent-2: #6B6B33;   /* golden olive */
-  --v2-stamp:    #C24A28;
+:root[data-theme="dark"] {
+  --v2-paper:   #0B100D;
+  --v2-paper-2: #111913;
+  --v2-paper-3: #182219;
+  --v2-ink:     #EEEBDD;
+  --v2-ink-2:   #B7B9A9;
+  --v2-ink-3:   #949C8D;
+  --v2-ink-4:   #788276;
+  --v2-rule:        #2B372E;
+  --v2-rule-soft:   rgba(242, 239, 230, 0.08);
+
+  --v2-accent:   #A8402A;
+  --v2-accent-2: #3E8E28;
+  --v2-hero-accent: #285332;
+  --v2-stamp:    #A8402A;
+
+  --v2-brick:      #A8402A;
+  --v2-brick-deep: #3E1710;
+  --v2-brick-ink:  #CE5F44;   /* на чёрном #A8402A даёт 3.2:1 — мало для подписей */
+
+  --v2-steel:     #BCC4B9;
+  --v2-steel-dim: #465047;
+  --v2-shadow:    #000000;
+  --v2-amber:     #C9902A;
 }
 
-/* SAGE — green-tinted paper */
-[data-palette="sage"] {
-  --v2-paper:   #E9E7D6;
-  --v2-paper-2: #DAD7C0;
-  --v2-paper-3: #C5C2A6;
-  --v2-ink:     #1F2A22;
-  --v2-ink-2:   #3D4B41;
-  --v2-ink-3:   #6B776E;
-  --v2-rule:        rgba(31, 42, 34, 0.20);
-  --v2-rule-soft:   rgba(31, 42, 34, 0.10);
-  --v2-accent:   #B25C3F;   /* terracotta */
-  --v2-accent-2: #4F6B3A;   /* deep olive */
-  --v2-stamp:    #B25C3F;
-}
-
-/* PETROV — matches the live site (cool paper, navy ink, pink/yellow) */
-[data-palette="petrov"] {
-  --v2-paper:   #ECEAF2;
-  --v2-paper-2: #DFDCEA;
-  --v2-paper-3: #CCC8DA;
-  --v2-ink:     #1B1E33;
-  --v2-ink-2:   #3F4365;
-  --v2-ink-3:   #6E7390;
-  --v2-rule:        rgba(27, 30, 51, 0.20);
-  --v2-rule-soft:   rgba(27, 30, 51, 0.10);
-  --v2-accent:   #D6485E;   /* matches the pink logo */
-  --v2-accent-2: #B3851E;   /* warm ochre */
-  --v2-stamp:    #D6485E;
-}
-
-/* ── DARK VARIANTS ─────────────────────────────────────────
-   Each dark = "lights-off" version of the light palette:
-   warm dark paper, lit-up accent (slightly desaturated +
-   brightened so it doesn't burn against the dark). */
-
-[data-theme="dark"] {
-  /* Default dark = dark cream */
-  --v2-paper:   #1B1813;
-  --v2-paper-2: #231F18;
-  --v2-paper-3: #2E281F;
-  --v2-ink:     #F0E6D0;
-  --v2-ink-2:   #C8BFAA;
-  --v2-ink-3:   #8E8775;
-  --v2-rule:        rgba(240, 230, 208, 0.16);
-  --v2-rule-soft:   rgba(240, 230, 208, 0.08);
-  --v2-accent:   #E5723A;
-  --v2-accent-2: #99AB55;
-  --v2-stamp:    #E5723A;
-}
-
-[data-theme="dark"][data-palette="linen"] {
-  --v2-paper:   #1A1714;
-  --v2-paper-2: #221D18;
-  --v2-paper-3: #2B251F;
-  --v2-ink:     #EBE3D5;
-  --v2-ink-2:   #C2BBAD;
-  --v2-ink-3:   #847E72;
-  --v2-rule:        rgba(235, 227, 213, 0.16);
-  --v2-rule-soft:   rgba(235, 227, 213, 0.08);
-  --v2-accent:   #DA764D;
-  --v2-accent-2: #87976A;
-  --v2-stamp:    #DA764D;
-}
-
-[data-theme="dark"][data-palette="apricot"] {
-  --v2-paper:   #1F140C;
-  --v2-paper-2: #2A1B12;
-  --v2-paper-3: #352318;
-  --v2-ink:     #F5DDBE;
-  --v2-ink-2:   #D6BC97;
-  --v2-ink-3:   #998267;
-  --v2-rule:        rgba(245, 221, 190, 0.16);
-  --v2-rule-soft:   rgba(245, 221, 190, 0.08);
-  --v2-accent:   #ED6B3D;
-  --v2-accent-2: #B3A864;
-  --v2-stamp:    #ED6B3D;
-}
-
-[data-theme="dark"][data-palette="sage"] {
-  --v2-paper:   #131814;
-  --v2-paper-2: #1A211B;
-  --v2-paper-3: #232B25;
-  --v2-ink:     #E9E7D6;
-  --v2-ink-2:   #C0BFAC;
-  --v2-ink-3:   #847F70;
-  --v2-rule:        rgba(233, 231, 214, 0.16);
-  --v2-rule-soft:   rgba(233, 231, 214, 0.08);
-  --v2-accent:   #E07859;
-  --v2-accent-2: #8AA269;
-  --v2-stamp:    #E07859;
-}
-
-/* DARK PETROV — matches the live petrovbit.dev site */
-[data-theme="dark"][data-palette="petrov"] {
-  --v2-paper:   #161A2D;
-  --v2-paper-2: #1F2342;
-  --v2-paper-3: #282D52;
-  --v2-ink:     #ECECF5;
-  --v2-ink-2:   #B4BCD6;
-  --v2-ink-3:   #7B83A4;
-  --v2-rule:        rgba(236, 236, 245, 0.16);
-  --v2-rule-soft:   rgba(236, 236, 245, 0.08);
-  --v2-accent:   #EE5570;   /* the PetrovBit logo pink */
-  --v2-accent-2: #F2B73D;   /* the section-title yellow */
-  --v2-stamp:    #EE5570;
-}
-
-/* ── Fonts (IBM Plex covers latin/cyrillic + JP/KR/SC siblings) ── */
+/* ── Шрифты ──────────────────────────────────────────────── */
 :root {
-  --v2-font-display: "IBM Plex Serif", "Noto Serif SC", "Noto Serif CJK SC", "Noto Serif CJK JP", "Noto Serif CJK KR", Georgia, serif;
-  --v2-font-body:    "IBM Plex Sans",  "IBM Plex Sans JP", "IBM Plex Sans KR", "Noto Sans CJK SC", system-ui, sans-serif;
-  --v2-font-mono:    "IBM Plex Mono",  "Noto Sans Mono CJK SC", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --v2-font-display: "Unbounded", "IBM Plex Sans", system-ui, sans-serif;
+  --v2-font-body:    "IBM Plex Sans", "IBM Plex Sans JP", "IBM Plex Sans KR", system-ui, sans-serif;
+  --v2-font-mono:    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-/* ── Reset for artboard contents ── */
+/* ── Сброс ───────────────────────────────────────────────── */
 .v2 *, .v2 *::before, .v2 *::after { box-sizing: border-box; margin: 0; padding: 0; }
 .v2 {
   background: var(--v2-paper);
   color: var(--v2-ink);
   font-family: var(--v2-font-body);
   -webkit-font-smoothing: antialiased;
-  font-feature-settings: "ss01", "ss02";
+  overflow-x: clip;
+  background-image:
+    linear-gradient(rgba(53, 107, 59, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(53, 107, 59, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 .v2 a { color: inherit; text-decoration: none; }
 .v2 img { display: block; max-width: 100%; }
 .v2 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
 .v2 ul, .v2 ol { list-style: none; }
-
 .v2 .pixelated { image-rendering: pixelated; }
+.v2 :focus-visible { outline: 2px solid var(--v2-brick); outline-offset: 2px; }
 
-/* Soft paper grain — very subtle */
-.v2-paper-texture { position: relative; }
-.v2-paper-texture::before {
-  content: '';
-  position: absolute; inset: 0;
+/* ── Кирпичная кладка (разделитель секций) ────────────────
+   Тайл — assets/images/materials/pixel-tanks/brick-course.png (256x112),
+   собран скриптом ровно по алгоритму игры (shaders/wall_fill.frag +
+   RenderSystem.java). Модель стены в Pixel Tanks такая: одна WALL-клетка
+   занимает по вертикали 1.75 тайла — СВЕТЛЫЙ ВЕРХ ровно в тайл (вид сверху,
+   отсюда «перспектива») и ТЁМНАЯ ФРОНТ-грань в 0.75 тайла, которая свисает
+   ниже клетки (приподнятая модель, u_yShift = ppt * BRICK_DARK_FRAC).
+   Отсюда пропорция 64:48 — это Assets.BRICK_TILE_ASPECT (112/64).
+
+   Верх — brick_light.png, фаза (x mod 4, y mod 4) по мировой позиции, поэтому
+   кладка непрерывна по всей стене. Грань — brick_dark.png, фаза x mod 4, v от 0
+   сверху грани до 1 снизу. Мир смотрит Y вверх, texture v — вниз, поэтому на
+   экране светлый верх перевёрнут относительно текстуры (см. luv в шейдере).
+
+   Переход свет→тень шейдер делает не рамкой и не отдельным кантом, а
+   затенением, наложенным ТОЛЬКО на светлый верх:
+     lit   =  0.28 * max(0, 1 - din/0.12)   подсветка кромки
+     ao    = -0.20 * exp(-din/0.30)         затемнение под кромкой
+     shade =  1 + lit + ao
+   din — глубина внутрь силуэта в долях тайла (для нашей полосы это просто
+   расстояние от верхнего края). Поэтому у полосы яркая верхняя кромка,
+   провал сразу под ней и плавный выход к ровному тону — а не нарисованный
+   песочный кант, как было в стилизованном brickSingle.
+
+   Поячеечные тайлы (brickTop/brickFront/brickSingle из brick_autotile.png)
+   для полосы не годятся: у них по бокам запечена тень ячейки, а вертикальный
+   шов лежит ровно на краю тайла и совпадает во всех рядах — на повторе это
+   давало сплошную тёмную вертикаль. Игра их и не использует в renderWorld.
+
+   Полный светлый верх — это ровно тайл, то есть ДВА ряда кладки. В полосе он
+   читался тяжело, поэтому генератор оставляет один ряд (последний аргумент 32):
+   срез идёт по шву снизу клетки, а din по-прежнему считается от верхней кромки
+   полосы — подсветка и AO остаются на кромке. Тайл из-за этого 256x80.
+
+   background-size задаём обеими величинами и строго в пропорции 256:80,
+   иначе кладка растянется по одной оси.
+
+   image-rendering здесь НЕ ставим: тайл всегда уменьшается, и при pixelated
+   (Nearest) тонкий блик попадает не в каждый ряд — «гуляющие» светлые полосы.
+   Та же ловушка описана в Assets.java, там её лечат минификацией
+   MipMapLinearLinear. */
+.pb-course {
+  height: 30px;
+  background: url("../assets/images/materials/pixel-tanks/brick-course.png") repeat-x;
+  background-size: 96px 30px;
+}
+/* Тонкий: та же стена, но мельче — освещённый ряд и полоска грани. */
+.pb-course--thin { height: 12px; background-size: 64px 20px; }
+
+@media (max-width: 640px) {
+  .pb-course { height: 20px; background-size: 64px 20px; }
+  .pb-course--thin { height: 10px; background-size: 48px 15px; }
+}
+
+/* ── Кирпичная заливка заголовка ──────────────────────────
+   Текстура — кирпич из Tank 1990 (assets/brick.png, 16×16), тот же,
+   что видно в hero-видео на первом экране. Перекрашен в палитру
+   сайта: в игре он оранжево-коричневый #9C4A00, рядом с кирпичными
+   кнопками читались бы два разных красных. Шов серый — из самой
+   текстуры, ничего дорисовывать не нужно.
+
+   Тайл лежит увеличенным 8× (128×128, NEAREST): даже там, где
+   image-rendering не сработает, край остаётся резким.
+   background-size задаёт размер кирпича: в тайле два ряда, значит
+   ряд = половина размера. В буквах кирпич мельче, чем в полосе
+   (28px против 48px): на кегле 44px крупный кирпич даёт полтора
+   ряда на строку и читается как полосы, а не как кладка. */
+.pb-brick-text {
+  background-color: var(--v2-brick);
+  background-image: url("../assets/images/brick-tile.png");
+  background-size: 28px 28px;
+  image-rendering: pixelated;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.pb-brick-text--xl { background-size: 48px 48px; }
+
+@media (max-width: 640px) {
+  /* h1 падает до 27px, «4.3» до 64px — кирпич уменьшаем вместе с кеглем,
+     иначе в строку не попадает ни одного целого ряда. */
+  .pb-brick-text { background-size: 18px 18px; }
+  .pb-brick-text--xl { background-size: 32px 32px; }
+}
+
+/* ── Стальной кадр вокруг арта / видео ────────────────────
+   Никаких скруглений и размытых теней: рамка + жёсткое смещение. */
+.pb-frame {
+  border: 2px solid var(--v2-steel);
+  background: var(--v2-paper-2);
+  box-shadow: 6px 6px 0 var(--v2-shadow);
+  overflow: hidden;
+}
+@media (max-width: 640px) { .pb-frame { box-shadow: 4px 4px 0 var(--v2-shadow); } }
+
+/* ── Общая оболочка PetrovBit ─────────────────────────────
+   Это нейтральный слой студии: сетка и типографика остаются строгими,
+   а игровой характер дают настоящие материалы Pixel Tanks. */
+.pb-site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: color-mix(in srgb, var(--v2-paper) 90%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 0 rgba(17, 23, 19, .12);
+}
+.pb-site-header::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -4px;
+  height: 4px;
+  background: url("../assets/images/materials/pixel-tanks/brick-top.png") repeat-x;
+  background-size: 20px 20px;
+  image-rendering: pixelated;
+  opacity: .82;
+}
+.pb-brand-mark {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--v2-steel-dim);
+  background: #1B2A1F;
+  box-shadow: inset 0 0 0 3px #2B3B2D, 3px 3px 0 var(--v2-shadow);
+}
+.pb-brand-mark img {
+  width: 27px;
+  height: 27px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  transform: rotate(90deg);
+}
+.pb-site-nav a { position: relative; }
+.pb-site-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 100%; bottom: -7px;
+  height: 3px;
+  background: var(--v2-accent-2);
+  transition: right .16s ease;
+}
+.pb-site-nav a:hover::after { right: 0; }
+
+.pb-hero {
+  position: relative;
+  background:
+    radial-gradient(circle at 88% 14%, rgba(53, 107, 59, .18), transparent 32%),
+    linear-gradient(135deg, transparent 0 66%, rgba(168, 64, 42, .06) 66% 67%, transparent 67%);
+}
+.pb-hero > * {
+  position: relative;
+  z-index: 1;
+  max-width: 1320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.pb-hero-title {
+  font-family: var(--v2-font-display);
+  font-weight: 900;
+  font-size: clamp(42px, 7.2vw, 108px);
+  line-height: .94;
+  letter-spacing: -.065em;
+  text-transform: uppercase;
+  max-width: 1240px;
+}
+.pb-hero-title__line { display: block; }
+.pb-hero-title__line--accent {
+  width: fit-content;
+  color: #EDEBDD;
+  background: var(--v2-hero-accent);
+  padding: .06em .16em .09em .11em;
+  margin: .07em 0;
+  box-shadow: .09em .09em 0 var(--v2-shadow);
+}
+.pb-hero-map {
+  height: 72px;
+  margin-top: -8px;
+  margin-bottom: 34px;
+  overflow: hidden;
+  border: 2px solid var(--v2-steel);
+  background-image:
+    linear-gradient(90deg, rgba(11, 16, 13, .08), rgba(11, 16, 13, 0) 45%, rgba(11, 16, 13, .14)),
+    url("../assets/images/materials/pixel-tanks/map-top-view.png");
+  background-position: center 49%;
+  background-size: auto, cover;
+  box-shadow: 6px 6px 0 var(--v2-shadow);
+}
+.pb-hero-map__track {
+  position: absolute;
+  top: 0; bottom: 0; left: 31%;
+  width: 2px;
+  border-left: 2px dashed rgba(238, 235, 221, .42);
+}
+.pb-hero-map img {
+  position: absolute;
+  left: calc(31% - 30px);
+  top: 4px;
+  width: 60px;
+  height: 60px;
+  image-rendering: pixelated;
+  filter: drop-shadow(3px 4px 0 rgba(0,0,0,.42));
+}
+
+.pb-section > * {
+  max-width: 1320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.pb-section--band {
+  background-image:
+    linear-gradient(90deg, rgba(53, 107, 59, .06), transparent 32%, rgba(168, 64, 42, .05)),
+    linear-gradient(rgba(17,23,19,.035) 1px, transparent 1px);
+  background-size: auto, 100% 28px;
+}
+.pb-section-tile {
+  display: inline-grid;
+  place-items: center;
+  width: 29px;
+  height: 29px;
+  flex: none;
+  color: #F2EFE6;
+  background: #243629;
+  border: 2px solid #81917F;
+  box-shadow: 3px 3px 0 var(--v2-accent);
+  font-family: var(--v2-font-mono);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: .04em;
+}
+
+/* ── Каталог: единая сетка, три игровых диалекта ────────── */
+.pb-game-card {
+  position: relative;
+  isolation: isolate;
+}
+.pb-game-card > .pb-game-copy,
+.pb-game-card > .pb-game-figure {
+  position: relative;
+  z-index: 2;
+}
+.pb-game-ornament {
+  position: absolute;
+  z-index: 1;
   pointer-events: none;
-  opacity: 0.42;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.13 0 0 0 0 0.10 0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.16'/></svg>");
-}
-[data-theme="dark"] .v2-paper-texture::before {
-  mix-blend-mode: screen;
-  opacity: 0.38;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.91 0 0 0 0 0.82 0 0 0 0.3 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.16'/></svg>");
+  user-select: none;
 }
 
-.v2-wiggle {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 6' preserveAspectRatio='none'><path d='M1 3 Q 10 0 20 3 T 40 3 T 60 3 T 79 3' fill='none' stroke='currentColor' stroke-width='1.4' stroke-linecap='round'/></svg>");
-  background-repeat: repeat-x;
-  background-position: 0 100%;
-  background-size: 80px 6px;
-  padding-bottom: 8px;
+.pb-game-card--pix {
+  padding: 48px clamp(18px, 3vw, 38px) clamp(24px, 3vw, 38px);
+  overflow: hidden;
+  color: #EEEBDD;
+  background:
+    linear-gradient(115deg, rgba(41, 79, 47, .88), rgba(12, 21, 15, .96) 63%),
+    url("../assets/images/materials/pixel-tanks/map-top-view.png") center/cover;
+  border: 2px solid #70826F;
+  box-shadow: 8px 8px 0 #17231A;
+  --v2-paper-2: #18251B;
+  --v2-paper-3: #213228;
+  --v2-ink: #EEEBDD;
+  --v2-ink-2: #CCD0BE;
+  --v2-ink-3: #A8B09D;
+  --v2-ink-4: #84907F;
+  --v2-rule: #536657;
+  --v2-rule-soft: rgba(238, 235, 221, .09);
+  --v2-steel: #C2C8BE;
+  --v2-shadow: #0A0F0C;
+  --v2-brick-ink: #ED8257;
+}
+.pb-game-card--pix::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: 0; left: 0; right: 0;
+  height: 22px;
+  /* Тот же бесшовный тайл, что у .pb-course: поячеечный brick-front давал
+     тёмную вертикаль на каждом повторе — на 44px это читалось частоколом. */
+  background:
+    linear-gradient(rgba(255,255,255,.08), rgba(0,0,0,.12)),
+    url("../assets/images/materials/pixel-tanks/brick-course.png") repeat-x;
+  background-size: auto, 96px 30px;
+  border-bottom: 2px solid #47291A;
+}
+.pb-game-card--pix .pb-game-kicker {
+  color: #17231A !important;
+  background: #C8C7AF;
+  border-color: #E6E1CA !important;
+  box-shadow: 3px 3px 0 #A8402A;
+}
+.pb-pixel-title {
+  color: #F1EEDC;
+  font-family: var(--v2-font-display) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase;
+  text-shadow: 3px 3px 0 #111713, 5px 5px 0 #A8402A;
+}
+.pb-game-card--pix .pb-game-meta,
+.pb-game-card--pix .pb-game-description { text-shadow: 1px 1px 0 rgba(0,0,0,.25); }
+.pb-game-card--pix .pb-frame {
+  border: 3px solid #BFC6BC;
+  box-shadow: 6px 6px 0 #A8402A;
+}
+.pb-game-card--pix .pb-store { background: rgba(17, 25, 19, .82); }
+.pb-game-ornament--tank {
+  width: clamp(70px, 9vw, 120px);
+  height: auto;
+  right: 2.5%;
+  bottom: -23px;
+  opacity: .32;
+  image-rendering: pixelated;
+  transform: rotate(-20deg);
+  filter: drop-shadow(5px 6px 0 rgba(0,0,0,.42));
 }
 
-.v2 :focus-visible { outline: 2px solid var(--v2-accent); outline-offset: 2px; }
+.pb-game-card--swamp {
+  padding: 42px clamp(18px, 3vw, 38px) clamp(24px, 3vw, 38px);
+  overflow: hidden;
+  color: #F3E8CF;
+  background:
+    radial-gradient(circle at 80% 28%, rgba(202, 137, 44, .20), transparent 28%),
+    linear-gradient(125deg, #31331F, #151A13 70%);
+  border: 2px solid #80633D;
+  box-shadow: 8px 8px 0 #242014;
+  --v2-paper-2: #25291C;
+  --v2-paper-3: #303625;
+  --v2-ink: #F3E8CF;
+  --v2-ink-2: #D2C6A9;
+  --v2-ink-3: #B7A988;
+  --v2-ink-4: #968B71;
+  --v2-rule: #695C3F;
+  --v2-rule-soft: rgba(243, 232, 207, .09);
+  --v2-steel: #C8A460;
+  --v2-shadow: #17130E;
+  --v2-brick-ink: #E0AA4E;
+}
+.pb-game-card--swamp::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background:
+    repeating-linear-gradient(110deg, transparent 0 34px, rgba(224,170,78,.025) 34px 36px),
+    linear-gradient(90deg, rgba(15,22,14,.14), transparent 50%);
+}
+.pb-game-card--swamp .pb-game-kicker {
+  color: #2A2619 !important;
+  background: #D1B777;
+  border: 0 !important;
+  box-shadow: 3px 3px 0 #725033;
+}
+.pb-swamp-title {
+  color: #F1D18B;
+  font-family: var(--v2-font-display) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  text-shadow: 3px 3px 0 #382B1C;
+}
+.pb-game-card--swamp .pb-frame {
+  border: 3px solid #B99A5D;
+  box-shadow: 6px 6px 0 #4D3924;
+}
+.pb-game-card--swamp .pb-store { background: rgba(27, 31, 21, .80); }
+.pb-game-ornament--watchtower {
+  width: clamp(150px, 18vw, 250px);
+  right: -62px;
+  bottom: -70px;
+  opacity: .20;
+  filter: drop-shadow(0 10px 0 rgba(0,0,0,.18));
+}
+.pb-game-ornament--emberwatch {
+  width: clamp(90px, 11vw, 150px);
+  right: 9%;
+  top: -28px;
+  opacity: .12;
+}
 
-/* ── Store badges ─────────────────────────────────────────
-   Live store = solid badge, full-colour logo, clickable.
-   Not published there yet = dashed badge, desaturated logo, inert. */
+/* ── Служебные разделы: та же студия, без нового «четвёртого» стиля ── */
+.pb-roadmap-card {
+  min-height: 100%;
+  padding: 20px 18px 22px;
+  background: color-mix(in srgb, var(--v2-paper-2) 72%, transparent);
+  border: 1px solid var(--v2-rule);
+  box-shadow: 4px 4px 0 var(--v2-rule-soft);
+}
+.pb-roadmap-card--done { border-top: 4px solid var(--v2-accent-2); }
+.pb-roadmap-card--dev { border-top: 4px solid var(--v2-amber); }
+.pb-roadmap-card--open { border-style: dashed; border-top: 4px solid var(--v2-accent); }
+.pb-rule-card {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  background: linear-gradient(90deg, rgba(53,107,59,.055), transparent 75%);
+}
+.pb-numbers-panel {
+  position: relative;
+  padding: clamp(20px, 3vw, 38px);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--v2-paper-2) 94%, transparent), color-mix(in srgb, var(--v2-paper-2) 74%, transparent)),
+    url("../assets/images/materials/pixel-tanks/map-top-view.png") center/cover;
+  border: 1px solid var(--v2-rule);
+  box-shadow: 7px 7px 0 var(--v2-shadow);
+}
+.pb-site-footer {
+  position: relative;
+  background: var(--v2-paper-2);
+}
+.pb-site-footer::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  background: url("../assets/images/materials/pixel-tanks/brick-top.png") repeat-x;
+  background-size: 24px 24px;
+  image-rendering: pixelated;
+}
+
+@media (max-width: 1023px) {
+  .pb-game-card--pix,
+  .pb-game-card--swamp { padding-top: 44px; }
+  .pb-game-ornament--watchtower { opacity: .12; }
+}
+
+@media (max-width: 640px) {
+  .pb-site-header { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  .pb-brand-mark { width: 30px; height: 30px; }
+  .pb-brand-mark img { width: 23px; height: 23px; }
+  .pb-hero-title { font-size: clamp(35px, 11.5vw, 52px); line-height: .98; letter-spacing: -.055em; }
+  .pb-hero-title__line--accent { box-shadow: 5px 5px 0 var(--v2-shadow); }
+  .pb-hero-map { height: 54px; margin-bottom: 26px; box-shadow: 4px 4px 0 var(--v2-shadow); }
+  .pb-hero-map img { width: 46px; height: 46px; left: calc(31% - 23px); }
+  .pb-game-card--pix,
+  .pb-game-card--swamp { box-shadow: 5px 5px 0 var(--v2-shadow); }
+  .pb-game-card--pix .pb-frame,
+  .pb-game-card--swamp .pb-frame { box-shadow: 4px 4px 0 var(--v2-shadow); }
+  .pb-game-ornament--tank { opacity: .18; }
+  .pb-game-ornament--watchtower { width: 170px; right: -72px; opacity: .10; }
+  .pb-game-ornament--emberwatch { display: none; }
+  .pb-roadmap-card { padding: 18px 16px 20px; }
+  .pb-numbers-panel { box-shadow: 4px 4px 0 var(--v2-shadow); }
+}
+
+/* ── Каталог: диалект Tank 1990 ───────────────────────────
+   Общая сетка, подписи, текст и store badges остаются PetrovBit.
+   Игровой слой — чёрное поле, один ряд настоящей 8-битной кладки,
+   кирпичный заголовок и более жёсткая рамка кадра. Это пилот правила
+   «40% студия / 60% игра». */
+.pb-sr-only {
+  position: absolute;
+  width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+  border: 0;
+}
+
+.pb-game-card--tank {
+  position: relative;
+  isolation: isolate;
+  padding: 46px clamp(18px, 3vw, 36px) clamp(22px, 3vw, 36px);
+  background: #080808;
+  color: #F2EFE6;
+  border: 2px solid #4A463F;
+  box-shadow: 8px 8px 0 #141210;
+
+  /* Локальная тема карточки: общие компоненты продолжают брать те же
+     токены PetrovBit, но получают контраст игрового экрана Tank 1990. */
+  --v2-paper-2: #151311;
+  --v2-paper-3: #211B17;
+  --v2-ink: #F2EFE6;
+  --v2-ink-2: #C8C1B3;
+  --v2-ink-3: #9A9488;
+  --v2-ink-4: #827C70;
+  --v2-rule: #4A463F;
+  --v2-rule-soft: rgba(242, 239, 230, 0.08);
+  --v2-steel: #C8C8C8;
+  --v2-shadow: #A8402A;
+  --v2-brick-ink: #D86B50;
+}
+
+.pb-game-card--tank::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 18px;
+  background: url("../assets/images/brick-tile.png") repeat-x 0 0;
+  background-size: 36px 36px;
+  image-rendering: pixelated;
+  border-bottom: 2px solid #4A463F;
+}
+
+.pb-game-card--tank .pb-game-kicker {
+  color: #141210 !important;
+  background: #D8D8D0;
+  border: 0 !important;
+  box-shadow: 3px 3px 0 var(--v2-brick);
+}
+
+.pb-game-card--tank .pb-tank-title {
+  min-height: 32px;
+}
+
+.pb-game-card--tank .pb-game-subtitle {
+  color: var(--v2-brick-ink) !important;
+  letter-spacing: 0.18em !important;
+}
+
+.pb-game-card--tank .pb-game-description {
+  max-width: 520px !important;
+}
+
+.pb-game-card--tank .pb-game-meta {
+  padding: 14px 0;
+  border-top: 1px solid var(--v2-rule);
+  border-bottom: 1px solid var(--v2-rule);
+}
+
+.pb-game-card--tank .pb-frame {
+  border-width: 3px;
+  box-shadow: 6px 6px 0 var(--v2-brick);
+}
+
+.pb-game-card--tank .pb-store {
+  background: #151311;
+}
+
+.pb-game-card--tank a.pb-store:hover {
+  background: #211B17;
+}
+
+@media (max-width: 640px) {
+  .pb-game-card--tank {
+    padding-top: 40px;
+    box-shadow: 5px 5px 0 #141210;
+  }
+  .pb-game-card--tank::before {
+    height: 15px;
+    background-size: 30px 30px;
+  }
+  .pb-game-card--tank .pb-frame {
+    box-shadow: 4px 4px 0 var(--v2-brick);
+  }
+}
+
+/* ── Переключатель темы ───────────────────────────────────── */
+.pb-theme { display: inline-flex; border: 1px solid var(--v2-rule); }
+.pb-theme button {
+  /* Свой сброс: контрол ставится и вне .v2 (например, в политике). */
+  background: none; border: 0; cursor: pointer;
+  min-width: 30px; height: 26px; padding: 0 7px;
+  font-family: var(--v2-font-mono); font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--v2-ink-3);
+  border-right: 1px solid var(--v2-rule);
+  transition: color .12s, background .12s;
+}
+.pb-theme button:last-child { border-right: 0; }
+.pb-theme button:hover { color: var(--v2-ink); }
+.pb-theme button[aria-pressed="true"] { background: var(--v2-brick); color: #F2EFE6; }
+@media (max-width: 640px) { .pb-theme button { min-width: 28px; height: 30px; } }
+
+/* ── Значки магазинов ─────────────────────────────────────
+   Есть ссылка — сплошная рамка, цветной логотип, кликается.
+   Нет — пунктир, серый логотип, инертный: «сюда ещё не залито». */
 .v2 .pb-stores__head {
   display: flex; align-items: center; flex-wrap: wrap;
   gap: 10px; margin-bottom: 12px;
@@ -235,13 +714,11 @@
   color: var(--v2-ink); white-space: nowrap;
 }
 .v2 a.pb-store:hover {
-  border-color: var(--v2-accent);
+  border-color: var(--v2-brick);
   background: var(--v2-paper-3);
   transform: translateY(-2px);
 }
-.v2 .pb-store--off {
-  cursor: default; border-style: dashed; background: transparent;
-}
+.v2 .pb-store--off { cursor: default; border-style: dashed; background: transparent; }
 .v2 .pb-store--off .pb-store__icon { filter: grayscale(1); opacity: 0.4; }
 .v2 .pb-store--off .pb-store__name { color: var(--v2-ink-3); }
 

@@ -125,11 +125,11 @@ function SuggestModal({ state, setState, lang = "en", mobile = false }) {
           —— {lang === "ru" ? "форма предложений" : "submit an idea"}
         </div>
         <h3 style={{
-          fontFamily: "var(--v2-font-display)", fontWeight: 400,
+          fontFamily: "var(--v2-font-display)", fontWeight: 700,
           fontSize: mobile ? 28 : 34, letterSpacing: "-0.025em", lineHeight: 1.05,
           marginBottom: 8,
         }}>{T.title}</h3>
-        <p style={{ fontFamily: "var(--v2-font-display)", fontStyle: "italic", fontSize: 16, color: "var(--v2-ink-2)", marginBottom: 24, lineHeight: 1.4 }}>
+        <p style={{ fontFamily: "var(--v2-font-body)", fontSize: 16, color: "var(--v2-ink-2)", marginBottom: 24, lineHeight: 1.4 }}>
           {T.subtitle}
         </p>
 

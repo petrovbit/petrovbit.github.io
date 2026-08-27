@@ -1,6 +1,7 @@
-/* PetrovBit V2 — Direction B: QUIET (responsive)
-   Editorial poster. Huge serif. Lots of breathing room.
-   Adapts to mobile (375), tablet (768), and desktop (1440).
+/* PetrovBit — material language
+   Общая оболочка строится на материальном языке Pixel Tanks: сталь,
+   текстурный кирпич, поле и карта. У каждой игры внутри каталога остаётся
+   собственный диалект; Tank 1990 сохраняет алгоритмический кирпичный шрифт.
    Exports: window.PageQuiet
 */
 
@@ -11,476 +12,499 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
   const [suggest, setSuggest] = React.useState("closed");
   const openSuggest = () => setSuggest("form");
 
-  // — responsive scale tokens —
-  const padX     = mobile ? 18 : tablet ? 40 : 80;
-  const sectPadV = mobile ? 56 : tablet ? 80 : 120;
-  const heroSize = mobile ? 50  : tablet ? 88 : 144;
-  const h2Big    = mobile ? 36  : tablet ? 52 : 76;
-  const h2Med    = mobile ? 30  : tablet ? 46 : 64;
-  const gameH3   = mobile ? 38  : tablet ? 50 : 64;
-  const gameH3b  = mobile ? 32  : tablet ? 42 : 56;
-  const ruleNum  = mobile ? 30  : tablet ? 38 : 44;
-  const ruleH3   = mobile ? 20  : tablet ? 24 : 28;
-  const numHero  = mobile ? 80  : tablet ? 110 : 140;
-  const numStat  = mobile ? 30  : tablet ? 40  : 52;
-  const taglineSz = mobile ? 18 : tablet ? 22 : 26;
-  const bodySz    = mobile ? 14 : tablet ? 15 : 15.5;
-  const gap       = mobile ? 28 : tablet ? 40 : 64;
+  /* — масштаб — */
+  const padX     = mobile ? 18 : tablet ? 40 : 72;
+  const sectPadV = mobile ? 52 : tablet ? 68 : 88;
+  /* Кирпичный заголовок меряется не кеглем, а ячейкой кладки: глиф = 8 ячеек,
+     буква = 16 кирпичей в высоту. Ячейку подбирает сам BrickText по ширине,
+     здесь только потолок — иначе на широком экране заголовок съест первый экран. */
+  const h2Size   = mobile ? 24 : tablet ? 30 : 36;
+  const h3Size   = mobile ? 22 : tablet ? 28 : 34;
+  const bodySz   = mobile ? 14 : tablet ? 15 : 15.5;
+  const gap      = mobile ? 28 : tablet ? 36 : 56;
+  const narrow   = mobile || tablet;   /* одна колонка */
 
-  // section with optional ruler / kicker at top
-  const Sect = ({ num, kicker, children, last }) => (
-    <section style={{
-      padding: `${sectPadV}px ${padX}px ${sectPadV}px`,
-      borderBottom: last ? "none" : "1px solid var(--v2-rule)",
-      position: "relative",
+  /* Каждое предложение слогана — самостоятельная строка/плашка. В отличие
+     от Tank 1990 здесь намеренно нет 8-битного BrickText: это голос студии. */
+  const heroSentences = (C.tagline.match(/[^.]+\.?/g) || [C.tagline]).map(s => s.trim()).filter(Boolean);
+
+  const mono = (size = 11, color) => ({
+    fontFamily: "var(--v2-font-mono)", fontSize: size,
+    letterSpacing: "0.14em", textTransform: "uppercase",
+    color: color || "var(--v2-ink-3)",
+  });
+
+  /* Фактурный разделитель из production-тайла Pixel Tanks.
+     thin = короткий материальный шов; полноразмерная полоса на странице одна. */
+  const Course = ({ thin }) => (
+    <div className={thin ? "pb-course pb-course--thin" : "pb-course"} aria-hidden="true" />
+  );
+
+  /* Номер секции как маленькая стальная игровая плитка. */
+  const Tile = ({ children }) => <span className="pb-section-tile">{children}</span>;
+
+  const Sect = ({ id, num, kicker, title, sub, aside, children, band }) => (
+    <section id={id} className={band ? "pb-section pb-section--band" : "pb-section"} style={{
+      padding: `${sectPadV}px ${padX}px`,
+      background: band ? "var(--v2-paper-2)" : "transparent",
     }}>
       <div style={{
-        position: "absolute",
-        top: mobile ? 16 : 32,
-        left: padX, right: padX,
-        display: "flex", justifyContent: "space-between", gap: 12,
-        fontFamily: "var(--v2-font-mono)", fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase",
-        color: "var(--v2-ink-3)",
+        display: "flex", alignItems: "center", gap: 12,
+        marginBottom: mobile ? 18 : 22,
       }}>
-        <span>—— {num}</span>
-        <span>{kicker}</span>
+        <Tile>{num}</Tile>
+        <span style={mono(11)}>{kicker}</span>
+      </div>
+      <div style={{
+        display: "flex", justifyContent: "space-between", alignItems: "flex-end",
+        flexWrap: "wrap", gap: 16,
+        marginBottom: mobile ? 34 : tablet ? 44 : 56,
+      }}>
+        <h2 style={{
+          fontFamily: "var(--v2-font-display)", fontWeight: 700,
+          fontSize: h2Size, lineHeight: 1.1, letterSpacing: "-0.02em",
+          maxWidth: 720,
+        }}>
+          {title}
+          {sub && <span style={{ color: "var(--v2-ink-3)" }}> {sub}</span>}
+        </h2>
+        {aside}
       </div>
       {children}
     </section>
   );
 
+  /* Прогресс кирпичами: 6 ячеек, залитые = сделано. */
+  const BrickBar = ({ filled, total = 6, dashed = false }) => (
+    <div style={{ display: "flex", gap: 3, marginBottom: 14 }} aria-hidden="true">
+      {Array.from({ length: total }, (_, i) => (
+        <span key={i} style={{
+          flex: 1, height: 10,
+          background: dashed ? "transparent" : i < filled ? "var(--v2-brick)" : "var(--v2-brick-deep)",
+          border: dashed ? "1px dashed var(--v2-brick)" : "none",
+        }} />
+      ))}
+    </div>
+  );
+
+  const btnSolid = {
+    display: "inline-flex", alignItems: "center", gap: 8,
+    padding: mobile ? "14px 18px" : "13px 20px",
+    background: "var(--v2-brick)", color: "#F2EFE6",
+    fontFamily: "var(--v2-font-mono)", fontSize: 12, fontWeight: 500,
+    letterSpacing: "0.14em", textTransform: "uppercase",
+    border: "2px solid var(--v2-brick)",
+  };
+  const btnGhost = {
+    ...btnSolid,
+    background: "transparent", color: "var(--v2-ink)",
+    border: "2px solid var(--v2-rule)",
+  };
+
+  /* — каталог — */
+  const games = [
+    {
+      key: "tank", g: C.games.tank,
+      img: "assets/images/tank-1990-hero-poster.png", pixelated: true,
+      alt: "Tank 1990: Big Map Battle — бой на большой карте",
+      cap: "fig. 01 — big map",
+      capRight: "★ 4.3 · google play",
+    },
+    {
+      key: "pix", g: C.games.pix,
+      img: "assets/images/pixel-tanks-keyart.jpeg", pixelated: false,
+      alt: "Pixel Tanks: Steel Frontier — key art",
+      cap: "fig. 02 — key art",
+      capRight: "60 fps",
+    },
+    {
+      key: "swamp", g: C.games.swamp,
+      img: "assets/images/swamp-defense-concept.jpg", pixelated: false,
+      alt: "Swamp Defense — поселение бронзового века",
+      cap: "fig. 03 — level layout",
+      capRight: isRu ? "в работе" : "wip",
+    },
+  ];
+
+  const Frame = ({ src, alt, pixelated, ratio = "16/10", children }) => (
+    <div className="pb-frame" style={{ aspectRatio: ratio }}>
+      {children || (
+        <img src={src} alt={alt} className={pixelated ? "pixelated" : undefined}
+          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+      )}
+    </div>
+  );
+
+  const Caption = ({ left, right }) => (
+    <div style={{
+      display: "flex", justifyContent: "space-between", gap: 12,
+      marginTop: 12, ...mono(10, "var(--v2-ink-4)"),
+    }}>
+      <span>{left}</span>
+      {/* На 390px правая подпись сталкивается с левой — оставляем только левую. */}
+      {right && !mobile && <span>{right}</span>}
+    </div>
+  );
+
+  /* Герой: текст и кадр как два блока — на телефоне кадр
+     поднимается сразу под заголовок, чтобы игру было видно без скролла. */
+  const heroCopy = (
+    <React.Fragment>
+      <p style={{
+        fontSize: bodySz, lineHeight: 1.65, color: "var(--v2-ink-2)",
+        maxWidth: 460, marginBottom: mobile ? 24 : 28,
+      }}>
+        {C.intro}
+      </p>
+      <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+        <a href="#games" style={btnSolid}>{C.seeGames} →</a>
+        <a href="#plan" style={btnGhost}>{isRu ? "что дальше" : "what's next"}</a>
+      </div>
+    </React.Fragment>
+  );
+
+  const heroFrame = (
+    <div>
+      <Frame ratio="20/9">
+        <GameVideo posterOnly={mobile} />
+      </Frame>
+      <Caption left="fig. 00 — tank 1990, big map mode"
+        right={isRu ? "снято на телефон" : "captured on phone"} />
+    </div>
+  );
+
   return (
     <div className="v2" style={{ background: "var(--v2-paper)", color: "var(--v2-ink)", minHeight: "100%" }}>
-      {/* ─── MASTHEAD ─── */}
-      <header style={{
-        display: mobile ? "flex" : "grid",
-        gridTemplateColumns: mobile ? undefined : "1fr auto 1fr",
-        flexDirection: mobile ? "row" : undefined,
-        alignItems: "center", justifyContent: mobile ? "space-between" : undefined,
-        padding: mobile ? "16px 18px" : `24px ${padX}px`,
-        borderBottom: "1px solid var(--v2-ink)",
+
+      {/* ─── ШАПКА ─── */}
+      <header className="pb-site-header" style={{
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        gap: 16, padding: mobile ? "14px 18px" : `18px ${padX}px`,
+        borderBottom: "1px solid var(--v2-rule)",
       }}>
-        {!mobile && (
-          <div style={{ fontFamily: "var(--v2-font-mono)", fontSize: 11, color: "var(--v2-ink-2)", letterSpacing: "0.16em", textTransform: "uppercase" }}>
-            {isRu ? "выпуск vol. 02" : "issue vol. 02"} · {isRu ? "лето 2026" : "summer 2026"}
-          </div>
+        <a className="pb-brand" href="#top" style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <span className="pb-brand-mark" aria-hidden="true">
+            <img src="assets/images/materials/pixel-tanks/tank-steel.png" alt="" />
+          </span>
+          <span style={{
+            fontFamily: "var(--v2-font-display)", fontWeight: 700,
+            fontSize: mobile ? 14 : 16, letterSpacing: "-0.02em",
+          }}>petrovbit</span>
+        </a>
+
+        {!mobile && !tablet && (
+          <nav className="pb-site-nav" style={{ display: "flex", gap: 26 }}>
+            {[
+              ["#games",   isRu ? "каталог"  : "catalog"],
+              ["#plan",    isRu ? "план"     : "plan"],
+              ["#rules",   isRu ? "правила"  : "rules"],
+              ["#numbers", isRu ? "цифры"    : "numbers"],
+            ].map(([h, t]) => (
+              <a key={h} href={h} style={mono(11, "var(--v2-ink-2)")}>{t}</a>
+            ))}
+          </nav>
         )}
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <PixelTank size={mobile ? 14 : 16} color="currentColor" treads="var(--v2-accent)" />
-          <Logo size={mobile ? 14 : 16} withDot={false} />
-        </div>
-        <div style={{ justifySelf: mobile ? undefined : "end", display: "flex", alignItems: "center", gap: mobile ? 12 : 18 }}>
-          {!mobile && !tablet && (
-            <span style={{ fontFamily: "var(--v2-font-mono)", fontSize: 11, color: "var(--v2-ink-2)", letterSpacing: "0.14em", textTransform: "uppercase" }}>
-              {isRu ? "тираж 1 шт." : "print run · 1"}
-            </span>
-          )}
+
+        <div style={{ display: "flex", alignItems: "center", gap: mobile ? 10 : 16 }}>
           <LangToggle lang={lang} setLang={setLang} />
+          <ThemeToggle lang={lang} />
         </div>
       </header>
 
-      {/* ─── HERO ─── */}
-      <section style={{ padding: `${mobile ? 48 : tablet ? 72 : 100}px ${padX}px ${mobile ? 60 : tablet ? 90 : 120}px`, position: "relative" }}>
-        {/* tiny mono caption top */}
-        <div style={{
-          display: "flex", justifyContent: "space-between", gap: 12,
-          marginBottom: mobile ? 36 : tablet ? 56 : 80,
-          fontFamily: "var(--v2-font-mono)", fontSize: 10, color: "var(--v2-ink-3)",
-          letterSpacing: "0.18em", textTransform: "uppercase",
-        }}>
-          <span>—— cover story</span>
-          <span>{isRu ? "от первого лица" : "first-person"} ——</span>
+      {/* ─── ГЕРОЙ ─── */}
+      <section id="top" className="pb-hero" style={{
+        padding: `${mobile ? 34 : tablet ? 48 : 60}px ${padX}px ${mobile ? 44 : tablet ? 60 : 76}px`,
+      }}>
+        <div style={{ ...mono(10, "var(--v2-ink-4)"), marginBottom: mobile ? 16 : 20 }}>
+          {C.by}
         </div>
 
-        <h1 style={{
-          fontFamily: "var(--v2-font-display)", fontWeight: 400,
-          fontSize: heroSize, lineHeight: 0.9, letterSpacing: "-0.04em",
-          marginBottom: mobile ? 32 : tablet ? 44 : 56,
-          color: "var(--v2-ink)",
-        }}>
-          {isRu ? (
-            <>
-              Пиксели<br/>
-              <span style={{ fontStyle: "italic", color: "var(--v2-ink-2)" }}>для кармана.</span>
-            </>
-          ) : (
-            <>
-              Pixels<br/>
-              <span style={{ fontStyle: "italic", color: "var(--v2-ink-2)" }}>for pocket screens.</span>
-            </>
-          )}
+        <h1 className="pb-hero-title" style={{ margin: 0, marginBottom: mobile ? 26 : 34 }}>
+          {heroSentences.map((line, i) => (
+            <span className={i === 1 ? "pb-hero-title__line pb-hero-title__line--accent" : "pb-hero-title__line"} key={line}>
+              {line}
+            </span>
+          ))}
         </h1>
 
-        {/* video + caption row */}
+        <div className="pb-hero-map" aria-hidden="true">
+          <span className="pb-hero-map__track" />
+          <img src="assets/images/materials/pixel-tanks/tank-steel.png" alt="" />
+        </div>
+
         <div style={{
           display: "grid",
-          gridTemplateColumns: mobile ? "1fr" : "1.05fr 0.65fr",
-          gap: mobile ? 36 : tablet ? 48 : 72,
-          alignItems: mobile ? "stretch" : "end",
+          gridTemplateColumns: mobile ? "1fr" : tablet ? "1fr" : "minmax(0, 5fr) minmax(0, 7fr)",
+          gap: mobile ? 26 : tablet ? 40 : 56,
+          alignItems: "start",
         }}>
-          <div>
-            <div style={{
-              aspectRatio: "20/9", background: "#0E0E12",
-              border: "1px solid var(--v2-ink)",
-              overflow: "hidden",
-            }}>
-              <GameVideo posterOnly={mobile || tablet} />
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginTop: 10, fontFamily: "var(--v2-font-mono)", fontSize: 10, color: "var(--v2-ink-3)", letterSpacing: "0.16em", textTransform: "uppercase" }}>
-              <span>fig. 01 — tank 1990, big map mode</span>
-              {!mobile && <span>{isRu ? "снято на телефон" : "captured on phone"}</span>}
-            </div>
-          </div>
-          <div style={{ paddingBottom: mobile ? 0 : 8 }}>
-            <p style={{ fontFamily: "var(--v2-font-display)", fontStyle: "italic", fontSize: taglineSz, lineHeight: 1.3, color: "var(--v2-ink)", marginBottom: mobile ? 18 : 28, letterSpacing: "-0.01em" }}>
-              {C.tagline}
-            </p>
-            <p style={{ fontSize: bodySz, lineHeight: 1.6, color: "var(--v2-ink-2)", marginBottom: mobile ? 22 : 28 }}>
-              {C.intro}
-            </p>
-            <div style={{ display: "flex", alignItems: "center", gap: mobile ? 16 : 22, flexWrap: "wrap" }}>
-              <a href="#games" style={{
-                fontFamily: "var(--v2-font-mono)", fontSize: 12, letterSpacing: "0.18em",
-                textTransform: "uppercase", color: "var(--v2-ink)",
-                borderBottom: "2px solid var(--v2-ink)", paddingBottom: 4,
-              }}>
-                {C.seeGames} →
-              </a>
-              <span style={{ fontFamily: "var(--v2-font-mono)", fontSize: 10, color: "var(--v2-ink-3)", letterSpacing: "0.14em" }}>
-                {C.by}
-              </span>
-            </div>
-          </div>
+          {narrow ? (
+            <React.Fragment>
+              {heroFrame}
+              <div>{heroCopy}</div>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <div>{heroCopy}</div>
+              {heroFrame}
+            </React.Fragment>
+          )}
         </div>
       </section>
 
-      {/* ─── GAMES — editorial spreads ─── */}
-      <Sect num="01" kicker={isRu ? "каталог · 3 / 3" : "catalog · 3 / 3"}>
-        <h2 style={{
-          fontFamily: "var(--v2-font-display)", fontWeight: 400,
-          fontSize: h2Big, letterSpacing: "-0.03em", lineHeight: 0.95,
-          marginBottom: mobile ? 40 : tablet ? 56 : 72,
-          maxWidth: 900,
-        }}>
-          {C.games.heading} <span style={{ fontStyle: "italic", color: "var(--v2-ink-3)" }}>{C.games.headingSub}</span>
-        </h2>
+      <Course />
 
-        {/* Game 1 — Tank 1990 */}
-        <article style={{
-          display: "grid",
-          gridTemplateColumns: mobile ? "1fr" : "1fr 1.2fr",
-          gap, marginBottom: mobile ? 56 : 100, alignItems: "start",
-        }}>
-          <div style={{ order: mobile ? 2 : 1 }}>
-            <MonoLabel>{C.games.tank.kicker}</MonoLabel>
-            <h3 style={{
-              fontFamily: "var(--v2-font-display)", fontWeight: 400,
-              fontSize: gameH3, letterSpacing: "-0.025em", lineHeight: 0.96,
-              marginTop: 16, marginBottom: 6,
-            }}>
-              {C.games.tank.title}
-            </h3>
-            <p style={{ fontFamily: "var(--v2-font-display)", fontStyle: "italic", fontSize: mobile ? 18 : 22, color: "var(--v2-ink-2)", marginBottom: 22 }}>
-              {C.games.tank.sub}
-            </p>
-            <p style={{ fontSize: bodySz, lineHeight: 1.65, color: "var(--v2-ink-2)", maxWidth: 460, marginBottom: 26 }}>
-              {C.games.tank.body}
-            </p>
-            <dl style={{
-              display: "grid",
-              gridTemplateColumns: mobile ? "auto 1fr" : "repeat(2, auto 1fr)",
-              rowGap: 8, columnGap: 22,
-              fontFamily: "var(--v2-font-mono)", fontSize: 11, color: "var(--v2-ink-2)", marginBottom: 26,
-            }}>
-              {C.games.tank.meta.map(([k, v]) => (
-                <React.Fragment key={k}>
-                  <dt style={{ color: "var(--v2-ink-3)", textTransform: "uppercase", letterSpacing: "0.12em" }}>{k}</dt>
-                  <dd style={{ color: "var(--v2-ink)" }}>{v}</dd>
-                </React.Fragment>
-              ))}
-            </dl>
-            <StoreBadges game="tank" lang={lang} />
-          </div>
-          <figure style={{ margin: 0, order: mobile ? 1 : 2 }}>
-            <div style={{ border: "1px solid var(--v2-ink)" }}>
-              <img src="assets/images/tank-1990-hero-poster.png" className="pixelated" alt="Tank 1990: Big Map Battle — gameplay on a huge map"
-                style={{ width: "100%", aspectRatio: "16/10", objectFit: "cover", display: "block" }} />
-            </div>
-            <figcaption style={{ fontFamily: "var(--v2-font-mono)", fontSize: 10, color: "var(--v2-ink-3)", letterSpacing: "0.16em", textTransform: "uppercase", marginTop: 10, display: "flex", justifyContent: "space-between", gap: 10 }}>
-              <span>fig. 02 — big map, "1990" in bricks</span>
-              <span>★ 4.3 · google play</span>
-            </figcaption>
-          </figure>
-        </article>
+      {/* ─── 01 КАТАЛОГ ─── */}
+      <Sect id="games" num="01" kicker={C.games.sect}
+        title={C.games.heading} sub={C.games.headingSub}>
+        {games.map(({ key, g, img, alt, pixelated, cap, capRight }, i) => {
+          const flip = i % 2 === 1;
+          const text = (
+            <div className={`pb-game-copy pb-game-copy--${key}`}>
+              <span className="pb-game-kicker" style={{
+                display: "inline-block", padding: "4px 8px", marginBottom: 14,
+                border: "1px solid var(--v2-rule)", ...mono(10, "var(--v2-ink-2)"),
+              }}>{g.kicker}</span>
+              {/* Названия игр и пунктов плана — Plex Sans: Unbounded хорош на
+                  крупном кегле, а на 18–34px в карточках просто шумит.
+                  Исключение — Tank 1990: его название складывается тем же
+                  игровым алгоритмом из кирпичей, что прежний hero. */}
+              {key === "tank" ? (
+                <h3 className="pb-tank-title" style={{ marginBottom: mobile ? 12 : 16 }}>
+                  <span className="pb-sr-only">{g.title}</span>
+                  <BrickText
+                    lines={["TANK", "1990"]}
+                    cell={mobile ? 4 : 6}
+                    lineGap={1}
+                    decorative
+                  />
+                </h3>
+              ) : (
+                <h3 className={key === "pix" ? "pb-pixel-title" : "pb-swamp-title"} style={{
+                  fontFamily: "var(--v2-font-body)", fontWeight: 600,
+                  fontSize: h3Size, lineHeight: 1.1, letterSpacing: "-0.015em",
+                  marginBottom: 6,
+                }}>{g.title}</h3>
+              )}
+              <div className="pb-game-subtitle" style={{ ...mono(12, "var(--v2-brick-ink)"), marginBottom: 18 }}>{g.sub}</div>
+              <p className="pb-game-description" style={{
+                fontSize: bodySz, lineHeight: 1.65, color: "var(--v2-ink-2)",
+                maxWidth: 480, marginBottom: 22,
+              }}>{g.body}</p>
 
-        {/* Game 2 — Pixel Tanks */}
-        <article style={{
-          display: "grid",
-          gridTemplateColumns: mobile ? "1fr" : "1.2fr 1fr",
-          gap, marginBottom: mobile ? 56 : 100, alignItems: "start",
-        }}>
-          <figure style={{ margin: 0 }}>
-            <div style={{ border: "1px solid var(--v2-ink)" }}>
-              <img src="assets/images/pixel-tanks-keyart.jpeg" alt="Pixel Tanks: Steel Frontier — key art"
-                style={{ width: "100%", aspectRatio: "16/10", objectFit: "cover", display: "block", filter: "saturate(0.95)" }} />
-            </div>
-            <figcaption style={{ fontFamily: "var(--v2-font-mono)", fontSize: 10, color: "var(--v2-ink-3)", letterSpacing: "0.16em", textTransform: "uppercase", marginTop: 10 }}>
-              fig. 03 — key art, work in progress
-            </figcaption>
-          </figure>
-          <div>
-            <MonoLabel color="var(--v2-accent)">{C.games.pix.kicker}</MonoLabel>
-            <h3 style={{ fontFamily: "var(--v2-font-display)", fontWeight: 400, fontSize: gameH3b, letterSpacing: "-0.025em", lineHeight: 0.96, marginTop: 16, marginBottom: 6 }}>
-              {C.games.pix.title}
-            </h3>
-            <p style={{ fontFamily: "var(--v2-font-display)", fontStyle: "italic", fontSize: mobile ? 17 : 20, color: "var(--v2-ink-2)", marginBottom: 20 }}>
-              {C.games.pix.sub}
-            </p>
-            <p style={{ fontSize: bodySz, lineHeight: 1.65, color: "var(--v2-ink-2)", marginBottom: 22, maxWidth: 420 }}>
-              {C.games.pix.body}
-            </p>
-            <MonoLabel size={10}>○ {C.games.pix.when}</MonoLabel>
-            <StoreBadges game="pix" lang={lang} style={{ marginTop: 24 }} />
-          </div>
-        </article>
-
-        {/* Game 3 — Swamp Defense */}
-        <article style={{
-          display: "grid",
-          gridTemplateColumns: mobile ? "1fr" : "1fr 1.2fr",
-          gap, alignItems: "start",
-        }}>
-          <div style={{ order: mobile ? 2 : 1 }}>
-            <MonoLabel color="var(--v2-accent)">{C.games.swamp.kicker}</MonoLabel>
-            <h3 style={{
-              fontFamily: "var(--v2-font-display)", fontWeight: 400,
-              fontSize: gameH3b, letterSpacing: "-0.025em", lineHeight: 0.96,
-              marginTop: 16, marginBottom: 6,
-            }}>
-              {C.games.swamp.title}
-            </h3>
-            <p style={{ fontFamily: "var(--v2-font-display)", fontStyle: "italic", fontSize: mobile ? 17 : 20, color: "var(--v2-ink-2)", marginBottom: 20 }}>
-              {C.games.swamp.sub}
-            </p>
-            <p style={{ fontSize: bodySz, lineHeight: 1.65, color: "var(--v2-ink-2)", marginBottom: 22, maxWidth: 420 }}>
-              {C.games.swamp.body}
-            </p>
-            <MonoLabel size={10}>○ {C.games.swamp.when}</MonoLabel>
-            <StoreBadges game="swamp" lang={lang} style={{ marginTop: 24 }} />
-          </div>
-          <figure style={{ margin: 0, order: mobile ? 1 : 2 }}>
-            <div style={{ border: "1px solid var(--v2-ink)" }}>
-              <img src="assets/images/swamp-defense-concept.jpg" alt="Swamp Defense — Bronze Age settlement concept art"
-                style={{ width: "100%", aspectRatio: "16/10", objectFit: "cover", display: "block" }} />
-            </div>
-            <figcaption style={{ fontFamily: "var(--v2-font-mono)", fontSize: 10, color: "var(--v2-ink-3)", letterSpacing: "0.16em", textTransform: "uppercase", marginTop: 10 }}>
-              fig. 04 — level layout, bronze age settlement
-            </figcaption>
-          </figure>
-        </article>
-      </Sect>
-
-      {/* ─── ROADMAP ─── */}
-      <Sect num="02" kicker={isRu ? "ближайшее" : "upcoming"}>
-        <div style={{
-          display: "flex", justifyContent: "space-between", alignItems: "baseline",
-          flexWrap: "wrap", gap: 16,
-          marginBottom: mobile ? 44 : tablet ? 60 : 80,
-        }}>
-          <h2 style={{ fontFamily: "var(--v2-font-display)", fontWeight: 400, fontSize: h2Med, letterSpacing: "-0.025em", lineHeight: 1, maxWidth: 900 }}>
-            {C.roadmap.heading}
-          </h2>
-          {!mobile && (
-            <button onClick={openSuggest} style={{
-              padding: "10px 16px",
-              border: "1px solid var(--v2-ink)",
-              background: "transparent",
-              color: "var(--v2-ink)",
-              fontFamily: "var(--v2-font-mono)", fontSize: 12, fontWeight: 500,
-              letterSpacing: "0.1em", textTransform: "uppercase",
-              cursor: "pointer", whiteSpace: "nowrap",
-            }}>{ST.cta} →</button>
-          )}
-        </div>
-
-        {mobile ? (
-          /* Vertical timeline for mobile */
-          <ol style={{ position: "relative", padding: 0, margin: 0, listStyle: "none" }}>
-            <span style={{ position: "absolute", left: 6, top: 6, bottom: 6, width: 1, background: "var(--v2-ink)" }} />
-            {C.roadmap.items.map((it, i) => {
-              const isDone = it.state === "done" || it.state === "готово";
-              const isBeta = it.state === "beta" || it.state === "тест";
-              const color = isDone ? "var(--v2-accent-2)" : isBeta ? "var(--v2-accent)" : "var(--v2-ink-3)";
-              return (
-                <li key={i} style={{ position: "relative", paddingLeft: 30, paddingBottom: 28 }}>
-                  <span style={{ position: "absolute", left: 0, top: 5, width: 13, height: 13, borderRadius: "50%", background: color, boxShadow: "0 0 0 3px var(--v2-paper)" }} />
-                  <MonoLabel color={color}>{it.date} · {it.state}</MonoLabel>
-                  <div style={{ fontFamily: "var(--v2-font-display)", fontSize: 20, letterSpacing: "-0.01em", lineHeight: 1.2, marginTop: 6, marginBottom: 6 }}>{it.title}</div>
-                  <p style={{ fontSize: 13, lineHeight: 1.5, color: "var(--v2-ink-2)" }}>{it.note}</p>
-                </li>
-              );
-            })}
-            {/* Fourth slot — open suggestion */}
-            <li style={{ position: "relative", paddingLeft: 30 }}>
-              <span style={{ position: "absolute", left: 0, top: 5, width: 13, height: 13, borderRadius: "50%", border: "2px dashed var(--v2-accent)", boxShadow: "0 0 0 3px var(--v2-paper)" }} />
-              <button onClick={openSuggest} style={{
-                padding: "12px 16px",
-                border: "1px dashed var(--v2-accent)", background: "transparent",
-                color: "var(--v2-accent)",
-                fontFamily: "var(--v2-font-mono)", fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase",
-                cursor: "pointer", textAlign: "left",
-              }}>{isRu ? "✍ предложи свою идею" : "✍ suggest your idea"} →</button>
-            </li>
-          </ol>
-        ) : (
-          <div style={{ position: "relative", paddingTop: 30 }}>
-            <span style={{ position: "absolute", left: 0, right: 0, top: 22, height: 1, background: "var(--v2-ink)" }} />
-            <div style={{ display: "grid", gridTemplateColumns: tablet ? "repeat(2, 1fr)" : "repeat(4, 1fr)", gap: tablet ? 32 : 40 }}>
-              {C.roadmap.items.map((it, i) => {
-                const isDone = it.state === "done" || it.state === "готово";
-                const isBeta = it.state === "beta" || it.state === "тест";
-                const color = isDone ? "var(--v2-accent-2)" : isBeta ? "var(--v2-accent)" : "var(--v2-ink-3)";
-                return (
-                  <div key={i} style={{ position: "relative", paddingTop: 30 }}>
-                    <span style={{ position: "absolute", left: 0, top: 16, width: 14, height: 14, borderRadius: "50%", background: color, boxShadow: "0 0 0 4px var(--v2-paper)" }} />
-                    <MonoLabel color={color}>{it.date} · {it.state}</MonoLabel>
-                    <div style={{ fontFamily: "var(--v2-font-display)", fontSize: tablet ? 20 : 22, letterSpacing: "-0.01em", lineHeight: 1.15, marginTop: 12, marginBottom: 8 }}>
-                      {it.title}
-                    </div>
-                    <p style={{ fontSize: 14, lineHeight: 1.5, color: "var(--v2-ink-2)" }}>{it.note}</p>
-                  </div>
-                );
-              })}
-              {/* Fourth column — open suggestion card */}
-              <div style={{ position: "relative", paddingTop: 30 }}>
-                <span style={{ position: "absolute", left: 0, top: 16, width: 14, height: 14, borderRadius: "50%", border: "2px dashed var(--v2-accent)", boxShadow: "0 0 0 4px var(--v2-paper)" }} />
-                <button onClick={openSuggest} style={{
-                  textAlign: "left", cursor: "pointer", padding: 0,
-                  background: "transparent", border: 0, color: "inherit",
-                  display: "block", width: "100%",
+              {g.meta && (
+                <dl className="pb-game-meta" style={{
+                  display: "grid",
+                  gridTemplateColumns: mobile ? "auto 1fr" : "repeat(2, auto 1fr)",
+                  rowGap: 9, columnGap: 20, marginBottom: 24,
+                  fontFamily: "var(--v2-font-mono)", fontSize: 11,
                 }}>
-                  <MonoLabel color="var(--v2-accent)">{isRu ? "вакантно · ?" : "open · ?"}</MonoLabel>
-                  <div style={{
-                    fontFamily: "var(--v2-font-display)", fontStyle: "italic",
-                    fontSize: tablet ? 20 : 22, letterSpacing: "-0.01em", lineHeight: 1.15,
-                    marginTop: 12, marginBottom: 8, color: "var(--v2-ink)",
-                  }}>
-                    {isRu ? "Твоя идея?" : "Your idea?"}
-                  </div>
-                  <p style={{ fontSize: 14, lineHeight: 1.5, color: "var(--v2-ink-2)", marginBottom: 14 }}>
-                    {isRu
-                      ? "что хотел бы увидеть на этом слоте — расскажи."
-                      : "what would you put in this slot — tell me."}
-                  </p>
-                  <span style={{
-                    display: "inline-block",
-                    padding: "8px 14px",
-                    border: "1px dashed var(--v2-accent)",
-                    color: "var(--v2-accent)",
-                    fontFamily: "var(--v2-font-mono)", fontSize: 11,
-                    letterSpacing: "0.12em", textTransform: "uppercase",
-                  }}>{isRu ? "✍ предложи →" : "✍ suggest →"}</span>
-                </button>
-              </div>
+                  {g.meta.map(([k, v]) => (
+                    <React.Fragment key={k}>
+                      <dt style={{ color: "var(--v2-ink-4)", textTransform: "uppercase", letterSpacing: "0.12em" }}>{k}</dt>
+                      <dd style={{ color: "var(--v2-ink)" }}>{v}</dd>
+                    </React.Fragment>
+                  ))}
+                </dl>
+              )}
+
+              {g.when && (
+                <div style={{ ...mono(10, "var(--v2-ink-3)"), marginBottom: 20 }}>
+                  ○ {g.when}
+                </div>
+              )}
+
+              <StoreBadges game={key} lang={lang} />
             </div>
-          </div>
-        )}
+          );
+          const figure = (
+            <figure className="pb-game-figure" style={{ margin: 0 }}>
+              <Frame src={img} alt={alt} pixelated={pixelated} />
+              <Caption left={cap} right={capRight} />
+            </figure>
+          );
+          return (
+            <article key={key}
+              className={`pb-game-card pb-game-card--${key}`}
+              style={{
+              display: "grid",
+              gridTemplateColumns: mobile || tablet ? "1fr" : flip ? "minmax(0, 5fr) minmax(0, 7fr)" : "minmax(0, 7fr) minmax(0, 5fr)",
+              gap, alignItems: "start",
+              marginBottom: i < games.length - 1 ? (mobile ? 52 : tablet ? 64 : 84) : 0,
+            }}>
+              {key === "pix" && <img className="pb-game-ornament pb-game-ornament--tank" src="assets/images/materials/pixel-tanks/tank-steel.png" alt="" aria-hidden="true" />}
+              {key === "swamp" && <React.Fragment>
+                <img className="pb-game-ornament pb-game-ornament--watchtower" src="assets/images/materials/swamp-defense/watchtower.png" alt="" aria-hidden="true" />
+                <img className="pb-game-ornament pb-game-ornament--emberwatch" src="assets/images/materials/swamp-defense/emberwatch.png" alt="" aria-hidden="true" />
+              </React.Fragment>}
+              {mobile || tablet
+                ? <React.Fragment>{figure}{text}</React.Fragment>
+                : flip
+                  ? <React.Fragment>{text}{figure}</React.Fragment>
+                  : <React.Fragment>{figure}{text}</React.Fragment>}
+            </article>
+          );
+        })}
       </Sect>
 
-      {/* ─── RULES ─── */}
-      <Sect num="03" kicker={isRu ? "принципы" : "principles"}>
-        <h2 style={{ fontFamily: "var(--v2-font-display)", fontWeight: 400, fontSize: h2Med, letterSpacing: "-0.025em", lineHeight: 1, marginBottom: mobile ? 36 : tablet ? 56 : 72, maxWidth: 900 }}>
-          {C.rules.heading}
-        </h2>
-        <div style={{
+      <Course thin />
+
+      {/* ─── 02 ПЛАН ─── */}
+      <Sect id="plan" num="02" kicker={C.roadmap.sect} title={C.roadmap.heading}
+        aside={!mobile && (
+          <button onClick={openSuggest} style={btnGhost}>{ST.cta} →</button>
+        )}>
+        <div className="pb-roadmap-grid" style={{
           display: "grid",
-          gridTemplateColumns: mobile ? "1fr" : "1fr 1fr",
-          gap: mobile ? 24 : 48,
-          columnGap: mobile ? undefined : tablet ? 48 : 80,
+          gridTemplateColumns: mobile ? "1fr" : tablet ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
+          gap: mobile ? 30 : tablet ? 32 : 36,
+        }}>
+          {C.roadmap.items.map((it, i) => {
+            const isDone = it.state === "done" || it.state === "готово";
+            const isBeta = it.state === "beta" || it.state === "тест";
+            const filled = isDone ? 6 : isBeta ? 4 : 2;
+            const color = isDone ? "var(--v2-accent-2)" : isBeta ? "var(--v2-amber)" : "var(--v2-ink-3)";
+            return (
+              <div className={`pb-roadmap-card pb-roadmap-card--${isDone ? "done" : isBeta ? "beta" : "dev"}`} key={i}>
+                <BrickBar filled={filled} />
+                <div style={{ ...mono(10, color), marginBottom: 10 }}>{it.date} · {it.state}</div>
+                <div style={{
+                  fontFamily: "var(--v2-font-body)", fontWeight: 600,
+                  fontSize: mobile ? 17 : 18, lineHeight: 1.25, letterSpacing: "-0.01em",
+                  marginBottom: 8,
+                }}>{it.title}</div>
+                <p style={{ fontSize: 13.5, lineHeight: 1.55, color: "var(--v2-ink-2)" }}>{it.note}</p>
+              </div>
+            );
+          })}
+
+          {/* Свободный слот — предложить идею */}
+          <div className="pb-roadmap-card pb-roadmap-card--open">
+            <BrickBar filled={0} dashed />
+            <div style={{ ...mono(10, "var(--v2-brick-ink)"), marginBottom: 10 }}>
+              {isRu ? "вакантно · ?" : "open · ?"}
+            </div>
+            <div style={{
+              fontFamily: "var(--v2-font-body)", fontWeight: 600,
+              fontSize: mobile ? 17 : 18, lineHeight: 1.25, letterSpacing: "-0.01em",
+              marginBottom: 8,
+            }}>{isRu ? "Твоя идея?" : "Your idea?"}</div>
+            <p style={{ fontSize: 13.5, lineHeight: 1.55, color: "var(--v2-ink-2)", marginBottom: 14 }}>
+              {isRu ? "что хотел бы увидеть на этом слоте — расскажи."
+                    : "what would you put in this slot — tell me."}
+            </p>
+            <button onClick={openSuggest} style={{
+              padding: "9px 14px", border: "1px dashed var(--v2-brick)",
+              ...mono(11, "var(--v2-brick-ink)"),
+            }}>{isRu ? "✍ предложи →" : "✍ suggest →"}</button>
+          </div>
+        </div>
+      </Sect>
+
+      <Course thin />
+
+      {/* ─── 03 ПРАВИЛА ─── */}
+      <Sect id="rules" num="03" kicker={C.rules.sect} title={C.rules.heading}>
+        <div className="pb-rules-grid" style={{
+          display: "grid",
+          gridTemplateColumns: mobile ? "1fr" : "repeat(2, 1fr)",
+          gap: mobile ? 24 : tablet ? 32 : 44,
         }}>
           {C.rules.items.map(([t, d], i) => (
-            <div key={i} style={{
-              display: "grid",
-              gridTemplateColumns: mobile ? "44px 1fr" : "60px 1fr",
-              gap: mobile ? 14 : 20,
-              alignItems: "baseline",
-              paddingBottom: 22,
-              borderBottom: "1px solid var(--v2-rule)",
+            <div className="pb-rule-card" key={i} style={{
+              borderLeft: "3px solid var(--v2-brick)",
+              paddingLeft: mobile ? 16 : 20,
             }}>
-              <span style={{ fontFamily: "var(--v2-font-display)", fontStyle: "italic", fontSize: ruleNum, color: "var(--v2-accent)", lineHeight: 1, letterSpacing: "-0.02em" }}>
-                {String(i+1).padStart(2,"0")}
-              </span>
-              <div>
-                <div style={{ fontFamily: "var(--v2-font-display)", fontSize: ruleH3, letterSpacing: "-0.015em", marginBottom: 4 }}>{t}.</div>
-                <p style={{ fontSize: mobile ? 13 : 14, lineHeight: 1.55, color: "var(--v2-ink-2)" }}>{d}</p>
-              </div>
+              <div style={{
+                fontFamily: "var(--v2-font-display)", fontWeight: 900,
+                fontSize: mobile ? 26 : 32, lineHeight: 1,
+                color: "var(--v2-brick)", marginBottom: 12,
+              }}>{String(i + 1).padStart(2, "0")}</div>
+              <div style={{
+                fontFamily: "var(--v2-font-display)", fontWeight: 700,
+                fontSize: mobile ? 16 : 18, lineHeight: 1.25, letterSpacing: "-0.02em",
+                marginBottom: 8,
+              }}>{t}</div>
+              <p style={{ fontSize: bodySz, lineHeight: 1.6, color: "var(--v2-ink-2)" }}>{d}</p>
             </div>
           ))}
         </div>
       </Sect>
 
-      {/* ─── NUMBERS ─── */}
-      <Sect num="04" kicker={C.numbers.sect} last>
-        <h2 style={{ fontFamily: "var(--v2-font-display)", fontWeight: 400, fontSize: h2Med, letterSpacing: "-0.025em", lineHeight: 1, marginBottom: mobile ? 32 : tablet ? 48 : 64, maxWidth: 900 }}>
-          {C.numbers.heading}
-        </h2>
-        <div style={{
+      <Course thin />
+
+      {/* ─── 04 ЦИФРЫ ─── */}
+      <Sect id="numbers" num="04" kicker={C.numbers.sect} title={C.numbers.heading} band>
+        <div className="pb-numbers-panel" style={{
           display: "grid",
-          gridTemplateColumns: mobile ? "1fr" : "auto 1fr 1fr 1fr",
-          gap: mobile ? 24 : tablet ? 36 : 60,
+          gridTemplateColumns: mobile ? "1fr" : "auto repeat(3, 1fr)",
+          gap: mobile ? 26 : tablet ? 32 : 48,
           alignItems: "end",
-          paddingBottom: mobile ? 22 : 28,
-          borderBottom: "1px solid var(--v2-ink)",
+          paddingBottom: mobile ? 22 : 26,
+          borderBottom: "2px solid var(--v2-rule)",
         }}>
           <div>
-            <span style={{ fontFamily: "var(--v2-font-display)", fontSize: numHero, letterSpacing: "-0.04em", lineHeight: 0.85, color: "var(--v2-accent)", display: "block" }}>
-              {C.numbers.rating}
-            </span>
-            <div style={{ color: "var(--v2-accent)", fontSize: 18, letterSpacing: "0.16em", marginTop: 6 }}>★ ★ ★ ★ <span style={{ opacity: 0.3 }}>★</span></div>
-            <MonoLabel size={10}>{C.numbers.ratingNote}</MonoLabel>
+            <span className="pb-brick-text pb-brick-text--xl" style={{
+              fontFamily: "var(--v2-font-display)", fontWeight: 900,
+              fontSize: mobile ? 64 : tablet ? 80 : 96, lineHeight: 0.9,
+              letterSpacing: "-0.05em", display: "block",
+            }}>{C.numbers.rating}</span>
+            <div style={{ color: "var(--v2-brick)", fontSize: 16, letterSpacing: "0.18em", margin: "10px 0 6px" }}>
+              ★ ★ ★ ★ <span style={{ opacity: 0.3 }}>★</span>
+            </div>
+            <div style={mono(10, "var(--v2-ink-3)")}>{C.numbers.ratingNote}</div>
           </div>
+
           {mobile ? (
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, paddingTop: 14, borderTop: "1px solid var(--v2-rule)" }}>
+            <div style={{
+              display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20,
+              paddingTop: 18, borderTop: "1px solid var(--v2-rule)",
+            }}>
               {C.numbers.stats.map(([k, v]) => (
                 <div key={k}>
-                  <div style={{ fontFamily: "var(--v2-font-display)", fontSize: numStat, letterSpacing: "-0.025em", lineHeight: 1, marginBottom: 6 }}>{v}</div>
-                  <MonoLabel size={10}>{k}</MonoLabel>
+                  <div style={{
+                    fontFamily: "var(--v2-font-display)", fontWeight: 700,
+                    fontSize: 28, lineHeight: 1, letterSpacing: "-0.03em", marginBottom: 8,
+                  }}>{v}</div>
+                  <div style={mono(10, "var(--v2-ink-3)")}>{k}</div>
                 </div>
               ))}
             </div>
           ) : (
             C.numbers.stats.slice(0, 3).map(([k, v]) => (
               <div key={k}>
-                <div style={{ fontFamily: "var(--v2-font-display)", fontSize: numStat, letterSpacing: "-0.025em", lineHeight: 1, marginBottom: 8 }}>{v}</div>
-                <MonoLabel size={10}>{k}</MonoLabel>
+                <div style={{
+                  fontFamily: "var(--v2-font-display)", fontWeight: 700,
+                  fontSize: tablet ? 34 : 42, lineHeight: 1, letterSpacing: "-0.03em", marginBottom: 10,
+                }}>{v}</div>
+                <div style={mono(10, "var(--v2-ink-3)")}>{k}</div>
               </div>
             ))
           )}
         </div>
-        <p style={{ fontFamily: "var(--v2-font-display)", fontStyle: "italic", fontSize: mobile ? 14 : 16, color: "var(--v2-ink-3)", marginTop: 18 }}>
+        <p style={{ fontSize: mobile ? 13 : 14, color: "var(--v2-ink-3)", marginTop: 18 }}>
           * {C.numbers.footnote}
         </p>
       </Sect>
 
-      {/* ─── FOOTER ─── */}
-      <footer style={{
-        padding: mobile ? "32px 18px" : `44px ${padX}px`,
-        borderTop: "1px solid var(--v2-ink)",
-        display: "flex",
+      {/* ─── ПОДВАЛ ─── */}
+      <footer className="pb-site-footer" style={{
+        padding: mobile ? "30px 18px" : `36px ${padX}px`,
+        borderTop: "1px solid var(--v2-rule)",
+        display: "flex", flexWrap: "wrap",
         flexDirection: mobile ? "column" : "row",
         justifyContent: "space-between",
         alignItems: mobile ? "flex-start" : "center",
-        gap: mobile ? 14 : 18, flexWrap: "wrap",
+        gap: mobile ? 16 : 18,
       }}>
-        <span style={{ fontFamily: "var(--v2-font-mono)", fontSize: 11, color: "var(--v2-ink-2)", letterSpacing: "0.14em" }}>
-          {C.footer.copy}
-        </span>
-        <div style={{ display: "flex", gap: mobile ? 16 : 22, alignItems: "center", flexWrap: "wrap", fontFamily: "var(--v2-font-mono)", fontSize: 11, color: "var(--v2-ink-2)", letterSpacing: "0.14em" }}>
-          {C.footer.links.map(([t, h]) => <a key={t} href={h} style={{ color: "inherit" }}>{t}</a>)}
+        <span style={mono(11, "var(--v2-ink-3)")}>{C.footer.copy}</span>
+        <div style={{ display: "flex", gap: mobile ? 16 : 22, flexWrap: "wrap", alignItems: "center" }}>
+          {C.footer.links.map(([t, h]) => (
+            <a key={t} href={h} style={mono(11, "var(--v2-ink-2)")}>{t}</a>
+          ))}
         </div>
       </footer>
 
-      {/* ─── Suggestion modal (overlays the artboard) ─── */}
       <SuggestModal state={suggest} setState={setSuggest} lang={lang} mobile={mobile} />
     </div>
   );

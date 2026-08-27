@@ -26,7 +26,11 @@ const PB_STORE_LINKS = {
     appgallery: "https://appgallery.huawei.com/app/C118398789",
     palm:       "https://www.palmplaystore.com/detail/dev.petrovbit.tank1990",
   },
-  pix: {},
+  pix: {
+    /* Play listing is submitted but may still 404 until review clears. */
+    gplay:      "https://play.google.com/store/apps/details?id=dev.petrovbit.pixeltanks",
+    rustore:    "https://www.rustore.ru/catalog/app/dev.petrovbit.pixeltanks",
+  },
   swamp: {},
 };
 
@@ -35,7 +39,7 @@ const PB_STORE_LINKS = {
 const PB_CONTENT = {
   en: {
     tagline: "One dev. Three games. Zero marketing budget.",
-    intro: "Indie mobile arcades made in a small flat near Moscow. Pixel-art and stylized retro gameplay, fully offline, no ads mid-fight — the kind of games I'd want on my own phone.",
+    intro: "Indie mobile arcades made on the road — mostly around Southeast Asia, from cafés, guesthouses and departure lounges. Pixel-art and stylized retro gameplay, fully offline, no ads mid-fight — the kind of games I'd want on my own phone.",
     by: "by mikhail petrov · petrovbit · since 2024",
     seeGames: "see the games",
     games: {
@@ -51,11 +55,11 @@ const PB_CONTENT = {
         meta: [["genre", "8-bit arcade"], ["campaign", "30+ levels + editor"], ["gamepad", "dualshock · xbox · tv"], ["offline", "always"]],
       },
       pix: {
-        kicker: "closed beta · summer 2026",
+        kicker: "shipped · august 2026",
         title: "Pixel Tanks",
         sub: "Steel Frontier",
-        body: "The online co-op follow-up: up to four players hold the line together on one big map. Meadows, forests, rivers with wooden bridges, highlands and desert — all destructible, every shot leaves craters and rubble. Steady 60 fps even on old phones and TV boxes. Ships when it's good, not when the calendar says so.",
-        when: "target release · august 2026",
+        body: "Top-down tank action on one big open map instead of a boxed-in screen. Hull and turret aim separately — drive one way, shoot another. Meadows, forests, rivers with wooden bridges, highlands and desert sands; brick crumbles, barrels blow, every shot leaves craters and rubble. Five difficulty levels, tanks rendered from 3D in 16 angles, steady 60 fps even on old phones and TV boxes.",
+        when: "other stores · september 2026",
       },
       swamp: {
         kicker: "in development · working title",
@@ -70,7 +74,7 @@ const PB_CONTENT = {
       heading: "Roughly the plan.",
       items: [
         { date: "Q1 26", state: "done",     title: "Tank 1990: Big Map Battle", note: "live on Google Play, RuStore, AppGallery & PalmStore" },
-        { date: "Aug 26", state: "beta",    title: "Pixel Tanks: Steel Frontier", note: "closed beta — polishing online co-op and netcode" },
+        { date: "Aug 26", state: "done",    title: "Pixel Tanks: Steel Frontier", note: "out on RuStore — Google Play and the rest follow in September" },
         { date: "Oct 26", state: "dev",     title: "Swamp Defense: Bronze Age", note: "alpha slice: first level, two tower lines playable" },
       ],
     },
@@ -88,18 +92,20 @@ const PB_CONTENT = {
       sect: "honest numbers",
       heading: "What I have so far.",
       rating: "4.3",
-      ratingNote: "40 reviews on Google Play",
-      stats: [["installs", "5,000+"], ["games shipped", "1"], ["games in dev", "2"], ["people on team", "1"]],
+      ratingNote: "100+ reviews across stores",
+      stats: [["installs", "10,000+"], ["games shipped", "2"], ["games in dev", "1"], ["people on team", "1"]],
       footnote: "I'll add press quotes once they exist.",
     },
     footer: {
       copy: "© 2024–2026 PetrovBit · made by Mikhail Petrov",
+      /* TODO: telegram + youtube are still "#" placeholders in BOTH locales.
+         See the TODO list in README.md. */
       links: [["privacy", "privacy-policy.html"], ["telegram", "#"], ["youtube", "#"], ["email", "mailto:contact@petrovbit.dev"]],
     },
   },
   ru: {
     tagline: "Один разраб. Три игры. Ноль маркетинга.",
-    intro: "Инди-игры для телефона, которые я делаю в маленькой квартире под Москвой. Пиксельный и стилизованный ретро-геймплей, полный офлайн, без рекламы посреди боя — такие, что и сам бы поставил.",
+    intro: "Инди-игры для телефона, которые я делаю в дороге — по большей части в Юго-Восточной Азии, из кафе, гестхаусов и залов ожидания. Пиксельный и стилизованный ретро-геймплей, полный офлайн, без рекламы посреди боя — такие, что и сам бы поставил.",
     by: "михаил петров · petrovbit · с 2024",
     seeGames: "посмотреть игры",
     games: {
@@ -115,11 +121,11 @@ const PB_CONTENT = {
         meta: [["жанр", "8-бит аркада"], ["кампания", "30+ уровней + редактор"], ["геймпад", "dualshock · xbox · tv"], ["офлайн", "всегда"]],
       },
       pix: {
-        kicker: "закрытая бета · лето 2026",
+        kicker: "вышла · август 2026",
         title: "Pixel Tanks",
         sub: "Steel Frontier",
-        body: "Продолжение с онлайн-кооперативом: до четырёх игроков держат оборону вместе на одной большой карте. Луга, леса, реки с деревянными мостами, нагорья и пустыня — всё разрушается, каждый выстрел оставляет воронки и обломки. Стабильные 60 fps даже на старых телефонах и ТВ-приставках. Выйдет когда будет хорошо, а не когда календарь скажет.",
-        when: "ориентир релиза · август 2026",
+        body: "Танковый экшен с видом сверху на одной большой карте вместо экрана-коробки. Корпус и башня наводятся отдельно: едешь в одну сторону, стреляешь в другую. Луга, леса, реки с деревянными мостами, нагорья и пески; кирпич крошится, бочки взрываются, от каждого выстрела остаются воронки и обломки. Пять уровней сложности, танки отрисованы из 3D в 16 ракурсах, стабильные 60 fps даже на старых телефонах и ТВ-приставках.",
+        when: "в остальных сторах · сентябрь 2026",
       },
       swamp: {
         kicker: "в разработке · рабочее название",
@@ -134,7 +140,7 @@ const PB_CONTENT = {
       heading: "Примерный план.",
       items: [
         { date: "Q1 26", state: "готово",   title: "Tank 1990: Big Map Battle", note: "в Google Play, RuStore, AppGallery и PalmStore" },
-        { date: "Авг 26", state: "тест",    title: "Pixel Tanks: Steel Frontier", note: "закрытая бета — полируем онлайн-кооп и сетевой код" },
+        { date: "Авг 26", state: "готово",  title: "Pixel Tanks: Steel Frontier", note: "вышла в RuStore — Google Play и остальные в сентябре" },
         { date: "Окт 26", state: "разработка", title: "Swamp Defense: Bronze Age", note: "альфа-срез: первый уровень, две линейки башен" },
       ],
     },
@@ -152,12 +158,13 @@ const PB_CONTENT = {
       sect: "честные цифры",
       heading: "Что у меня есть.",
       rating: "4.3",
-      ratingNote: "40 отзывов в Google Play",
-      stats: [["установок", "5 000+"], ["игр вышло", "1"], ["в разработке", "2"], ["в команде", "1"]],
+      ratingNote: "100+ отзывов в сторах",
+      stats: [["установок", "10 000+"], ["игр вышло", "2"], ["в разработке", "1"], ["в команде", "1"]],
       footnote: "Цитаты прессы добавлю когда появятся.",
     },
     footer: {
       copy: "© 2024–2026 PetrovBit · михаил петров",
+      /* TODO: заглушки "#" — см. список TODO в README.md. */
       links: [["конфиденциальность", "privacy-policy.html"], ["telegram", "#"], ["youtube", "#"], ["email", "mailto:contact@petrovbit.dev"]],
     },
   },
@@ -283,6 +290,44 @@ function StoreBadges({ game, lang = "ru", style }) {
   );
 }
 
+/* Тема: авто / светлая / тёмная.
+   "Авто" = снять data-theme и отдать решение prefers-color-scheme,
+   поэтому в этом режиме в localStorage ничего не лежит. Первичная
+   установка атрибута делается бут-скриптом в index.html до рендера,
+   иначе на светлой системе мигает тёмным. */
+function ThemeToggle({ lang = "ru" }) {
+  const read = () => {
+    try { return localStorage.getItem("pb-theme") || "auto"; } catch (e) { return "auto"; }
+  };
+  const [mode, setMode] = React.useState(read);
+
+  const apply = (v) => {
+    const root = document.documentElement;
+    if (v === "auto") root.removeAttribute("data-theme");
+    else root.setAttribute("data-theme", v);
+    try {
+      if (v === "auto") localStorage.removeItem("pb-theme");
+      else localStorage.setItem("pb-theme", v);
+    } catch (e) {}
+    setMode(v);
+  };
+
+  const opts = [
+    ["auto",  lang === "ru" ? "авто" : "auto", lang === "ru" ? "как в системе" : "follow system"],
+    ["light", "\u2600", lang === "ru" ? "светлая" : "light"],
+    ["dark",  "\u263E", lang === "ru" ? "тёмная"  : "dark"],
+  ];
+
+  return (
+    <div className="pb-theme" role="group" aria-label={lang === "ru" ? "Тема" : "Theme"}>
+      {opts.map(([v, label, title]) => (
+        <button key={v} onClick={() => apply(v)} title={title}
+          aria-pressed={mode === v ? "true" : "false"}>{label}</button>
+      ))}
+    </div>
+  );
+}
+
 function Stamp({ children, rotate = -4, color }) {
   return (
     <span style={{
@@ -320,5 +365,5 @@ function Socials({ size = 14, color }) {
 /* ─── Export to window so other Babel scripts can pick them up ─── */
 Object.assign(window, {
   PB_CONTENT, PB_STORES, PB_STORE_LINKS,
-  Logo, LangToggle, MonoLabel, GameVideo, PixelTank, Stamp, Socials, StoreBadges,
+  Logo, LangToggle, ThemeToggle, MonoLabel, GameVideo, PixelTank, Stamp, Socials, StoreBadges,
 });

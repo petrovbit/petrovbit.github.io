@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="dark" data-palette="linen">
+<html lang="ru">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,14 +9,24 @@
 <script src="v2/metrika.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500&family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="light dark" />
 <link rel="stylesheet" href="v2/shared.css" />
+<script>
+  /* Тема до первого кадра. Ключ общий с лендингом: выбор переносится
+     между страницами. Отсутствие ключа = «авто», решает система. */
+  (function () {
+    try {
+      var T = localStorage.getItem("pb-theme");
+      if (T === "light" || T === "dark") document.documentElement.setAttribute("data-theme", T);
+    } catch (e) {}
+  })();
+</script>
 <style>
-  /* ── alias the doc's short token names to the shared v2 palette vars.
-       shared.css defines --v2-* for all 5 palettes (cream/linen/apricot/
-       sage/petrov) × light/dark, keyed off [data-palette] / [data-theme]
-       on <html>. Aliasing here keeps a single source of truth so the doc
-       always matches the main site. ───────────────────────────────────── */
+  /* ── короткие имена токенов — псевдонимы общих --v2-*.
+       shared.css держит один набор в двух состояниях (светлое / тёмное),
+       переключение — prefers-color-scheme плюс [data-theme] на <html>.
+       Псевдонимы нужны, чтобы документ всегда совпадал с лендингом. ──── */
   :root {
     --paper:    var(--v2-paper);
     --paper-2:  var(--v2-paper-2);
@@ -63,28 +73,6 @@
   .toggle button { background: none; border: 0; cursor: pointer; font: inherit; color: var(--ink-3); padding: 2px 0; }
   .toggle button.on { color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
   .toggle .sep { opacity: 0.4; }
-
-  /* palette + theme chooser */
-  .chooser { display: inline-flex; align-items: center; gap: 12px; }
-  .pal-row { display: inline-flex; align-items: center; gap: 6px; }
-  .pal-sw {
-    width: 18px; height: 18px; padding: 0; cursor: pointer;
-    border: 1px solid var(--rule); border-radius: 50%;
-    position: relative; overflow: hidden;
-    transition: transform .12s;
-  }
-  .pal-sw:hover { transform: scale(1.12); }
-  .pal-sw[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px var(--ink); }
-  .pal-sw i { position: absolute; inset: 0; display: block; }
-  .pal-sw i::after { content: ""; position: absolute; right: 0; top: 0; width: 50%; height: 100%; background: var(--sw-ac); }
-  .theme-btn {
-    display: inline-grid; place-items: center;
-    width: 26px; height: 26px; cursor: pointer;
-    border: 1px solid var(--rule); border-radius: 50%;
-    background: transparent; color: var(--ink-2); font-size: 13px;
-    transition: color .12s, border-color .12s;
-  }
-  .theme-btn:hover { color: var(--accent); border-color: var(--accent); }
 
   /* ── document column ── */
   main { max-width: 720px; margin: 0 auto; padding: 0 24px 96px; }
@@ -176,7 +164,6 @@
   @media (max-width: 560px) {
     .masthead { padding: 14px 18px; gap: 10px 12px; }
     .mast-right { gap: 12px; }
-    .pal-sw { width: 16px; height: 16px; }
     main { padding: 0 18px 72px; }
     h2 { grid-template-columns: 1fr; gap: 4px; }
     h2::before { display: block; }
@@ -198,15 +185,10 @@
       <span>petrovbit</span>
     </a>
     <div class="mast-right">
-      <div class="chooser">
-        <div class="pal-row" id="pal-row" role="group" aria-label="Color palette">
-          <button class="pal-sw" data-palette="cream"   title="Cream"   style="background:#F4ECDB;--sw-ac:#BC4F1B;"><i></i></button>
-          <button class="pal-sw" data-palette="linen"   title="Linen"   style="background:#F1EDE4;--sw-ac:#B25437;"><i></i></button>
-          <button class="pal-sw" data-palette="apricot" title="Apricot" style="background:#F8E6D0;--sw-ac:#C24A28;"><i></i></button>
-          <button class="pal-sw" data-palette="sage"    title="Sage"    style="background:#E9E7D6;--sw-ac:#B25C3F;"><i></i></button>
-          <button class="pal-sw" data-palette="petrov"  title="Petrov"  style="background:#ECEAF2;--sw-ac:#D6485E;"><i></i></button>
-        </div>
-        <button class="theme-btn" id="theme-btn" aria-label="Toggle light / dark">☾</button>
+      <div class="pb-theme" id="theme-row" role="group" aria-label="Theme">
+        <button data-theme-mode="auto"  title="Как в системе">авто</button>
+        <button data-theme-mode="light" title="Светлая">☀</button>
+        <button data-theme-mode="dark"  title="Тёмная">☾</button>
       </div>
       <div class="toggle" id="lang-toggle">
         <button data-lang="en" class="on">EN</button>
@@ -411,44 +393,30 @@
     (function () {
       var root = document.documentElement;
 
-      // palette light/dark swatch colors (paper + accent) — must match v2/shared.css
-      var PAL = {
-        cream:   { l: ["#F4ECDB", "#BC4F1B"], d: ["#1B1813", "#E5723A"] },
-        linen:   { l: ["#F1EDE4", "#B25437"], d: ["#1A1714", "#DA764D"] },
-        apricot: { l: ["#F8E6D0", "#C24A28"], d: ["#1F140C", "#ED6B3D"] },
-        sage:    { l: ["#E9E7D6", "#B25C3F"], d: ["#131814", "#E07859"] },
-        petrov:  { l: ["#ECEAF2", "#D6485E"], d: ["#161A2D", "#EE5570"] }
-      };
-
-      // restore prefs
+      // restore prefs (тему уже поставил загрузчик в <head>)
       try {
-        var L = localStorage.getItem("pb-doc-lang");    if (L) root.setAttribute("data-lang", L);
-        var T = localStorage.getItem("pb-doc-theme");   if (T) root.setAttribute("data-theme", T);
-        var P = localStorage.getItem("pb-doc-palette"); if (P) root.setAttribute("data-palette", P);
+        var L = localStorage.getItem("pb-doc-lang"); if (L) root.setAttribute("data-lang", L);
       } catch (e) {}
-      if (!root.getAttribute("data-lang"))    root.setAttribute("data-lang", "ru");
-      if (!root.getAttribute("data-theme"))   root.setAttribute("data-theme", "dark");
-      if (!root.getAttribute("data-palette")) root.setAttribute("data-palette", "linen");
+      if (!root.getAttribute("data-lang")) root.setAttribute("data-lang", "ru");
+
+      function themeMode() {
+        try {
+          var T = localStorage.getItem("pb-theme");
+          return (T === "light" || T === "dark") ? T : "auto";
+        } catch (e) { return "auto"; }
+      }
 
       function sync() {
-        var lang  = root.getAttribute("data-lang");
-        var theme = root.getAttribute("data-theme");
-        var pal   = root.getAttribute("data-palette");
+        var lang = root.getAttribute("data-lang");
         root.setAttribute("lang", lang);
 
         document.querySelectorAll("#lang-toggle button").forEach(function (b) {
           b.classList.toggle("on", b.getAttribute("data-lang") === lang);
         });
 
-        // theme button glyph
-        document.getElementById("theme-btn").textContent = theme === "dark" ? "☾" : "☀";
-
-        // palette swatches: reflect current theme's paper+accent + active state
-        document.querySelectorAll(".pal-sw").forEach(function (b) {
-          var id = b.getAttribute("data-palette");
-          var c = PAL[id] ? (theme === "dark" ? PAL[id].d : PAL[id].l) : null;
-          if (c) { b.style.background = c[0]; b.style.setProperty("--sw-ac", c[1]); }
-          b.setAttribute("aria-pressed", id === pal ? "true" : "false");
+        var mode = themeMode();
+        document.querySelectorAll("#theme-row button").forEach(function (b) {
+          b.setAttribute("aria-pressed", b.getAttribute("data-theme-mode") === mode ? "true" : "false");
         });
       }
 
@@ -458,16 +426,15 @@
         try { localStorage.setItem("pb-doc-lang", v); } catch (e) {}
         sync();
       });
-      document.getElementById("theme-btn").addEventListener("click", function () {
-        var v = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-        root.setAttribute("data-theme", v);
-        try { localStorage.setItem("pb-doc-theme", v); } catch (e) {}
-        sync();
-      });
-      document.getElementById("pal-row").addEventListener("click", function (e) {
+      document.getElementById("theme-row").addEventListener("click", function (e) {
         var b = e.target.closest("button"); if (!b) return;
-        var v = b.getAttribute("data-palette"); root.setAttribute("data-palette", v);
-        try { localStorage.setItem("pb-doc-palette", v); } catch (e) {}
+        var v = b.getAttribute("data-theme-mode");
+        if (v === "auto") root.removeAttribute("data-theme");
+        else root.setAttribute("data-theme", v);
+        try {
+          if (v === "auto") localStorage.removeItem("pb-theme");
+          else localStorage.setItem("pb-theme", v);
+        } catch (e) {}
         sync();
       });
       sync();
