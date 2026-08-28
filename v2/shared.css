@@ -203,13 +203,16 @@
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
-.pb-brick-text--xl { background-size: 48px 48px; }
+.pb-brick-text--xl { background-size: 36px 36px; }
 
+/* Кирпич масштабируется вместе с кеглем «4.3» (72 / 60 / 52px), чтобы
+   в высоту глифа всегда попадало около двух целых рядов кладки. */
+@media (max-width: 1023px) {
+  .pb-brick-text--xl { background-size: 30px 30px; }
+}
 @media (max-width: 640px) {
-  /* h1 падает до 27px, «4.3» до 64px — кирпич уменьшаем вместе с кеглем,
-     иначе в строку не попадает ни одного целого ряда. */
   .pb-brick-text { background-size: 18px 18px; }
-  .pb-brick-text--xl { background-size: 32px 32px; }
+  .pb-brick-text--xl { background-size: 26px 26px; }
 }
 
 /* ── Стальной кадр вокруг арта / видео ────────────────────
@@ -287,11 +290,18 @@
 .pb-hero-title {
   font-family: var(--v2-font-display);
   font-weight: 900;
-  font-size: clamp(42px, 7.2vw, 108px);
-  line-height: .94;
-  letter-spacing: -.065em;
+  /* Кегль привязан к остальной типографике, а не к ширине экрана: h2 секций
+     36px, поэтому потолок заголовка 64px — это ~1.8x, крупно и всё ещё в системе.
+     Прежние 108px давали 3x, четыре строки и первый экран из одного слогана.
+     Нижняя граница 42px = потолку мобильного правила ниже, иначе на 640px
+     заголовок скачком уменьшался при РОСТЕ экрана. */
+  font-size: clamp(42px, 4.4vw, 64px);
+  line-height: .96;
+  letter-spacing: -.05em;
   text-transform: uppercase;
-  max-width: 1240px;
+  /* 18ch ≈ 1090px на потолке — влезает самая длинная строка EN
+     («Zero marketing budget.»), поэтому слоган остаётся тремя строками. */
+  max-width: 18ch;
 }
 .pb-hero-title__line { display: block; }
 .pb-hero-title__line--accent {
@@ -552,7 +562,7 @@
   .pb-site-header { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
   .pb-brand-mark { width: 30px; height: 30px; }
   .pb-brand-mark img { width: 23px; height: 23px; }
-  .pb-hero-title { font-size: clamp(35px, 11.5vw, 52px); line-height: .98; letter-spacing: -.055em; }
+  .pb-hero-title { font-size: clamp(30px, 11vw, 42px); line-height: .98; letter-spacing: -.045em; }
   .pb-hero-title__line--accent { box-shadow: 5px 5px 0 var(--v2-shadow); }
   .pb-hero-map { height: 54px; margin-bottom: 26px; box-shadow: 4px 4px 0 var(--v2-shadow); }
   .pb-hero-map img { width: 46px; height: 46px; left: calc(31% - 23px); }

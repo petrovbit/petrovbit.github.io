@@ -446,7 +446,7 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
           <div>
             <span className="pb-brick-text pb-brick-text--xl" style={{
               fontFamily: "var(--v2-font-display)", fontWeight: 900,
-              fontSize: mobile ? 64 : tablet ? 80 : 96, lineHeight: 0.9,
+              fontSize: mobile ? 52 : tablet ? 60 : 72, lineHeight: 0.9,
               letterSpacing: "-0.05em", display: "block",
             }}>{C.numbers.rating}</span>
             <div style={{ color: "var(--v2-brick)", fontSize: 16, letterSpacing: "0.18em", margin: "10px 0 6px" }}>
