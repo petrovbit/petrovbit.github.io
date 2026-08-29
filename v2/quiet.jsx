@@ -184,7 +184,7 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
       }}>
         <a className="pb-brand" href="#top" style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <span className="pb-brand-mark" aria-hidden="true">
-            <img src="assets/images/materials/pixel-tanks/tank-steel.png" alt="" />
+            <img src="assets/brand/petrovbit-mark-200.png" alt="" />
           </span>
           <span style={{
             fontFamily: "var(--v2-font-display)", fontWeight: 700,
