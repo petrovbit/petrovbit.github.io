@@ -30,6 +30,7 @@ const PB_STORE_LINKS = {
     /* Play listing is submitted but may still 404 until review clears. */
     gplay:      "https://play.google.com/store/apps/details?id=dev.petrovbit.pixeltanks",
     rustore:    "https://www.rustore.ru/catalog/app/dev.petrovbit.pixeltanks",
+    appgallery: "https://appgallery.huawei.com/app/C118527607",
   },
   swamp: {},
 };
@@ -59,7 +60,7 @@ const PB_CONTENT = {
         title: "Pixel Tanks",
         sub: "Steel Frontier",
         body: "Top-down tank action on one big open map instead of a boxed-in screen. Hull and turret aim separately — drive one way, shoot another. Meadows, forests, rivers with wooden bridges, highlands and desert sands; brick crumbles, barrels blow, every shot leaves craters and rubble. Five difficulty levels, tanks rendered from 3D in 16 angles, steady 60 fps even on old phones and TV boxes.",
-        when: "other stores · september 2026",
+        when: "palmstore · september 2026",
       },
       swamp: {
         kicker: "in development · working title",
@@ -125,7 +126,7 @@ const PB_CONTENT = {
         title: "Pixel Tanks",
         sub: "Steel Frontier",
         body: "Танковый экшен с видом сверху на одной большой карте вместо экрана-коробки. Корпус и башня наводятся отдельно: едешь в одну сторону, стреляешь в другую. Луга, леса, реки с деревянными мостами, нагорья и пески; кирпич крошится, бочки взрываются, от каждого выстрела остаются воронки и обломки. Пять уровней сложности, танки отрисованы из 3D в 16 ракурсах, стабильные 60 fps даже на старых телефонах и ТВ-приставках.",
-        when: "в остальных сторах · сентябрь 2026",
+        when: "в palmstore · сентябрь 2026",
       },
       swamp: {
         kicker: "в разработке · рабочее название",
