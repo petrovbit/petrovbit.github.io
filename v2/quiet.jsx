@@ -116,9 +116,9 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
       capRight: "60 fps",
     },
     {
-      key: "swamp", g: C.games.swamp,
-      img: "assets/images/swamp-defense-concept.jpg", pixelated: false,
-      alt: "Swamp Defense — поселение бронзового века",
+      key: "td", g: C.games.td,
+      img: "assets/images/tower-defense-concept.jpg", pixelated: false,
+      alt: "Tower Defense — поселение бронзового века",
       cap: "fig. 03 — level layout",
       capRight: isRu ? "в работе" : "wip",
     },
@@ -299,7 +299,7 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
                   />
                 </h3>
               ) : (
-                <h3 className={key === "pix" ? "pb-pixel-title" : "pb-swamp-title"} style={{
+                <h3 className={key === "pix" ? "pb-pixel-title" : "pb-td-title"} style={{
                   fontFamily: "var(--v2-font-body)", fontWeight: 600,
                   fontSize: h3Size, lineHeight: 1.1, letterSpacing: "-0.015em",
                   marginBottom: 6,
@@ -366,9 +366,9 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
               marginBottom: i < games.length - 1 ? (mobile ? 52 : tablet ? 64 : 84) : 0,
             }}>
               {key === "pix" && <img className="pb-game-ornament pb-game-ornament--tank" src="assets/images/materials/pixel-tanks/tank-steel.png" alt="" aria-hidden="true" />}
-              {key === "swamp" && <React.Fragment>
-                <img className="pb-game-ornament pb-game-ornament--watchtower" src="assets/images/materials/swamp-defense/watchtower.png" alt="" aria-hidden="true" />
-                <img className="pb-game-ornament pb-game-ornament--emberwatch" src="assets/images/materials/swamp-defense/emberwatch.png" alt="" aria-hidden="true" />
+              {key === "td" && <React.Fragment>
+                <img className="pb-game-ornament pb-game-ornament--watchtower" src="assets/images/materials/tower-defense/watchtower.png" alt="" aria-hidden="true" />
+                <img className="pb-game-ornament pb-game-ornament--emberwatch" src="assets/images/materials/tower-defense/emberwatch.png" alt="" aria-hidden="true" />
               </React.Fragment>}
               {mobile || tablet
                 ? <React.Fragment>{figure}{text}</React.Fragment>

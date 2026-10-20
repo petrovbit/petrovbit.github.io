@@ -448,7 +448,7 @@
   filter: drop-shadow(5px 6px 0 rgba(0,0,0,.42));
 }
 
-.pb-game-card--swamp {
+.pb-game-card--td {
   padding: 42px clamp(18px, 3vw, 38px) clamp(24px, 3vw, 38px);
   overflow: hidden;
   color: #F3E8CF;
@@ -469,7 +469,7 @@
   --v2-shadow: #17130E;
   --v2-brick-ink: #E0AA4E;
 }
-.pb-game-card--swamp::before {
+.pb-game-card--td::before {
   content: "";
   position: absolute;
   z-index: 0;
@@ -478,24 +478,24 @@
     repeating-linear-gradient(110deg, transparent 0 34px, rgba(224,170,78,.025) 34px 36px),
     linear-gradient(90deg, rgba(15,22,14,.14), transparent 50%);
 }
-.pb-game-card--swamp .pb-game-kicker {
+.pb-game-card--td .pb-game-kicker {
   color: #2A2619 !important;
   background: #D1B777;
   border: 0 !important;
   box-shadow: 3px 3px 0 #725033;
 }
-.pb-swamp-title {
+.pb-td-title {
   color: #F1D18B;
   font-family: var(--v2-font-display) !important;
   font-weight: 700 !important;
   text-transform: uppercase;
   text-shadow: 3px 3px 0 #382B1C;
 }
-.pb-game-card--swamp .pb-frame {
+.pb-game-card--td .pb-frame {
   border: 3px solid #B99A5D;
   box-shadow: 6px 6px 0 #4D3924;
 }
-.pb-game-card--swamp .pb-store { background: rgba(27, 31, 21, .80); }
+.pb-game-card--td .pb-store { background: rgba(27, 31, 21, .80); }
 .pb-game-ornament--watchtower {
   width: clamp(150px, 18vw, 250px);
   right: -62px;
@@ -551,7 +551,7 @@
 
 @media (max-width: 1023px) {
   .pb-game-card--pix,
-  .pb-game-card--swamp { padding-top: 44px; }
+  .pb-game-card--td { padding-top: 44px; }
   .pb-game-ornament--watchtower { opacity: .12; }
 }
 
@@ -563,9 +563,9 @@
   .pb-hero-map { height: 54px; margin-bottom: 26px; box-shadow: 4px 4px 0 var(--v2-shadow); }
   .pb-hero-map img { width: 46px; height: 46px; left: calc(31% - 23px); }
   .pb-game-card--pix,
-  .pb-game-card--swamp { box-shadow: 5px 5px 0 var(--v2-shadow); }
+  .pb-game-card--td { box-shadow: 5px 5px 0 var(--v2-shadow); }
   .pb-game-card--pix .pb-frame,
-  .pb-game-card--swamp .pb-frame { box-shadow: 4px 4px 0 var(--v2-shadow); }
+  .pb-game-card--td .pb-frame { box-shadow: 4px 4px 0 var(--v2-shadow); }
   .pb-game-ornament--tank { opacity: .18; }
   .pb-game-ornament--watchtower { width: 170px; right: -72px; opacity: .10; }
   .pb-game-ornament--emberwatch { display: none; }

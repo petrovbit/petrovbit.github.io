@@ -8,8 +8,8 @@
 - **Домен:** `petrovbit.dev` (CNAME), хостинг — GitHub Pages
 - **Репозиторий:** `petrovbit/petrovbit.github.io`, ветка `main`
 - **Стек:** статический сайт; лендинг — React JSX прямо в браузере (без сборки)
-- **Контент:** витрина игр — Tank 1990, Pixel Tanks, Swamp Defense (публичное имя
-  `tower_defence`); RU/EN
+- **Контент:** витрина игр — Tank 1990, Pixel Tanks, Tower Defense (рабочее название;
+  репозиторий игры — `tower_defence`); RU/EN
 
 ## Что здесь актуально (в git)
 

@@ -32,14 +32,16 @@ const PB_STORE_LINKS = {
     rustore:    "https://www.rustore.ru/catalog/app/dev.petrovbit.pixeltanks",
     appgallery: "https://appgallery.huawei.com/app/C118527607",
   },
-  swamp: {},
+  td: {},
 };
 
 /* Браузерные демо игр (окно DemoHost в demo.jsx). Каждое демо — свой
    GitHub Pages-репозиторий организации petrovbit, поэтому оно открывается
-   на том же домене: petrovbit.dev/<репозиторий>/. Нет записи — нет кнопки. */
+   на том же домене: petrovbit.dev/<репозиторий>/. Нет записи — нет кнопки.
+   source — метка, которой демо подписывает свои postMessage. */
 const PB_DEMO_LINKS = {
-  tank: "/tank-1990-demo/",
+  tank: { url: "/tank-1990-demo/",   source: "tank1990-demo" },
+  pix:  { url: "/pixel-tanks-demo/", source: "pixeltanks-demo" },
 };
 
 /* ─── Content (RU/EN) ──────────────────────────────────────── */
@@ -69,10 +71,10 @@ const PB_CONTENT = {
         body: "Top-down tank action on one big open map instead of a boxed-in screen. Hull and turret aim separately — drive one way, shoot another. Meadows, forests, rivers with wooden bridges, highlands and desert sands; brick crumbles, barrels blow, every shot leaves craters and rubble. Five difficulty levels, tanks rendered from 3D in 16 angles, steady 60 fps even on old phones and TV boxes.",
         when: "palmstore · september 2026",
       },
-      swamp: {
+      td: {
         kicker: "in development · working title",
-        title: "Swamp Defense",
-        sub: "Bronze Age TD",
+        title: "Tower Defense",
+        sub: "Bronze Age",
         body: "A painterly tower defense set in a Bronze Age swamp settlement under siege by giant insects. Six tower types — archer watchtowers, slingers, harpoons over the water, druid mushroom towers, a beacon sniper and fire braziers — each with seven upgrade tiers.",
         when: "target release · october 2026",
       },
@@ -83,7 +85,7 @@ const PB_CONTENT = {
       items: [
         { date: "Q1 26", state: "done",     title: "Tank 1990: Big Map Battle", note: "live on Google Play, RuStore, AppGallery & PalmStore" },
         { date: "Aug 26", state: "done",    title: "Pixel Tanks: Steel Frontier", note: "out on RuStore — Google Play and the rest follow in September" },
-        { date: "Oct 26", state: "dev",     title: "Swamp Defense: Bronze Age", note: "alpha slice: first level, two tower lines playable" },
+        { date: "Oct 26", state: "dev",     title: "Tower Defense: Bronze Age", note: "alpha slice: first level, two tower lines playable" },
       ],
     },
     rules: {
@@ -135,10 +137,10 @@ const PB_CONTENT = {
         body: "Танковый экшен с видом сверху на одной большой карте вместо экрана-коробки. Корпус и башня наводятся отдельно: едешь в одну сторону, стреляешь в другую. Луга, леса, реки с деревянными мостами, нагорья и пески; кирпич крошится, бочки взрываются, от каждого выстрела остаются воронки и обломки. Пять уровней сложности, танки отрисованы из 3D в 16 ракурсах, стабильные 60 fps даже на старых телефонах и ТВ-приставках.",
         when: "в palmstore · сентябрь 2026",
       },
-      swamp: {
+      td: {
         kicker: "в разработке · рабочее название",
-        title: "Swamp Defense",
-        sub: "Bronze Age TD",
+        title: "Tower Defense",
+        sub: "Bronze Age",
         body: "Живописный Tower Defense в болотном поселении бронзового века, осаждённом гигантскими насекомыми. Шесть типов башен — дозорные лучники, пращники, гарпуны над водой, грибные башни друидов, маяк-снайпер и огненные жаровни — у каждой семь уровней прокачки.",
         when: "ориентир релиза · октябрь 2026",
       },
@@ -149,7 +151,7 @@ const PB_CONTENT = {
       items: [
         { date: "Q1 26", state: "готово",   title: "Tank 1990: Big Map Battle", note: "в Google Play, RuStore, AppGallery и PalmStore" },
         { date: "Авг 26", state: "готово",  title: "Pixel Tanks: Steel Frontier", note: "вышла в RuStore — Google Play и остальные в сентябре" },
-        { date: "Окт 26", state: "разработка", title: "Swamp Defense: Bronze Age", note: "альфа-срез: первый уровень, две линейки башен" },
+        { date: "Окт 26", state: "разработка", title: "Tower Defense: Bronze Age", note: "альфа-срез: первый уровень, две линейки башен" },
       ],
     },
     rules: {
