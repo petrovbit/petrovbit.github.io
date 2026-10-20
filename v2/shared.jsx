@@ -76,7 +76,7 @@ const PB_CONTENT = {
         title: "Tower Defense",
         sub: "Bronze Age",
         body: "A painterly tower defense set in a Bronze Age swamp settlement under siege by giant insects. Six tower types — archer watchtowers, slingers, harpoons over the water, druid mushroom towers, a beacon sniper and fire braziers — each with seven upgrade tiers.",
-        when: "target release · october 2026",
+        when: "target release · december 2026",
       },
     },
     roadmap: {
@@ -85,7 +85,7 @@ const PB_CONTENT = {
       items: [
         { date: "Q1 26", state: "done",     title: "Tank 1990: Big Map Battle", note: "live on Google Play, RuStore, AppGallery & PalmStore" },
         { date: "Aug 26", state: "done",    title: "Pixel Tanks: Steel Frontier", note: "out on RuStore — Google Play and the rest follow in September" },
-        { date: "Oct 26", state: "dev",     title: "Tower Defense: Bronze Age", note: "alpha slice: first level, two tower lines playable" },
+        { date: "Dec 26", state: "dev",     title: "Tower Defense: Bronze Age", note: "alpha slice: first level, two tower lines playable" },
       ],
     },
     rules: {
@@ -142,7 +142,7 @@ const PB_CONTENT = {
         title: "Tower Defense",
         sub: "Bronze Age",
         body: "Живописный Tower Defense в болотном поселении бронзового века, осаждённом гигантскими насекомыми. Шесть типов башен — дозорные лучники, пращники, гарпуны над водой, грибные башни друидов, маяк-снайпер и огненные жаровни — у каждой семь уровней прокачки.",
-        when: "ориентир релиза · октябрь 2026",
+        when: "ориентир релиза · декабрь 2026",
       },
     },
     roadmap: {
@@ -151,7 +151,7 @@ const PB_CONTENT = {
       items: [
         { date: "Q1 26", state: "готово",   title: "Tank 1990: Big Map Battle", note: "в Google Play, RuStore, AppGallery и PalmStore" },
         { date: "Авг 26", state: "готово",  title: "Pixel Tanks: Steel Frontier", note: "вышла в RuStore — Google Play и остальные в сентябре" },
-        { date: "Окт 26", state: "разработка", title: "Tower Defense: Bronze Age", note: "альфа-срез: первый уровень, две линейки башен" },
+        { date: "Дек 26", state: "разработка", title: "Tower Defense: Bronze Age", note: "альфа-срез: первый уровень, две линейки башен" },
       ],
     },
     rules: {
