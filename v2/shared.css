@@ -607,6 +607,7 @@
   --v2-steel: #C8C8C8;
   --v2-shadow: #A8402A;
   --v2-brick-ink: #D86B50;
+  --v2-brick-deep: #3E1710;
 }
 
 .pb-game-card--tank::before {
@@ -732,4 +733,197 @@
   .v2 .pb-stores__row { gap: 8px; }
   .v2 .pb-store { padding: 7px 10px 7px 8px; gap: 7px; }
   .v2 .pb-store__name { font-size: 10px; letter-spacing: 0.08em; }
+}
+
+/* ── Карусель кадров (Tank 1990) ──────────────────────────
+   Все кадры лежат стопкой; видим активный и предыдущий под ним.
+   Активный раскрывается «занавесом» уровня из игры: от середины
+   вверх и вниз, ступенями steps() — 8-битный рывок, а не плавный fade. */
+.pb-shots__frame { position: relative; background: #000; touch-action: pan-y; }
+.pb-shot {
+  position: absolute; inset: 0;
+  visibility: hidden;
+}
+.pb-shot.is-prev { visibility: visible; z-index: 1; }
+.pb-shot.is-active {
+  visibility: visible; z-index: 2;
+  animation: pb-curtain 560ms steps(8, end) both;
+}
+.pb-shot.is-instant { animation: none; }
+.pb-shot img, .pb-shot video {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  user-select: none; -webkit-user-drag: none;
+}
+@keyframes pb-curtain {
+  from { clip-path: inset(50% 0 50% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+/* Стрелки — стальные квадраты по краям кадра, как игровые кнопки меню. */
+.v2 .pb-shots__nav {
+  position: absolute; top: 50%; z-index: 3;
+  width: 52px; height: 52px; margin-top: -26px;
+  display: grid; place-items: center;
+  padding: 0; cursor: pointer;
+  color: #F2EFE6;
+  background: rgba(8, 8, 8, .72);
+  border: 2px solid #C8C8C8;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, .6);
+  opacity: .78;
+  transition: opacity .15s, background .15s, transform .15s;
+}
+.v2 .pb-shots__nav--prev { left: 14px; }
+.v2 .pb-shots__nav--next { right: 14px; }
+.v2 .pb-shots:hover .pb-shots__nav { opacity: 1; }
+.v2 .pb-shots__nav:hover { background: #A8402A; }
+.v2 .pb-shots__nav:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(0, 0, 0, .6); }
+.v2 .pb-shots__nav:focus-visible { outline: 2px solid #F2EFE6; outline-offset: 2px; opacity: 1; }
+
+/* Индикатор: кирпичик на кадр, у текущего растёт заливка. */
+.pb-shots__bar {
+  display: flex; align-items: center; gap: 14px;
+  margin-top: 16px;
+}
+.v2 .pb-shots__dots { flex: 1; display: flex; gap: 4px; }
+.v2 .pb-shots__dot {
+  flex: 1; padding: 7px 0; border: 0; background: none; cursor: pointer;
+}
+.v2 .pb-shots__dot.is-video { flex: 1.6; }
+.v2 .pb-shots__dot-track {
+  position: relative; display: block; height: 6px; overflow: hidden;
+  background: var(--v2-brick-deep, #4A2318);
+}
+.v2 .pb-shots__dot.is-done .pb-shots__dot-track { background: var(--v2-brick); opacity: .55; }
+.v2 .pb-shots__dot:hover .pb-shots__dot-track { background: var(--v2-brick); opacity: .8; }
+.v2 .pb-shots__dot-fill {
+  position: absolute; inset: 0;
+  background: var(--v2-brick);
+  transform-origin: left center; transform: scaleX(0);
+}
+.v2 .pb-shots__dot:focus-visible { outline: 2px solid var(--v2-ink); outline-offset: 1px; }
+.v2 .pb-shots__toggle {
+  flex: none; display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 9px; cursor: pointer;
+  background: none; border: 1px solid var(--v2-rule);
+  font-family: var(--v2-font-mono); font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--v2-ink-3);
+}
+.v2 .pb-shots__toggle:hover { color: var(--v2-ink); border-color: var(--v2-brick); }
+.pb-shots__cap {
+  display: flex; justify-content: space-between; gap: 12px;
+  margin-top: 8px;
+  font-family: var(--v2-font-mono); font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--v2-ink-4);
+}
+
+/* Кнопка «играть в браузере» в ряду сторов: той же формы, что значок,
+   но кирпичная — это действие на странице, а не ссылка в магазин. */
+.v2 .pb-store--demo {
+  cursor: pointer; font: inherit;
+  border-color: var(--v2-brick);
+}
+.v2 .pb-store--demo:hover { background: var(--v2-paper-3); transform: translateY(-2px); }
+.v2 .pb-store__play {
+  width: 22px; height: 22px; flex: none;
+  background: var(--v2-brick);
+  clip-path: polygon(30% 22%, 30% 78%, 76% 50%);
+}
+.v2 .pb-store__chip {
+  font-family: var(--v2-font-mono); font-size: 9px; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: #F2EFE6; background: var(--v2-brick);
+  padding: 2px 5px;
+}
+
+/* ── Окно браузерного демо ────────────────────────────────
+   Чёрная плита в стальной рамке, как кадр Tank 1990 в каталоге.
+   Сцена держит 16:9 и вписывается в экран по меньшей стороне. */
+.pb-demo {
+  position: fixed; inset: 0; z-index: 120;
+  display: grid; place-items: center;
+  padding: 24px;
+  background: rgba(4, 6, 5, .82);
+  animation: v2-fade .18s ease;
+}
+@keyframes v2-fade { from { opacity: 0 } to { opacity: 1 } }
+.pb-demo__shell {
+  --v2-paper-2: #151311; --v2-paper-3: #211B17;
+  --v2-ink: #F2EFE6; --v2-ink-2: #C8C1B3; --v2-ink-3: #9A9488; --v2-ink-4: #827C70;
+  --v2-rule: #4A463F;
+  display: flex; flex-direction: column;
+  width: min(1200px, calc((100dvh - 190px) * 16 / 9), 100%);
+  background: #080808; color: #F2EFE6;
+  border: 3px solid #C8C8C8;
+  box-shadow: 8px 8px 0 #A8402A;
+}
+.pb-demo__bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 8px 8px 8px 14px;
+  border-bottom: 2px solid #4A463F;
+}
+.pb-demo__title {
+  font-family: var(--v2-font-mono); font-size: 11px;
+  letter-spacing: 0.14em; text-transform: uppercase; color: #C8C1B3;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.pb-demo__actions { display: flex; gap: 6px; flex: none; }
+.v2 .pb-demo__btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 30px; padding: 0 10px;
+  border: 1px solid #4A463F; background: #151311; color: #F2EFE6;
+  font-family: var(--v2-font-mono); font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+}
+.v2 .pb-demo__btn:hover { background: #A8402A; border-color: #A8402A; }
+.pb-demo__stage { position: relative; aspect-ratio: 16 / 9; background: #000; }
+.pb-demo__stage iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  border: 0; display: block; background: #000;
+}
+.pb-demo__loading {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-family: var(--v2-font-mono); font-size: 11px;
+  letter-spacing: 0.14em; text-transform: uppercase; color: #827C70;
+  pointer-events: none;
+}
+.pb-demo__foot {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px 24px;
+  padding: 12px 14px 14px;
+  border-top: 2px solid #4A463F;
+  transition: background .25s;
+}
+.pb-demo__foot.is-cta { background: #211B17; border-top-color: #A8402A; }
+.pb-demo__note {
+  flex: 1 1 260px; max-width: 420px;
+  font-size: 13px; line-height: 1.5; color: #C8C1B3;
+}
+.pb-demo__foot.is-cta .pb-demo__note { color: #F2EFE6; font-weight: 600; }
+.pb-demo__foot .pb-stores__head { display: none; }
+.pb-demo__foot .pb-store { padding: 6px 10px 6px 8px; }
+
+/* Полноэкранный режим и телефон: только сцена и тонкая полоса сверху. */
+.pb-demo__shell:fullscreen { width: 100%; height: 100%; border: 0; box-shadow: none; }
+.pb-demo__shell:fullscreen .pb-demo__stage { flex: 1; aspect-ratio: auto; }
+.pb-demo__shell:fullscreen .pb-demo__foot { display: none; }
+@media (max-width: 640px), (max-height: 520px) {
+  .pb-demo { padding: 0; }
+  .pb-demo__shell {
+    width: 100%; height: 100dvh;
+    border: 0; box-shadow: none;
+  }
+  .pb-demo__stage { flex: 1; aspect-ratio: auto; }
+  .pb-demo__bar { padding: 4px 4px 4px 10px; }
+  .pb-demo__foot { display: none; }
+}
+
+@media (max-width: 640px) {
+  .v2 .pb-shots__nav { width: 40px; height: 40px; margin-top: -20px; }
+  .v2 .pb-shots__nav--prev { left: 8px; }
+  .v2 .pb-shots__nav--next { right: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pb-shot.is-active { animation: none; }
 }

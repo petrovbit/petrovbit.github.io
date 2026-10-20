@@ -19,8 +19,11 @@
 | `v2/shared.jsx` | **Ядро контента**: `PB_CONTENT` (RU/EN тексты, ссылки на сторы), общие компоненты |
 | `v2/quiet.jsx` | Раскладка лендинга — общая оболочка Pixel Tanks и три локальных игровых диалекта |
 | `v2/suggest.jsx` | Модалка «предложи игру» |
+| `v2/carousel.jsx` | `ShotCarousel` — карусель кадров Tank 1990 (8 скриншотов + видео последним) в каталоге |
+| `v2/demo.jsx` | `DemoHost` — окно с браузерным демо игры поверх страницы (см. «Браузерное демо») |
+| `tools/publish_demo.sh` | Выкладка собранного демо в его GitHub Pages-репозиторий |
 | `v2/shared.css` | Токены и стили. **Один** набор в двух состояниях: светлое/тёмное |
-| `assets/` | Key-art игр, материалы (`images/materials/`), иконки сторов (`images/stores/*.svg`) + hero-видео Tank 1990 |
+| `assets/` | Key-art игр, материалы (`images/materials/`), иконки сторов (`images/stores/*.svg`). Tank 1990: `images/tank-1990/` — скриншоты карусели (из `tank_1990_big_map/app_store_content/screen_*.png`, 1280×720 webp) и постер; `video/tank-1990-gameplay.webm` — hero-видео и последний кадр карусели (VP9, 15 с, отрезок 24–39 с из `gameplay_both_controls_v1_7_1.mp4`) |
 | `assets/brand/` | **Фирменный знак** и все иконки, собранные из него (см. «Логотип») |
 | `favicon.ico`, `site.webmanifest` | Фавиконка (16/32/48) и PWA-манифест, подключены во всех трёх страницах |
 | `tools/gen_brick_course.py` | Генератор `brick-course.png` из игровых текстур стен (см. «Кладка») |
@@ -345,6 +348,29 @@ Tank 1990 залит во все четыре: Google Play, RuStore, AppGallery,
 **TODO:** ссылки Google Play / RuStore для Tank 1990 ведут на старый пакет
 `io.battle_city.game`; обновить в `PB_STORE_LINKS.tank`, когда зальются APK с пакетами
 `dev.petrovbit.*`.
+
+## Браузерное демо
+
+Кнопка «▶ играть в браузере · демо» в ряду сторов открывает игру прямо на
+странице. Есть только у игр с записью в `PB_DEMO_LINKS` (`v2/shared.jsx`);
+сейчас это Tank 1990.
+
+- **Сборка** — не здесь, а в репозитории игры: модуль `html-demo`
+  (`../tank_1990_big_map/docs/web/site-demo.md`). В демо физически только
+  первый уровень, без SDK и рекламы. За сборку отвечает игра, сайт её только
+  встраивает.
+- **Хостинг** — отдельный публичный репозиторий `petrovbit/tank-1990-demo`
+  с GitHub Pages. Из-за CNAME организации он открывается на том же домене:
+  `petrovbit.dev/tank-1990-demo/`. Выкладка: `tools/publish_demo.sh <zip>`.
+  В этот репозиторий кладётся только собранная игра, исходники Java туда не
+  попадают.
+- **Окно** (`v2/demo.jsx`) открывается событием `openDemo(game)`, а не
+  состоянием `PageQuiet`, иначе открытие перезапускало бы карусель и hero-видео.
+  iframe создаётся по нажатию и уничтожается при закрытии. Язык передаётся
+  параметром `?lang=ru|en`. Демо шлёт `postMessage` с `source: "tank1990-demo"`:
+  `ready` убирает надпись загрузки, `full-game` подсвечивает ряд сторов внизу окна.
+- **Дев-стенд**: `tank-1990-demo` в корне сайта — symlink на
+  `../tank_1990_big_map/html-demo/build/dist/site-demo`, в `.gitignore`.
 
 ## Связи с базой знаний
 

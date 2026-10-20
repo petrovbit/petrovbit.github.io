@@ -1,5 +1,5 @@
 /* PetrovBit V2 — shared atoms + content
-   Globals: PB_CONTENT, PB_STORES, PB_STORE_LINKS, Logo, LangToggle, VideoFrame,
+   Globals: PB_CONTENT, PB_STORES, PB_STORE_LINKS, PB_DEMO_LINKS, Logo, LangToggle, VideoFrame,
    MonoLabel, Stamp, PixelTank, Socials, StoreBadges
 */
 
@@ -33,6 +33,13 @@ const PB_STORE_LINKS = {
     appgallery: "https://appgallery.huawei.com/app/C118527607",
   },
   swamp: {},
+};
+
+/* Браузерные демо игр (окно DemoHost в demo.jsx). Каждое демо — свой
+   GitHub Pages-репозиторий организации petrovbit, поэтому оно открывается
+   на том же домене: petrovbit.dev/<репозиторий>/. Нет записи — нет кнопки. */
+const PB_DEMO_LINKS = {
+  tank: "/tank-1990-demo/",
 };
 
 /* ─── Content (RU/EN) ──────────────────────────────────────── */
@@ -218,9 +225,8 @@ function GameVideo({ style, posterOnly = false }) {
   if (posterOnly) {
     return (
       <img
-        src="assets/images/tank-1990-hero-poster.png"
+        src="assets/images/tank-1990/gameplay-poster.webp"
         alt=""
-        className="pixelated"
         style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", ...style }}
       />
     );
@@ -228,8 +234,8 @@ function GameVideo({ style, posterOnly = false }) {
   return (
     <video
       ref={ref}
-      src="assets/video/tank-1990-hero.webm"
-      poster="assets/images/tank-1990-hero-poster.png"
+      src="assets/video/tank-1990-gameplay.webm"
+      poster="assets/images/tank-1990/gameplay-poster.webp"
       muted autoPlay loop playsInline preload="auto"
       style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", ...style }}
     />
@@ -259,7 +265,7 @@ function PixelTank({ size = 24, color, treads }) {
 
 /* Row of store badges for one game. Stores without a link for that game
    render as inert, greyed-out badges — "planned, not downloadable yet". */
-function StoreBadges({ game, lang = "ru", style }) {
+function StoreBadges({ game, lang = "ru", style, extra }) {
   const T = (PB_CONTENT[lang] || PB_CONTENT.ru).games.storeRow;
   const links = PB_STORE_LINKS[game] || {};
   const live = PB_STORES.some(s => links[s.id]);
@@ -286,6 +292,7 @@ function StoreBadges({ game, lang = "ru", style }) {
               title={`${s.name} — ${T.soonTag}`}>{inner}</span>
           );
         })}
+        {extra}
       </div>
     </div>
   );
@@ -365,6 +372,6 @@ function Socials({ size = 14, color }) {
 
 /* ─── Export to window so other Babel scripts can pick them up ─── */
 Object.assign(window, {
-  PB_CONTENT, PB_STORES, PB_STORE_LINKS,
+  PB_CONTENT, PB_STORES, PB_STORE_LINKS, PB_DEMO_LINKS,
   Logo, LangToggle, ThemeToggle, MonoLabel, GameVideo, PixelTank, Stamp, Socials, StoreBadges,
 });

@@ -105,9 +105,7 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
   const games = [
     {
       key: "tank", g: C.games.tank,
-      img: "assets/images/tank-1990-hero-poster.png", pixelated: true,
-      alt: "Tank 1990: Big Map Battle — бой на большой карте",
-      cap: "fig. 01 — big map",
+      cap: "fig. 01",
       capRight: "★ 4.3 · google play",
     },
     {
@@ -124,6 +122,27 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
       cap: "fig. 03 — level layout",
       capRight: isRu ? "в работе" : "wip",
     },
+  ];
+
+  /* Кадры Tank 1990: скриншоты из app_store_content игры, ролик последним.
+     Ролик — самый динамичный отрезок 24–39 с gameplay_both_controls_v1_7_1.mp4. */
+  const tankShot = (i, en, ru) => ({
+    type: "image", src: `assets/images/tank-1990/shot-0${i}.webp`,
+    alt: `Tank 1990: Big Map Battle — ${isRu ? ru : en}`, cap: { en, ru },
+  });
+  const tankSlides = [
+    tankShot(1, "big map", "большая карта"),
+    tankShot(2, "d-pad controls", "крестовина"),
+    tankShot(3, "shields and rivers", "щиты и реки"),
+    tankShot(4, "big map", "большая карта"),
+    tankShot(5, "ice and steel", "лёд и броня"),
+    tankShot(6, "stage results", "итоги этапа"),
+    tankShot(7, "shop", "магазин"),
+    tankShot(8, "daily bonus", "ежедневный бонус"),
+    { type: "video", src: "assets/video/tank-1990-gameplay.webm",
+      poster: "assets/images/tank-1990/gameplay-poster.webp",
+      alt: isRu ? "Tank 1990 — видео геймплея" : "Tank 1990 — gameplay video",
+      cap: { en: "gameplay", ru: "геймплей" } },
   ];
 
   const Frame = ({ src, alt, pixelated, ratio = "16/10", children }) => (
@@ -314,13 +333,27 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
                 </div>
               )}
 
-              <StoreBadges game={key} lang={lang} />
+              <StoreBadges game={key} lang={lang} extra={PB_DEMO_LINKS[key] && (
+                <button type="button" className="pb-store pb-store--demo"
+                  onClick={() => openDemo(key)}>
+                  <span className="pb-store__play" aria-hidden="true" />
+                  <span className="pb-store__name">{isRu ? "играть в браузере" : "play in browser"}</span>
+                  <span className="pb-store__chip">{isRu ? "демо" : "demo"}</span>
+                </button>
+              )} />
             </div>
           );
           const figure = (
             <figure className="pb-game-figure" style={{ margin: 0 }}>
-              <Frame src={img} alt={alt} pixelated={pixelated} />
-              <Caption left={cap} right={capRight} />
+              {key === "tank" ? (
+                <ShotCarousel slides={tankSlides} lang={lang} mobile={mobile}
+                  capPrefix={cap} capRight={capRight} />
+              ) : (
+                <React.Fragment>
+                  <Frame src={img} alt={alt} pixelated={pixelated} />
+                  <Caption left={cap} right={capRight} />
+                </React.Fragment>
+              )}
             </figure>
           );
           return (
@@ -506,6 +539,7 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
       </footer>
 
       <SuggestModal state={suggest} setState={setSuggest} lang={lang} mobile={mobile} />
+      <DemoHost lang={lang} mobile={mobile} />
     </div>
   );
 }
