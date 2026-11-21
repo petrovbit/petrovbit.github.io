@@ -31,6 +31,7 @@ const PB_STORE_LINKS = {
     gplay:      "https://play.google.com/store/apps/details?id=dev.petrovbit.pixeltanks",
     rustore:    "https://www.rustore.ru/catalog/app/dev.petrovbit.pixeltanks",
     appgallery: "https://appgallery.huawei.com/app/C118527607",
+    palm:       "https://www.palmplaystore.com/detail/dev.petrovbit.pixeltanks",
   },
   td: {},
 };

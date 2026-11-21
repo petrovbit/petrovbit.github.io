@@ -101,8 +101,11 @@ function ShotCarousel({ slides, gameTitle, lang = "ru", mobile = false, capPrefi
     if (!v) return;
     if (isVideo && running && armed) {
       v.muted = true;
-      const p = v.play();
-      if (p && p.catch) p.catch(() => {});
+      let current = true;
+      v.play()?.catch((error) => {
+        if (current && error.name !== "AbortError") setVideoFailed(true);
+      });
+      return () => { current = false; };
     } else {
       v.pause();
     }
@@ -174,7 +177,7 @@ function ShotCarousel({ slides, gameTitle, lang = "ru", mobile = false, capPrefi
             <div key={i} className={cls} aria-hidden={hidden}
               role="group" aria-roledescription={isRu ? "кадр" : "slide"}
               aria-label={`${T.slide} ${i + 1} / ${n}`}>
-              {s.type === "video" ? (
+              {s.type === "video" && !videoFailed ? (
                 <video ref={videoRef}
                   src={armed && seen.has(i) ? s.src : undefined} poster={s.poster}
                   muted playsInline preload={armed && seen.has(i) ? "auto" : "none"}
@@ -182,7 +185,8 @@ function ShotCarousel({ slides, gameTitle, lang = "ru", mobile = false, capPrefi
                   aria-label={s.alt} />
               ) : (
                 seen.has(i) || i === index
-                  ? <img src={s.src} alt={s.alt} decoding="async" draggable="false" />
+                  ? <img src={s.type === "video" ? s.poster : s.src} alt={s.alt}
+                      decoding="async" draggable="false" />
                   : null
               )}
             </div>

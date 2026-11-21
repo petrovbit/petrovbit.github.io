@@ -127,15 +127,15 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
     alt: `Pixel Tanks: Steel Frontier — ${isRu ? ru : en}`, cap: { en, ru },
   });
   const pixelSlides = [
+    { type: "video", src: "assets/video/pixel-tanks-ambush-canyon.webm",
+      poster: "assets/images/pixel-tanks/ambush-canyon-poster.webp",
+      alt: isRu ? "Pixel Tanks — бой в каньоне" : "Pixel Tanks — Ambush Canyon gameplay",
+      cap: { en: "Ambush Canyon gameplay", ru: "бой в каньоне" } },
     pixelShot(1, "Ambush Canyon", "Засада в каньоне"),
     pixelShot(2, "Dead Village", "Мёртвая деревня"),
     pixelShot(3, "level select", "выбор уровня"),
     pixelShot(4, "main menu", "главное меню"),
     pixelShot(5, "victory", "победа"),
-    { type: "video", src: "assets/video/pixel-tanks-gameplay.webm",
-      poster: "assets/images/pixel-tanks/gameplay-poster.webp",
-      alt: isRu ? "Pixel Tanks — видео геймплея" : "Pixel Tanks — gameplay video",
-      cap: { en: "gameplay", ru: "геймплей" } },
   ];
 
   const games = [
@@ -148,7 +148,6 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
       key: "pix", g: C.games.pix, slides: pixelSlides,
       icon: "assets/images/pixel-tanks/icon.webp",
       cap: "fig. 02",
-      demoVersion: "0.7.6",
     },
     {
       key: "td", g: C.games.td,
@@ -260,11 +259,6 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
           ))}
         </h1>
 
-        <div className="pb-hero-map" aria-hidden="true">
-          <span className="pb-hero-map__track" />
-          <img src="assets/images/materials/pixel-tanks/tank-steel.png" alt="" />
-        </div>
-
         <div style={{
           display: "grid",
           gridTemplateColumns: mobile ? "1fr" : tablet ? "1fr" : "minmax(0, 5fr) minmax(0, 7fr)",
@@ -290,7 +284,7 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
       {/* ─── 01 КАТАЛОГ ─── */}
       <Sect id="games" num="01" kicker={C.games.sect}
         title={C.games.heading} sub={C.games.headingSub}>
-        {games.map(({ key, g, slides, img, alt, pixelated, icon, cap, capRight, demoVersion }, i) => {
+        {games.map(({ key, g, slides, img, alt, pixelated, icon, cap, capRight }, i) => {
           const flip = i % 2 === 1;
           const text = (
             <div className={`pb-game-copy pb-game-copy--${key}`}>
@@ -355,9 +349,7 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
                   onClick={() => openDemo(key)}>
                   <span className="pb-store__play" aria-hidden="true" />
                   <span className="pb-store__name">{isRu ? "играть в браузере" : "play in browser"}</span>
-                  <span className="pb-store__chip">
-                    {isRu ? "демо" : "demo"}{demoVersion && ` ${demoVersion}`}
-                  </span>
+                  <span className="pb-store__chip">{isRu ? "демо" : "demo"}</span>
                 </button>
               )} />
             </div>
