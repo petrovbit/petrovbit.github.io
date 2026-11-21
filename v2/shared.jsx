@@ -68,8 +68,7 @@ const PB_CONTENT = {
         kicker: "shipped · august 2026",
         title: "Pixel Tanks",
         sub: "Steel Frontier",
-        body: "Top-down tank action on one big open map instead of a boxed-in screen. Hull and turret aim separately — drive one way, shoot another. Meadows, forests, rivers with wooden bridges, highlands and desert sands; brick crumbles, barrels blow, every shot leaves craters and rubble. Five difficulty levels, tanks rendered from 3D in 16 angles, steady 60 fps even on old phones and TV boxes.",
-        when: "palmstore · september 2026",
+        body: "Fight through four maps in a top-down tank campaign, from the forested Steel Frontier to the ruins of Dead Village. Drive and aim independently, blast through brick walls and pick up shields, enemy freezes and rapid reloads. Each victory unlocks the next map. Five difficulty levels, with touch and gamepad controls.",
       },
       td: {
         kicker: "in development · working title",
@@ -84,7 +83,7 @@ const PB_CONTENT = {
       heading: "Roughly the plan.",
       items: [
         { date: "Q1 26", state: "done",     title: "Tank 1990: Big Map Battle", note: "live on Google Play, RuStore, AppGallery & PalmStore" },
-        { date: "Aug 26", state: "done",    title: "Pixel Tanks: Steel Frontier", note: "out on RuStore — Google Play and the rest follow in September" },
+        { date: "Aug 26", state: "done",    title: "Pixel Tanks: Steel Frontier", note: "four-map campaign · browser demo available" },
         { date: "Dec 26", state: "dev",     title: "Tower Defense: Bronze Age", note: "alpha slice: first level, two tower lines playable" },
       ],
     },
@@ -134,8 +133,7 @@ const PB_CONTENT = {
         kicker: "вышла · август 2026",
         title: "Pixel Tanks",
         sub: "Steel Frontier",
-        body: "Танковый экшен с видом сверху на одной большой карте вместо экрана-коробки. Корпус и башня наводятся отдельно: едешь в одну сторону, стреляешь в другую. Луга, леса, реки с деревянными мостами, нагорья и пески; кирпич крошится, бочки взрываются, от каждого выстрела остаются воронки и обломки. Пять уровней сложности, танки отрисованы из 3D в 16 ракурсах, стабильные 60 fps даже на старых телефонах и ТВ-приставках.",
-        when: "в palmstore · сентябрь 2026",
+        body: "Танковый экшен с видом сверху на четырёх картах, от лесов Стального рубежа до руин Мёртвой деревни. Управляй корпусом и башней отдельно, разноси кирпичные стены и подбирай бонусы: щит, заморозку врагов и быструю перезарядку. Каждая победа открывает следующую карту. Пять уровней сложности, сенсорное управление и поддержка геймпада.",
       },
       td: {
         kicker: "в разработке · рабочее название",
@@ -150,7 +148,7 @@ const PB_CONTENT = {
       heading: "Примерный план.",
       items: [
         { date: "Q1 26", state: "готово",   title: "Tank 1990: Big Map Battle", note: "в Google Play, RuStore, AppGallery и PalmStore" },
-        { date: "Авг 26", state: "готово",  title: "Pixel Tanks: Steel Frontier", note: "вышла в RuStore — Google Play и остальные в сентябре" },
+        { date: "Авг 26", state: "готово",  title: "Pixel Tanks: Steel Frontier", note: "кампания на четырёх картах · доступно демо в браузере" },
         { date: "Дек 26", state: "разработка", title: "Tower Defense: Bronze Age", note: "альфа-срез: первый уровень, две линейки башен" },
       ],
     },

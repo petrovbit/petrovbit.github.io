@@ -101,29 +101,6 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
     border: "2px solid var(--v2-rule)",
   };
 
-  /* — каталог — */
-  const games = [
-    {
-      key: "tank", g: C.games.tank,
-      cap: "fig. 01",
-      capRight: "★ 4.3 · google play",
-    },
-    {
-      key: "pix", g: C.games.pix,
-      img: "assets/images/pixel-tanks-keyart.jpeg", pixelated: false,
-      alt: "Pixel Tanks: Steel Frontier — key art",
-      cap: "fig. 02 — key art",
-      capRight: "60 fps",
-    },
-    {
-      key: "td", g: C.games.td,
-      img: "assets/images/tower-defense-concept.jpg", pixelated: false,
-      alt: "Tower Defense — поселение бронзового века",
-      cap: "fig. 03 — level layout",
-      capRight: isRu ? "в работе" : "wip",
-    },
-  ];
-
   /* Кадры Tank 1990: скриншоты из app_store_content игры, ролик последним.
      Ролик — самый динамичный отрезок 24–39 с gameplay_both_controls_v1_7_1.mp4. */
   const tankShot = (i, en, ru) => ({
@@ -143,6 +120,43 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
       poster: "assets/images/tank-1990/gameplay-poster.webp",
       alt: isRu ? "Tank 1990 — видео геймплея" : "Tank 1990 — gameplay video",
       cap: { en: "gameplay", ru: "геймплей" } },
+  ];
+
+  const pixelShot = (i, en, ru) => ({
+    type: "image", src: `assets/images/pixel-tanks/shot-0${i}.webp`,
+    alt: `Pixel Tanks: Steel Frontier — ${isRu ? ru : en}`, cap: { en, ru },
+  });
+  const pixelSlides = [
+    pixelShot(1, "Ambush Canyon", "Засада в каньоне"),
+    pixelShot(2, "Dead Village", "Мёртвая деревня"),
+    pixelShot(3, "level select", "выбор уровня"),
+    pixelShot(4, "main menu", "главное меню"),
+    pixelShot(5, "victory", "победа"),
+    { type: "video", src: "assets/video/pixel-tanks-gameplay.webm",
+      poster: "assets/images/pixel-tanks/gameplay-poster.webp",
+      alt: isRu ? "Pixel Tanks — видео геймплея" : "Pixel Tanks — gameplay video",
+      cap: { en: "gameplay", ru: "геймплей" } },
+  ];
+
+  const games = [
+    {
+      key: "tank", g: C.games.tank, slides: tankSlides,
+      cap: "fig. 01",
+      capRight: "★ 4.3 · google play",
+    },
+    {
+      key: "pix", g: C.games.pix, slides: pixelSlides,
+      icon: "assets/images/pixel-tanks/icon.webp",
+      cap: "fig. 02",
+      demoVersion: "0.7.6",
+    },
+    {
+      key: "td", g: C.games.td,
+      img: "assets/images/tower-defense-concept.jpg", pixelated: false,
+      alt: "Tower Defense — поселение бронзового века",
+      cap: "fig. 03 — level layout",
+      capRight: isRu ? "в работе" : "wip",
+    },
   ];
 
   const Frame = ({ src, alt, pixelated, ratio = "16/10", children }) => (
@@ -276,7 +290,7 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
       {/* ─── 01 КАТАЛОГ ─── */}
       <Sect id="games" num="01" kicker={C.games.sect}
         title={C.games.heading} sub={C.games.headingSub}>
-        {games.map(({ key, g, img, alt, pixelated, cap, capRight }, i) => {
+        {games.map(({ key, g, slides, img, alt, pixelated, icon, cap, capRight, demoVersion }, i) => {
           const flip = i % 2 === 1;
           const text = (
             <div className={`pb-game-copy pb-game-copy--${key}`}>
@@ -303,7 +317,10 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
                   fontFamily: "var(--v2-font-body)", fontWeight: 600,
                   fontSize: h3Size, lineHeight: 1.1, letterSpacing: "-0.015em",
                   marginBottom: 6,
-                }}>{g.title}</h3>
+                }}>
+                  {icon && <img className="pb-game-icon" src={icon} alt="" width="56" height="56" />}
+                  <span>{g.title}</span>
+                </h3>
               )}
               <div className="pb-game-subtitle" style={{ ...mono(12, "var(--v2-brick-ink)"), marginBottom: 18 }}>{g.sub}</div>
               <p className="pb-game-description" style={{
@@ -338,15 +355,17 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
                   onClick={() => openDemo(key)}>
                   <span className="pb-store__play" aria-hidden="true" />
                   <span className="pb-store__name">{isRu ? "играть в браузере" : "play in browser"}</span>
-                  <span className="pb-store__chip">{isRu ? "демо" : "demo"}</span>
+                  <span className="pb-store__chip">
+                    {isRu ? "демо" : "demo"}{demoVersion && ` ${demoVersion}`}
+                  </span>
                 </button>
               )} />
             </div>
           );
           const figure = (
             <figure className="pb-game-figure" style={{ margin: 0 }}>
-              {key === "tank" ? (
-                <ShotCarousel slides={tankSlides} lang={lang} mobile={mobile}
+              {slides ? (
+                <ShotCarousel slides={slides} gameTitle={g.title} lang={lang} mobile={mobile}
                   capPrefix={cap} capRight={capRight} />
               ) : (
                 <React.Fragment>

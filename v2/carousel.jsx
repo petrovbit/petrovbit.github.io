@@ -19,7 +19,7 @@
 
 const PB_SHOT_DWELL = 5000;
 
-function ShotCarousel({ slides, lang = "ru", mobile = false, capPrefix = "fig. 01", capRight, eventName }) {
+function ShotCarousel({ slides, gameTitle, lang = "ru", mobile = false, capPrefix = "fig. 01", capRight, eventName }) {
   const isRu = lang === "ru";
   const n = slides.length;
   const reduced = React.useMemo(
@@ -112,6 +112,7 @@ function ShotCarousel({ slides, lang = "ru", mobile = false, capPrefix = "fig. 0
      у видео — его собственный currentTime, поэтому полоса не убегает
      вперёд ролика, если тот подгружается. */
   React.useEffect(() => {
+    if (!running) return;
     let raf = 0, last = performance.now();
     const tick = (t) => {
       const dt = t - last; last = t;
@@ -121,11 +122,11 @@ function ShotCarousel({ slides, lang = "ru", mobile = false, capPrefix = "fig. 0
         p = v.duration ? v.currentTime / v.duration : 0;
         if (v.ended) p = 1;
       } else {
-        if (running) elapsed.current += dt;
+        elapsed.current += dt;
         p = elapsed.current / PB_SHOT_DWELL;
       }
       if (fillRef.current) fillRef.current.style.transform = `scaleX(${Math.min(p, 1)})`;
-      if (p >= 1 && running) { go(index + 1); return; }
+      if (p >= 1) { go(index + 1); return; }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -146,9 +147,9 @@ function ShotCarousel({ slides, lang = "ru", mobile = false, capPrefix = "fig. 0
   };
 
   const T = isRu
-    ? { region: "Кадры Tank 1990", prev: "Предыдущий кадр", next: "Следующий кадр",
+    ? { region: `Кадры ${gameTitle}`, prev: "Предыдущий кадр", next: "Следующий кадр",
         pause: "пауза", play: "листать", slide: "Кадр" }
-    : { region: "Tank 1990 screens", prev: "Previous screen", next: "Next screen",
+    : { region: `${gameTitle} screens`, prev: "Previous screen", next: "Next screen",
         pause: "pause", play: "play", slide: "Screen" };
 
   const cur = slides[index];
