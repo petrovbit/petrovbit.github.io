@@ -376,7 +376,6 @@ function PageQuiet({ lang = "en", setLang, mobile = false, tablet = false }) {
               gap, alignItems: "start",
               marginBottom: i < games.length - 1 ? (mobile ? 52 : tablet ? 64 : 84) : 0,
             }}>
-              {key === "pix" && <img className="pb-game-ornament pb-game-ornament--tank" src="assets/images/materials/pixel-tanks/tank-steel.png" alt="" aria-hidden="true" />}
               {key === "td" && <React.Fragment>
                 <img className="pb-game-ornament pb-game-ornament--watchtower" src="assets/images/materials/tower-defense/watchtower.png" alt="" aria-hidden="true" />
                 <img className="pb-game-ornament pb-game-ornament--emberwatch" src="assets/images/materials/tower-defense/emberwatch.png" alt="" aria-hidden="true" />

@@ -357,9 +357,7 @@
   padding: 48px clamp(18px, 3vw, 38px) clamp(24px, 3vw, 38px);
   overflow: hidden;
   color: #EEEBDD;
-  background:
-    linear-gradient(115deg, rgba(41, 79, 47, .88), rgba(12, 21, 15, .96) 63%),
-    url("../assets/images/materials/pixel-tanks/map-top-view.png") center/cover;
+  background: linear-gradient(115deg, #27442e, #101912 72%);
   border: 2px solid #70826F;
   box-shadow: 8px 8px 0 #17231A;
   --v2-paper-2: #18251B;
@@ -387,6 +385,20 @@
     url("../assets/images/materials/pixel-tanks/brick-course.png") repeat-x;
   background-size: auto, 96px 30px;
   border-bottom: 2px solid #47291A;
+}
+.pb-game-card--pix::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: 0; left: 0;
+  width: 55%;
+  aspect-ratio: 5 / 2;
+  background: url("../assets/images/pixel-tanks/ambush-canyon-art.webp") left bottom / 100% auto no-repeat;
+  mask-image: linear-gradient(to bottom, transparent, #000 25%),
+    linear-gradient(to right, #000 80%, transparent);
+  mask-composite: intersect;
+  opacity: .36;
+  pointer-events: none;
 }
 .pb-game-card--pix .pb-game-kicker {
   color: #17231A !important;
@@ -416,17 +428,6 @@
   box-shadow: 6px 6px 0 #A8402A;
 }
 .pb-game-card--pix .pb-store { background: rgba(17, 25, 19, .82); }
-.pb-game-ornament--tank {
-  width: clamp(70px, 9vw, 120px);
-  height: auto;
-  right: 2.5%;
-  bottom: -23px;
-  opacity: .32;
-  image-rendering: pixelated;
-  transform: rotate(-20deg);
-  filter: drop-shadow(5px 6px 0 rgba(0,0,0,.42));
-}
-
 .pb-game-card--td {
   padding: 42px clamp(18px, 3vw, 38px) clamp(24px, 3vw, 38px);
   overflow: hidden;
@@ -509,8 +510,9 @@
   position: relative;
   padding: clamp(20px, 3vw, 38px);
   background:
-    linear-gradient(90deg, color-mix(in srgb, var(--v2-paper-2) 94%, transparent), color-mix(in srgb, var(--v2-paper-2) 74%, transparent)),
-    url("../assets/images/materials/pixel-tanks/map-top-view.png") center/cover;
+    linear-gradient(90deg, var(--v2-paper-2), color-mix(in srgb, var(--v2-paper-2) 87%, transparent)),
+    url("../assets/images/pixel-tanks/ambush-canyon-art.webp") right bottom / max(100%, 720px) auto no-repeat
+      var(--v2-paper-2);
   border: 1px solid var(--v2-rule);
   box-shadow: 7px 7px 0 var(--v2-shadow);
 }
@@ -531,6 +533,7 @@
 @media (max-width: 1023px) {
   .pb-game-card--pix,
   .pb-game-card--td { padding-top: 44px; }
+  .pb-game-card--pix::after { width: 100%; }
   .pb-game-ornament--watchtower { opacity: .12; }
 }
 
@@ -543,7 +546,6 @@
   .pb-game-card--td { box-shadow: 5px 5px 0 var(--v2-shadow); }
   .pb-game-card--pix .pb-frame,
   .pb-game-card--td .pb-frame { box-shadow: 4px 4px 0 var(--v2-shadow); }
-  .pb-game-ornament--tank { opacity: .18; }
   .pb-game-ornament--watchtower { width: 170px; right: -72px; opacity: .10; }
   .pb-game-ornament--emberwatch { display: none; }
   .pb-roadmap-card { padding: 18px 16px 20px; }
