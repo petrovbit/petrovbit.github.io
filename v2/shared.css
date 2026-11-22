@@ -390,14 +390,15 @@
   content: "";
   position: absolute;
   z-index: 1;
-  bottom: 0; left: 0;
-  width: 55%;
+  bottom: clamp(72px, 24%, 150px);
+  left: 0;
+  width: 60%;
   aspect-ratio: 5 / 2;
   background: url("../assets/images/pixel-tanks/ambush-canyon-art.webp") left bottom / 100% auto no-repeat;
-  mask-image: linear-gradient(to bottom, transparent, #000 25%),
+  mask-image: linear-gradient(to bottom, transparent, #000 23% 83%, transparent),
     linear-gradient(to right, #000 80%, transparent);
   mask-composite: intersect;
-  opacity: .36;
+  opacity: .32;
   pointer-events: none;
 }
 .pb-game-card--pix .pb-game-kicker {
